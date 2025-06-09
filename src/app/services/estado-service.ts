@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {map, Observable} from 'rxjs';
 import {Estado} from '../models/estado.model';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EstadoService {
 
-  private apiUrl = 'https://localhost:44306/api/Estados';
+  private baseUrl = environment.apiUrl; // Ya configurado en environment.ts
+  private apiUrl = `${this.baseUrl}/Estados`; // Se construye a partir del baseUrl
 
   constructor(private http: HttpClient) { }
 
