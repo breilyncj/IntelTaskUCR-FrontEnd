@@ -1,0 +1,31 @@
+@if (loading) {
+  <div>Cargando estados...</div>
+}
+@else if (error) {
+  <div>{{ error }}</div>
+}
+@else {
+  <table class="table-striped table-bordered">
+    <thead class="">
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Descripcion</th>
+    </tr>
+    </thead>
+    <tbody>
+<!--      @for (item of estados; track item.cnIdEstado) {-->
+<!--        {{ item.cnIdEstado }}-->
+<!--        {{ item.ctEstado }}-->
+<!--        {{ item.ctDescripcion }}-->
+<!--      }-->
+  @for (item of estados; track item.id) {
+    <tr>
+      <td>{{ item.id }}</td>
+      <td>{{ item.estado }}</td>
+      <td>{{ item.descripcion }}</td>
+    </tr>
+  }
+    </tbody>
+  </table>
+}
