@@ -8,7 +8,6 @@ import {environment} from '../../environments/environment';
   providedIn: 'root'
 })
 export class EstadoService {
-
   private baseUrl = environment.apiUrl; // Ya configurado en environment.ts
   private apiUrl = `${this.baseUrl}/Estados`; // Se construye a partir del baseUrl
 
