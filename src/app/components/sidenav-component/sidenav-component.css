@@ -1,0 +1,81 @@
+/* Offcanvas general */
+.offcanvas-start {
+  width: 250px !important;
+  background-color: #d9e9f3;
+  color: #575d61;
+}
+
+/* Título */
+.offcanvas-title {
+  font-weight: bold;
+  color: #575d61;
+}
+
+/* Estilo de los ítems */
+.offcanvas-body .nav-link {
+  color: #575d61;
+  font-size: 1.05rem;
+  padding: 12px 10px;
+  transition: background-color 0.2s, color 0.2s;
+  border-radius: 6px;
+  margin-bottom: 5px;
+}
+
+/* Hover y activo */
+.offcanvas-body .nav-link:hover {
+  background-color: #c0dbe7;
+  color: #3a3f43;
+}
+
+.offcanvas-body .nav-link.active,
+.offcanvas-body .nav-link:active {
+  background-color: #a6cfe2;
+  color: #2e3437;
+  font-weight: 600;
+}
+
+/* Íconos */
+.offcanvas-body .nav-link i {
+  color: #575d61;
+}
+
+/* Espaciado entre ítems */
+.offcanvas-body .nav-item {
+  margin-bottom: 5px;
+}
+
+/* Solo este se baja al fondo */
+.offcanvas-body .logout-link {
+  margin-top: auto;
+}
+
+.offcanvas-body .nav-link.text-danger {
+  font-weight: 500;
+}
+
+.offcanvas-body .nav-link.text-danger:hover {
+  background-color: #f8d7da;
+  color: #b02a37;
+}
+
+.nav-link.active {
+  background-color: #0d6efd;
+  color: white !important;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+
+/* "Salir" */
+  .offcanvas-body .mt-4 {
+    margin-top: auto;
+  }
+
+  .offcanvas-body .nav-link.text-danger {
+    font-weight: 500;
+  }
+
+  .offcanvas-body .nav-link.text-danger:hover {
+    background-color: #f8d7da;
+    color: #b02a37;
+  }

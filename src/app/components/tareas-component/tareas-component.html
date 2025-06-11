@@ -1,0 +1,67 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0"><i class="bi bi-card-checklist"></i> <strong>Mis tareas</strong></h5>
+
+  </div>
+
+  <ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+      <a class="nav-link active" href="#" (click)="$event.preventDefault()">Todos</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link " href="#" (click)="$event.preventDefault()">Asignadas por mí</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#" (click)="$event.preventDefault()">Asignadas a mí</a>
+    </li>
+  </ul>
+
+  <div class="input-group mb-3">
+    <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
+    <input type="text" class="form-control" placeholder="Buscar tarea...">
+    <button class="btn btn-primary"><i class="bi bi-plus"></i> Crear tarea</button>
+  </div>
+
+  <div class="tablaTareas">
+
+    @if (loading) {
+      <div>Cargando estados...</div>
+    }
+    @else if (error) {
+      <div>{{ error }}</div>
+    }
+    @else {
+      <table class="table">
+        <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Título</th>
+          <th scope="col">Asignado a</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Prioridad</th>
+          <th scope="col">Complejidad</th>
+          <th scope="col">Fecha Límite</th>
+          <th scope="col">Número GIS</th>
+          <th scope="col">Ver más</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          @for (item of tareas; track item.id) {
+            <tr>
+              <th scope="row">{{ item.id }}</th>
+              <td>{{ item.titulo }}</td>
+              <td>{{ item.usuarioAsignado }}</td>
+              <td>{{ item.estado }}</td>
+              <td>{{ item.prioridad }}</td>
+              <td>{{ item.complejidad }}</td>
+              <td>{{ item.fechaLimite }}</td>
+              <td>{{ item.numeroGIS }}</td>
+              <td><a href="detalle_tarea.html?id=1" class="btn btn-primary btn-sm">Ver más</a></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+
+</div>
