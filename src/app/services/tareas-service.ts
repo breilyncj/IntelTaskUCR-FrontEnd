@@ -17,14 +17,14 @@ export class TareasService {
     return this.http.get<any[]>(this.apiUrl).pipe(
       map((rawTareas) =>
         rawTareas.map((t) => ({
-          id: t.CN_Id_tarea,
-          titulo: t.CT_Titulo_tarea,
-          usuarioAsignado: t.CN_Usuario_asignado,  // <-- solo es el ID
-          estado: t.CN_Id_estado,                  // <-- solo es el ID
-          prioridad: t.CN_Id_prioridad,
-          complejidad: t.CN_Id_complejidad,
-          fechaLimite: t.CF_Fecha_limite,
-          numeroGIS: t.CN_Numero_GIS
+          id: t.cN_Id_tarea,
+          titulo: t.cT_Titulo_tarea,
+          usuarioAsignado: t.cN_Usuario_asignado,
+          estado: t.cN_Id_estado,
+          prioridad: t.cN_Id_prioridad,
+          complejidad: t.cN_Id_complejidad,
+          fechaLimite: t.cF_Fecha_limite,
+          numeroGIS: t.cN_Numero_GIS,
         }))
       )
     );

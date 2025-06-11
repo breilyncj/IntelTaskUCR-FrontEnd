@@ -8,7 +8,7 @@ import {TareasComponent} from './components/tareas-component/tareas-component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet ,SidenavComponent, NavbarComponent, TareasComponent],
+  imports: [RouterOutlet ,SidenavComponent, NavbarComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
