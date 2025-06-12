@@ -1,19 +1,20 @@
-<nav class="navbar bg-body-tertiary fixed-top">
-  <div class="container-fluid">
+<nav class="navbar fixed-top custom-navbar">
+  <div class="container-fluid justify-content-between d-flex align-items-center">
 
-    <!-- data-bs-target: Este ID conecta con el sidenav -->
+    <!-- Imagen / logo -->
+    <div class="navbar-left">
+      <img src="img.png" alt="Logo" class="navbar-logo" />
+    </div>
 
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="offcanvas"
-      data-bs-target="#offcanvasNavbar"
-      aria-controls="offcanvasNavbar"
-      aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <!-- Íconos a la derecha -->
+    <div class="navbar-right">
+      <button class="icon-button" aria-label="Notificaciones">
+        <i class="bi bi-bell-fill"></i>
+      </button>
+      <button class="icon-button" aria-label="Perfil">
+        <i class="bi bi-person-fill"></i>
+      </button>
+    </div>
 
-    <!-- Nombre o logo de la app -->
-    <a class="navbar-brand" href="#">IntelTask</a>
   </div>
 </nav>

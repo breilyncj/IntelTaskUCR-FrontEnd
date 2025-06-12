@@ -1,15 +1,13 @@
-<div class="container">
-  <header>
-    <app-navbar-component></app-navbar-component>
-    <app-sidenav-component></app-sidenav-component>
-  </header>
+<div class="app-content" [class.sidenav-collapsed]="sidenavCollapsed">
+  <app-navbar-component></app-navbar-component>
 
-  <main>
-  <router-outlet></router-outlet>
-  </main>
+  <div class="content-area">
+    <app-sidenav-component (collapsedChange)="sidenavCollapsed = $event"></app-sidenav-component>
 
-  <footer>
-  </footer>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+  <footer></footer>
 </div>
-
-

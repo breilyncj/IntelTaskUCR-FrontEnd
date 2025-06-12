@@ -14,4 +14,5 @@ import {TareasComponent} from './components/tareas-component/tareas-component';
 })
 export class App {
   protected title = 'IntelTaskUCR-FrontEnd';
+  sidenavCollapsed = false;
 }

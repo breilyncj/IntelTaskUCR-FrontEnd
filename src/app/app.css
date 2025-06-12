@@ -1,53 +1,50 @@
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.container {
+/* Layout base: columna general */
+.app-content {
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Ocupa toda la altura visible */
 }
 
-header, footer {
+/* Navbar arriba fijo */
+app-navbar-component {
+  height: 60px;
   flex-shrink: 0;
 }
 
-main {
-  flex-grow: 1; /* Toma todo el espacio restante */
-  padding: 40px; /* Espaciado para que no esté tan pegado a los bordes */
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start; /* Si quieres que el contenido quede arriba */
-}
-
-body, html {
-  height: 100%;
-  margin: 0;
-}
-
-.app-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-header, footer {
+/* Footer abajo */
+footer {
+  height: 40px;
+  background-color: #fff;
   flex-shrink: 0;
 }
 
+/* Área principal debajo del navbar y arriba del footer: fila */
+.content-area {
+  display: flex;
+  flex: 1; /* ocupa todo el espacio restante */
+  overflow: hidden; /* evita scroll externo */
+}
+
+/* Sidenav con transición */
+app-sidenav-component {
+  width: 240px;
+  transition: width 0.3s ease;
+}
+
+/* Sidenav colapsado */
+.app-content.sidenav-collapsed app-sidenav-component {
+  width: 80px;
+}
+
+/* Main que ocupa todo lo que queda a la derecha del sidenav */
 main {
   flex-grow: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  transition: margin-left 0.3s ease;
+  margin-left: 45px; /* margen 0 porque ya está en flex fila */
 }
 
-main {
-  margin-top: 4.5rem; /* o el alto de tu navbar, ajustable */
+body {
+  padding-top: 56px; /* o la altura de tu navbar */
 }
-main.container {
-  padding-left: 2rem;
-  padding-right: 1rem;
-}
-

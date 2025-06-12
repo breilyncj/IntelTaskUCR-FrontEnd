@@ -9,7 +9,7 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'estado', component: EstadoComponent },
   { path: 'tareas', component:  TareasComponent },
-  { path: '', redirectTo: 'estado', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', redirectTo: 'home' },
 
 ];

@@ -1,34 +1,69 @@
-<!-- Menú lateral fuera del nav -->
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menú</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
+<aside class="sidenav" [class.collapsed]="isCollapsed">
+  <header class="sidenav-header">
+    <a href="#" class="sidenav-header-logo">
 
-  <div class="offcanvas-body d-flex flex-column" style="height: 100%;">
-    <!-- Menú -->
-    <ul class="navbar-nav pe-3" id="sidebarMenu">
-      <li class="nav-item">
-        <a class="nav-link" data-page="home"><i class="bi bi-house-door-fill me-2"></i>Home</a>
-      </li>
+
+    </a>
+
+    <button class="toggler sidenav-toggler" (click)="toggleSidenav()">
+      <i class="bi bi-chevron-left"
+         [style.transform]="isCollapsed ? 'rotate(180deg)' : 'rotate(0deg)'"
+         style="display: inline-block; transition: transform 0.3s ease;">
+      </i>
+    </button>
+
+
+
+  </header>
+
+  <nav class="sidenav-menu">
+    <ul class="nav-list primary-nav">
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a class="nav-link" [routerLink]="['/tareas']"><i class="bi bi-journal-check me-2"></i>Gestión de tareas</a>
+        <a href="#" class="nav-link" [routerLink]="['/home']">
+          <i class="bi bi-house"></i>
+          <span class="nav-text">Inicio</span>
+        </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" data-page="permisos"><i class="bi bi-shield-lock me-2"></i>Gestión de permisos</a>
+
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a href="#" class="nav-link" [routerLink]="['/tareas']">
+          <i class="bi bi-clipboard2-data-fill"></i>
+          <span class="nav-text">Gestión de tareas</span>
+        </a>
       </li>
+
       <li class="nav-item">
-        <a class="nav-link" data-page="notificaciones"><i class="bi bi-bell me-2"></i>Notificaciones</a>
+        <a href="#" class="nav-link">
+          <i class="bi bi-bookmark-check-fill"></i>
+          <span class="nav-text">Permisos</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          <i class="bi bi-envelope"></i>
+          <span class="nav-text">Notificaciones</span>
+        </a>
+      </li>
+    </ul>
+
+    <ul class="nav-list secondary-nav">
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          <i class="bi bi-person-circle"></i>
+          <span class="nav-text">Cuenta</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          <i class="bi bi-box-arrow-right"></i>
+          <span class="nav-text">Salir</span>
+        </a>
       </li>
     </ul>
 
 
-    <!-- Botón de salir abajo -->
-    <div class="logout-link mt-auto">
-      <hr />
-      <a href="#" class="nav-link d-flex align-items-center text-danger">
-        <i class="bi bi-box-arrow-right me-2"></i>Salir
-      </a>
-    </div>
-  </div>
-</div>
+  </nav>
+
+</aside>

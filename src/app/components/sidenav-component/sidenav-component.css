@@ -1,81 +1,134 @@
-/* Offcanvas general */
-.offcanvas-start {
-  width: 250px !important;
-  background-color: #d9e9f3;
-  color: #575d61;
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
 }
 
-/* Título */
-.offcanvas-title {
-  font-weight: bold;
-  color: #575d61;
+body{
+  min-height: 100vh;
+  background: linear-gradient( #000046, #1cb5e0);
 }
 
-/* Estilo de los ítems */
-.offcanvas-body .nav-link {
-  color: #575d61;
-  font-size: 1.05rem;
-  padding: 12px 10px;
-  transition: background-color 0.2s, color 0.2s;
-  border-radius: 6px;
-  margin-bottom: 5px;
+.sidenav{
+  width: 270px;
+  position: fixed;
+  top:64px;
+  left: 0;
+  margin: 16px 0 16px 16px;
+  border-radius: 16px;
+  background: #d9e9f3;
+  height: calc(100vh - 64px - 27px);
+  transition: 0.4s ease;
 }
 
-/* Hover y activo */
-.offcanvas-body .nav-link:hover {
-  background-color: #c0dbe7;
-  color: #3a3f43;
+.sidenav.collapsed {
+  width: 85px;
 }
 
-.offcanvas-body .nav-link.active,
-.offcanvas-body .nav-link:active {
-  background-color: #a6cfe2;
-  color: #2e3437;
-  font-weight: 600;
+.sidenav-header{
+  position: relative;
+  display: flex;
+  padding: 25px 20px;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
 }
 
-/* Íconos */
-.offcanvas-body .nav-link i {
-  color: #575d61;
+.sidenav-header .sidenav-header-logo img{
+  width: 46px;
+  height: 46px;
+  display: block;
+  object-fit: contain;
+  border-radius: 50%;
 }
 
-/* Espaciado entre ítems */
-.offcanvas-body .nav-item {
-  margin-bottom: 5px;
+.sidenav-header .toggler{
+  position: absolute;
+  right: 20px;
+  height: 35px;
+  width: 35px;
+  border:none;
+  color: #151A2D;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 8px;
+  background: #fff;
+  transition: 0.4s ease;
 }
 
-/* Solo este se baja al fondo */
-.offcanvas-body .logout-link {
-  margin-top: auto;
+.sidenav.collapsed .sidenav-header .toggler{
+  transform: translate(-4px, 65px);
+  transition: transform 0.3s ease;
 }
 
-.offcanvas-body .nav-link.text-danger {
-  font-weight: 500;
+.sidenav-header .toggler span{
+  font-size: 1.75rem;
+  transition: 0.4s ease;
 }
 
-.offcanvas-body .nav-link.text-danger:hover {
-  background-color: #f8d7da;
-  color: #b02a37;
+.sidenav-header .toggler:hover{
+  background: #dde4fb;
 }
 
-.nav-link.active {
-  background-color: #0d6efd;
-  color: white !important;
-  font-weight: bold;
-  border-radius: 5px;
+.sidenav.collapsed .sidenav-header .toggler:hover{
+  transform: translate(-4px, 65px) ;
+}
+
+.toggler i {
+  transition: transform 0.3s ease;
 }
 
 
-/* "Salir" */
-  .offcanvas-body .mt-4 {
-    margin-top: auto;
-  }
+.sidenav-menu .nav-list{
+  list-style: none;
+  display:flex;
+  gap:4px;
+  padding: 0 15px;
+  flex-direction: column;
+  transform: translateY(15px);
+  transition: 0.4s ease;
+}
 
-  .offcanvas-body .nav-link.text-danger {
-    font-weight: 500;
-  }
+.sidenav.collapsed .sidenav-menu .primary-nav{
+  transform: translateY(100px);
+}
 
-  .offcanvas-body .nav-link.text-danger:hover {
-    background-color: #f8d7da;
-    color: #b02a37;
-  }
+
+.sidenav-menu .nav-link{
+  color:#6c747c;
+  display: flex;
+  gap:12px;
+  border-radius: 8px;
+  align-items: center;
+  padding: 12px 15px;
+  text-decoration: none;
+  transition: 0.4s ease;
+}
+
+.sidenav-menu .nav-link:hover{
+  color:#151A2D;
+  background: #fff;
+}
+
+.sidenav-menu .nav-link  .nav-text{
+  transition: opacity 0.4s ease;
+}
+
+.sidenav.collapsed .sidenav-menu .nav-link .nav-text {
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.sidenav-menu .secondary-nav{
+  position: absolute;
+  bottom: 30px;
+  width:100%;
+}
+
+/**/
+

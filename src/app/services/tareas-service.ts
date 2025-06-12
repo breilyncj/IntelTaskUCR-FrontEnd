@@ -29,4 +29,24 @@ export class TareasService {
       )
     );
   }
+
+  getAllWithRelaciones(): Observable<Tarea[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/withRelaciones`).pipe(
+      map((rawTareas) =>
+        rawTareas.map((t) => ({
+          id: t.cN_Id_tarea,
+          titulo: t.cT_Titulo_tarea,
+          usuarioAsignado: t.usuarios?.cT_Nombre_usuario ?? 'Sin usuario asignado',
+          estado: t.estados?.cT_Estado ?? 'Sin estado',
+          prioridad: t.prioridades?.cT_Nombre_prioridad ?? 'Sin prioridad',
+          complejidad: t.complejidades?.cT_Nombre ?? 'Sin complejidad',
+          fechaLimite: t.cF_Fecha_limite,
+          numeroGIS: t.cN_Numero_GIS,
+        }))
+      )
+    );
+  }
+
+
+
 }
