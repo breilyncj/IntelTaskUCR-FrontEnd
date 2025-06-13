@@ -3,11 +3,13 @@ import {CommonModule} from '@angular/common';
 import {TareasService} from '../../services/tareas-service';
 import {Tarea} from '../../models/tarea.model';
 import { SidenavService } from '../../services/sidenav-service';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-tareas-component',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './tareas-component.html',
   styleUrl: './tareas-component.css'
 })
@@ -17,8 +19,31 @@ export class TareasComponent implements OnInit{
   error: string | null = null;
   sidenavExpandido: boolean = true;
 
-  constructor(private tareasService: TareasService, private sidenavService: SidenavService) {
+
+  constructor(
+    private fb: FormBuilder,
+    private tareasService: TareasService,
+    private sidenavService: SidenavService
+  ) {
+    this.form = this.fb.group({
+      tareaOrigen: [null], // puede ser null
+      tituloTarea: [null], // puede ser null
+      descripcionTarea: ['', Validators.required], // requerido
+      descripcionEspera: [null], // puede ser null
+      complejidad: [null, Validators.required], // requerido
+      estado: [null, Validators.required], // requerido
+      prioridad: [null, Validators.required], // requerido
+      numeroGIS: [null], // puede ser null
+      fechaAsignacion: [null, Validators.required], // requerido
+      fechaLimite: [null, Validators.required], // requerido
+      fechaFinalizacion: [null, Validators.required], // requerido
+      usuarioCreador: [null, Validators.required], // requerido
+      usuarioAsignado: [null] // puede ser null
+    });
   }
+
+
+  form: FormGroup;
 
   private getAll() : void{
     this.tareasService.getAll().subscribe({
@@ -46,12 +71,27 @@ export class TareasComponent implements OnInit{
     });
   }
 
+  public crearTarea(){
+
+    console.log(this.form.value);
+    this.tareasService.crearTarea(this.form.value).subscribe({
+      next: (nuevaTarea) => {
+        console.log('Tarea creada:', nuevaTarea);
+        console.log('Id asignado:', nuevaTarea.idtarea);
+      },
+      error: (err) => {
+        console.error('Error al crear tarea:', err);
+      },
+
+    });
+  }
+
 
   private escucharSidenav() {
     this.sidenavService.collapsed$.subscribe((estado) => {
       this.sidenavExpandido = !estado;
     });
-    }
+  }
 
   ngOnInit(): void {
     this.getAll();

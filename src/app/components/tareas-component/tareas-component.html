@@ -97,95 +97,90 @@
   <div class="modal fade" id="crearTareaModal" tabindex="-1" aria-labelledby="crearTareaLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content shadow-lg rounded-3 border-0">
-        <form>
+        <form [formGroup]="form" (ngSubmit)="crearTarea()">
           <div class="modal-header" style="background-color: #104c8c; color: white;">
             <h5 class="modal-title" id="crearTareaLabel">Crear Nueva Tarea</h5>
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
           </div>
 
-          <!-- Cuerpo con scroll -->
           <div class="modal-body overflow-auto" style="max-height: 70vh;">
             <div class="row g-3">
               <div class="col-md-8">
                 <label for="tituloTarea" class="form-label">Título de la tarea</label>
-                <input type="text" class="form-control" id="tituloTarea" name="CT_Titulo_tarea" placeholder="Ingrese título">
+                <input type="text" class="form-control" id="tituloTarea" formControlName="tituloTarea" placeholder="Ingrese título">
               </div>
 
               <div class="col-md-4">
                 <label for="numeroGIS" class="form-label">Número GIS</label>
-                <input type="text" class="form-control" id="numeroGIS" name="CN_Numero_GIS" placeholder="Ingrese número GIS">
+                <input type="text" class="form-control" id="numeroGIS" formControlName="numeroGIS" placeholder="Ingrese número GIS">
               </div>
 
               <div class="col-md-4">
                 <label for="prioridad" class="form-label">Prioridad</label>
-                <select class="form-select" id="prioridad" name="CN_Id_prioridad">
-                  <option selected disabled>Seleccione prioridad</option>
-                  <option value="1">Baja</option>
-                  <option value="2">Media</option>
-                  <option value="3">Alta</option>
-                </select>
+                <input type="number" class="form-control" id="prioridad" formControlName="prioridad" placeholder="Ingrese prioridad">
               </div>
 
               <div class="col-md-4">
                 <label for="complejidad" class="form-label">Complejidad</label>
-                <select class="form-select" id="complejidad" name="CN_Id_complejidad">
-                  <option selected disabled>Seleccione complejidad</option>
-                  <option value="1">Baja</option>
-                  <option value="2">Media</option>
-                  <option value="3">Alta</option>
-                </select>
+                <input type="number" class="form-control" id="complejidad" formControlName="complejidad" placeholder="Ingrese complejidad">
               </div>
 
               <div class="col-md-4">
                 <label for="estado" class="form-label">Estado</label>
-                <select class="form-select" id="estado" name="CN_Id_estado">
-                  <option selected disabled>Seleccione estado</option>
-                  <option value="1">Pendiente</option>
-                  <option value="2">En Proceso</option>
-                  <option value="3">Finalizado</option>
-                </select>
+                <input type="number" class="form-control" id="estado" formControlName="estado" placeholder="Ingrese estado">
               </div>
 
               <div class="col-md-6">
                 <label for="usuarioAsignado" class="form-label">Usuario asignado</label>
-                <select class="form-select" id="usuarioAsignado" name="CN_Usuario_asignado">
-                  <option selected disabled>Seleccione usuario</option>
-                  <option value="101">Juan Pérez</option>
-                  <option value="102">María López</option>
-                  <option value="103">Ana Gómez</option>
-                </select>
+                <input type="number" class="form-control" id="usuarioAsignado" formControlName="usuarioAsignado" placeholder="Ingrese usuario asignado">
               </div>
 
               <div class="col-md-6">
                 <label for="fechaAsignacion" class="form-label">Fecha de asignación</label>
-                <input type="datetime-local" class="form-control" id="fechaAsignacion" name="CF_Fecha_asignacion">
+                <input type="datetime-local" class="form-control" id="fechaAsignacion" formControlName="fechaAsignacion">
               </div>
 
               <div class="col-md-6">
                 <label for="fechaLimite" class="form-label">Fecha límite</label>
-                <input type="datetime-local" class="form-control" id="fechaLimite" name="CF_Fecha_limite">
+                <input type="datetime-local" class="form-control" id="fechaLimite" formControlName="fechaLimite">
+              </div>
+
+              <div class="col-md-6">
+                <label for="fechaFinalizacion" class="form-label">Fecha de finalización</label>
+                <input type="datetime-local" class="form-control" id="fechaFinalizacion" formControlName="fechaFinalizacion">
+              </div>
+
+              <div class="col-md-6">
+                <label for="usuarioCreador" class="form-label">Usuario creador</label>
+                <input type="number" class="form-control" id="usuarioCreador" formControlName="usuarioCreador" placeholder="Ingrese usuario creador">
+              </div>
+
+              <div class="col-md-6">
+                <label for="tareaOrigen" class="form-label">Tarea de origen</label>
+                <input type="number" class="form-control" id="tareaOrigen" formControlName="tareaOrigen" placeholder="Ingrese ID o nombre de tarea de origen">
               </div>
 
               <div class="col-12">
                 <label for="descripcionTarea" class="form-label">Descripción de la tarea</label>
-                <textarea class="form-control" id="descripcionTarea" name="CT_Descripcion_tarea" rows="4" placeholder="Descripción completa de la tarea..."></textarea>
+                <textarea class="form-control" id="descripcionTarea" formControlName="descripcionTarea" rows="4" placeholder="Descripción completa de la tarea..."></textarea>
               </div>
 
               <div class="col-12">
                 <label for="descripcionEspera" class="form-label">Descripción de espera</label>
-                <textarea class="form-control" id="descripcionEspera" name="CT_Descripcion_espera" rows="4" placeholder="Motivo por el cual la tarea puede estar en espera..."></textarea>
+                <textarea class="form-control" id="descripcionEspera" formControlName="descripcionEspera" rows="4" placeholder="Motivo por el cual la tarea puede estar en espera..."></textarea>
               </div>
             </div>
           </div>
 
           <div class="modal-footer" style="background-color: #e6f0ff;">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn" style="background-color: #104c8c; color: white;">Crear tarea</button>
+            <button type="submit" class="btn" style="background-color: #104c8c; color: white;" [disabled]="form.invalid">Crear tarea</button>
           </div>
         </form>
       </div>
     </div>
   </div>
+
 
 
 
