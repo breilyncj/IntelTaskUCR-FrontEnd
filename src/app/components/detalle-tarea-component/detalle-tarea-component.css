@@ -1,0 +1,68 @@
+/* Colores personalizados */
+.text-primary-custom {
+  color: #104c8c;
+}
+
+/* Card de detalles con estilo moderno */
+.detalle-card {
+  background: linear-gradient(135deg, #daf2ff, #e3f2fd);
+  border-left: 6px solid #104c8c;
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.detalle-card:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para los textos dentro del card */
+.card-body div {
+  margin-bottom: 1rem;
+}
+
+.card-body strong {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.card-body span {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 1rem;
+}
+
+/* Botones de acción */
+.btn-outline-primary {
+  border-color: #104c8c;
+  color: #104c8c;
+}
+
+.btn-outline-primary:hover {
+  background-color: #104c8c;
+  color: white;
+}
+
+.btn-outline-danger {
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+/* Íconos con tamaño cómodo */
+.bi {
+  font-size: 1.1rem;
+}

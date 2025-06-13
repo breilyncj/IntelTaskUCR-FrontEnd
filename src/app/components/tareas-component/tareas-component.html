@@ -84,7 +84,7 @@
               <td>{{ item.complejidad }}</td>
               <td>{{ item.fechaLimite }}</td>
               <td>{{ item.numeroGIS }}</td>
-              <td><a href="detalle_tarea.html?id=1" class="btn btn-primary btn-sm">Ver más</a></td>
+              <td><a class="btn btn-primary btn-sm" [routerLink]="['/tareas', item.id]">Ver más</a></td>
             </tr>
           }
         </tbody>

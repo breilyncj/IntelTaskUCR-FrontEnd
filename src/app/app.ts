@@ -5,6 +5,7 @@ import {NavbarComponent} from './components/navbar-component/navbar-component';
 import {HomeComponent} from './components/home-component/home-component';
 import {EstadoComponent} from './components/estado-component/estado-component';
 import {TareasComponent} from './components/tareas-component/tareas-component';
+import {DetalleTareaComponent} from './components/detalle-tarea-component/detalle-tarea-component';
 
 @Component({
   selector: 'app-root',

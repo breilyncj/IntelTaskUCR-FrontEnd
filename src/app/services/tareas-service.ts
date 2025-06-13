@@ -47,6 +47,11 @@ export class TareasService {
     );
   }
 
+  getTareaWithRelacionesById(id: number): Observable<TareasCreate> {
+    return this.http.get<TareasCreate>(`${this.apiUrl}/WithRelaciones/${id}`);
+  }
+
+
   crearTarea(tarea: TareasCreate): Observable<TareasCreate> {
     return this.http.post<TareasCreate>(this.apiUrl, tarea);
   }

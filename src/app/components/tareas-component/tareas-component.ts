@@ -4,12 +4,13 @@ import {TareasService} from '../../services/tareas-service';
 import {Tarea, TareasCreate} from '../../models/tarea.model';
 import { SidenavService } from '../../services/sidenav-service';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {RouterModule} from '@angular/router';
 
 
 @Component({
   selector: 'app-tareas-component',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './tareas-component.html',
   styleUrl: './tareas-component.css'
 })
@@ -18,6 +19,7 @@ export class TareasComponent implements OnInit{
   loading = true;
   error: string | null = null;
   sidenavExpandido: boolean = true;
+  form: FormGroup;
 
 
   constructor(
@@ -43,7 +45,7 @@ export class TareasComponent implements OnInit{
   }
 
 
-  form: FormGroup;
+
 
   private getAll() : void{
     this.tareasService.getAll().subscribe({
@@ -52,7 +54,7 @@ export class TareasComponent implements OnInit{
         this.loading = false;
       },
       error: (error) => {
-        this.error = 'error al cargar los estados'
+        this.error = 'Error al cargar las tareas'
         this.loading = false;
       }
     });
@@ -114,7 +116,7 @@ export class TareasComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.getAll();
+
     this.getAllWithRelaciones();
     this.escucharSidenav();
   }
