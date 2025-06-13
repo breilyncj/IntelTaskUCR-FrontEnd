@@ -1,68 +1,105 @@
-/* Colores personalizados */
-.text-primary-custom {
-  color: #104c8c;
+.tarea-detalle-wrapper {
+  max-width: 800px;
+  margin: auto;
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
 }
 
-/* Card de detalles con estilo moderno */
-.detalle-card {
-  background: linear-gradient(135deg, #daf2ff, #e3f2fd);
-  border-left: 6px solid #104c8c;
-  border-radius: 16px;
-  padding: 1.5rem;
-  transition: box-shadow 0.3s ease-in-out;
+.tarea-detalle-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 2rem;
 }
 
-.detalle-card:hover {
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+.titulo-principal {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
 }
 
-/* Estilo para los textos dentro del card */
-.card-body div {
-  margin-bottom: 1rem;
+.detalle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem 2rem;
+  margin-bottom: 2rem;
 }
 
-.card-body strong {
-  font-weight: 600;
+.detalle-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 0.25rem;
+}
+
+.valor {
   font-size: 1rem;
+  color: #222;
 }
 
-.card-body span {
-  display: inline-block;
-  margin-left: 6px;
-  font-size: 1rem;
+.detalle-texto {
+  margin-top: 1.5rem;
 }
 
-/* Botones de acción */
-.btn-outline-primary {
-  border-color: #104c8c;
-  color: #104c8c;
+.detalle-texto h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
 }
 
-.btn-outline-primary:hover {
-  background-color: #104c8c;
-  color: white;
+.detalle-texto p {
+  color: #444;
+  line-height: 1.5;
 }
 
-.btn-outline-danger {
-  border-color: #dc3545;
-  color: #dc3545;
+.botones-accion {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
-.btn-outline-danger:hover {
+.btn {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-editar {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.btn-editar:hover {
+  background-color: #0056b3;
+}
+
+.btn-eliminar {
   background-color: #dc3545;
-  color: white;
+  color: #fff;
 }
 
-.btn-secondary {
+.btn-eliminar:hover {
+  background-color: #a71d2a;
+}
+
+.btn-volver {
+  display: inline-block;
+  margin-top: 1.5rem;
+  text-decoration: none;
   background-color: #6c757d;
   color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
 }
 
-.btn-secondary:hover {
+.btn-volver:hover {
   background-color: #5a6268;
-}
-
-/* Íconos con tamaño cómodo */
-.bi {
-  font-size: 1.1rem;
 }

@@ -3,6 +3,7 @@ import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {map, Observable} from 'rxjs';
 import {Tarea, TareasCreate} from '../models/tarea.model';
+import {TareaConRelacionesVista} from '../models/tarea-con-relaciones-vista.model';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +37,7 @@ export class TareasService {
         rawTareas.map((t) => ({
           id: t.cN_Id_tarea,
           titulo: t.cT_Titulo_tarea,
-          usuarioAsignado: t.usuarios?.cT_Nombre_usuario ?? 'Sin usuario asignado',
+          usuarioAsignado: t.usuarioAsignado?.cT_Nombre_usuario ?? 'Sin usuario asignado',
           estado: t.estados?.cT_Estado ?? 'Sin estado',
           prioridad: t.prioridades?.cT_Nombre_prioridad ?? 'Sin prioridad',
           complejidad: t.complejidades?.cT_Nombre ?? 'Sin complejidad',
@@ -47,13 +48,35 @@ export class TareasService {
     );
   }
 
+  /*
   getTareaWithRelacionesById(id: number): Observable<TareasCreate> {
     return this.http.get<TareasCreate>(`${this.apiUrl}/WithRelaciones/${id}`);
+  }*/
+
+  getTareaWithRelacionesById(id: number): Observable<TareaConRelacionesVista> {
+    return this.http.get<any>(`${this.apiUrl}/WithRelaciones/${id}`).pipe(
+      map((t) => ({
+        id: t.cN_Id_tarea!,
+        titulo: t.cT_Titulo_tarea ?? 'Sin título',
+        usuarioAsignado: t.usuarioAsignado?.cT_Nombre_usuario ?? 'Sin asignación',
+        usuarioCreador: t.usuarioCreador?.cT_Nombre_usuario ?? 'Desconocido',
+        estado: t.estados?.cT_Estado ?? 'Desconocido',
+        prioridad: t.prioridades?.cT_Nombre_prioridad ?? 'Desconocida',
+        complejidad: t.complejidades?.cT_Nombre ?? 'Desconocida',
+        descripcion: t.cT_Descripcion_tarea,
+        descripcionEsperada: t.cT_Descripcion_espera ?? '',
+        fechaAsignacion: t.cF_Fecha_asignacion,
+        fechaLimite: t.cF_Fecha_limite,
+        fechaFinalizacion: t.cF_Fecha_finalizacion,
+        numeroGIS: t.cN_Numero_GIS ?? '',
+        tareaOrigen: t.cN_Tarea_origen
+      }))
+    );
   }
+
 
 
   crearTarea(tarea: TareasCreate): Observable<TareasCreate> {
     return this.http.post<TareasCreate>(this.apiUrl, tarea);
   }
-
 }
