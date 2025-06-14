@@ -45,8 +45,6 @@ export class TareasComponent implements OnInit{
   }
 
 
-
-
   private getAll() : void{
     this.tareasService.getAll().subscribe({
       next: (data) => {
@@ -106,8 +104,6 @@ export class TareasComponent implements OnInit{
 
     });
   }
-
-
 
   private escucharSidenav() {
     this.sidenavService.collapsed$.subscribe((estado) => {

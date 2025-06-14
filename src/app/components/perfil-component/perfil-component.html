@@ -1,0 +1,15 @@
+<section class="card">
+  <img class="avatar" src="profile.jpg" alt="Foto de perfil" />
+  <h1>{{ perfil?.cT_Nombre_usuario}}</h1>
+  <p class="bio">
+    Esta es una breve biografía donde puedes describirte en dos o tres frases.
+    Destaca tus habilidades, intereses o profesión.
+  </p>
+  <div class="contact">
+    <a href="mailto:correo@ejemplo.com"><span class="valor">{{ perfil?.cT_Correo_usuario}}</span></a> |
+    <a href="tel:+50688888888">{{perfil?.cF_Fecha_nacimiento}}</a> |
+    <a href="https://linkedin.com/in/usuario" target="_blank" rel="noopener"
+    >LinkedIn</a
+    >
+  </div>
+</section>
