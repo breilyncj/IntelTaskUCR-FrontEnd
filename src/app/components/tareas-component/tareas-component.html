@@ -20,10 +20,10 @@
         (click)="setActiveButton('todas'); getAllWithRelaciones();">Todas</button>
 
       <button type="button" class="btn btn-outline-primary" [ngClass]="{'active text-white': activeButton === 'asignadasPorMi', 'text-black': activeButton !== 'asignadasPorMi'}"
-        (click)="setActiveButton('asignadasPorMi'); getAllAsignadasAMi();">Asignadas por mí</button>
+        (click)="setActiveButton('asignadasPorMi'); getAllAsignadasPorMi();">Asignadas por mí</button>
 
       <button type="button" class="btn btn-outline-primary" [ngClass]="{'active text-white': activeButton === 'asignadasAMi', 'text-black': activeButton !== 'asignadasAMi'}"
-        (click)="setActiveButton('asignadasAMi'); getAllAsignadasPorMi();">Asignadas a mí</button>
+        (click)="setActiveButton('asignadasAMi'); getAllAsignadasAMi();">Asignadas a mí</button>
 
     </div>
   </div>

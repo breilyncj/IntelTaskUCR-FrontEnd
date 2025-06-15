@@ -118,31 +118,31 @@ export class TareasComponent implements OnInit{
     });
   }
 
-  public getAllAsignadasPorMi() {
+  public getAllAsignadasAMi() {
     this.loading = true;
     const idUsuario = this.loginService.getUser()?.cN_Id_usuario;
 
-    this.usuarioService.getTareasAsignadasPorMiById(idUsuario).subscribe({
+    this.tareasService.getAllByIdUsuarioAsignado(idUsuario).subscribe({
       next: (data) => {
-        console.log('Tareas asignadas por mí:', data);
+        console.log('Tareas asignadas a mí:', data);
         this.tareas = data;
         this.loading = false;
       },
       error: (error) => {
         console.error('Error al cargar tareas:', error);
-        this.error = 'Error al cargar las tareas asignadas por mí';
+        this.error = 'Error al cargar las tareas asignadas a mí';
         this.loading = false;
       }
     });
   }
 
-  public getAllAsignadasAMi() {
+  public getAllAsignadasPorMi() {
     this.loading = true;
     const idUsuario = this.loginService.getUser()?.cN_Id_usuario;
 
-    this.usuarioService.getTareasAsignadasAMiById(idUsuario).subscribe({
+    this.tareasService.getAllByIdUsuarioCreador(idUsuario).subscribe({
       next: (data) => {
-        console.log('Tareas asignadas por mí:', data);
+        console.log('Tareas asignadas Por mí:', data);
         this.tareas = data;
         this.loading = false;
       },

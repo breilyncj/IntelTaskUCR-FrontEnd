@@ -2,6 +2,7 @@ export interface Tarea {
   id: number;
   titulo: string;
   usuarioAsignado: number;
+  usuarioCreador: number;
   estado: number;
   prioridad: number;
   complejidad: number;

@@ -22,7 +22,7 @@ export class UsuarioService {
   }
 
 
-  getTareasAsignadasPorMiById(id: number): Observable<Tarea[]> {
+  getTareasAsignadasAMiById(id: number): Observable<Tarea[]> {
     return this.http.get<any>(`${this.apiUrl}/WithTareasAsignadas/${id}`).pipe(
       map((usuario) => {
         const tareasRaw = usuario.tareasUsuarioAsignado ?? [];
@@ -40,7 +40,7 @@ export class UsuarioService {
     );
   }
 
-  getTareasAsignadasAMiById(id: number): Observable<Tarea[]> {
+  getTareasAsignadasPorMiById(id: number): Observable<Tarea[]> {
     return this.http.get<any>(`${this.apiUrl}/WithTareasCreador/${id}`).pipe(
       map((usuario) => {
         const tareasRaw = usuario.tareasUsuarioCreado?? [];

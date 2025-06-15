@@ -21,6 +21,7 @@ export class TareasService {
           id: t.cN_Id_tarea,
           titulo: t.cT_Titulo_tarea,
           usuarioAsignado: t.cN_Usuario_asignado,
+          usuarioCreador: t.usuarioCreador?.cT_Nombre_usuario ?? 'Sin usuario creador',
           estado: t.cN_Id_estado,
           prioridad: t.cN_Id_prioridad,
           complejidad: t.cN_Id_complejidad,
@@ -38,6 +39,25 @@ export class TareasService {
           id: t.cN_Id_tarea,
           titulo: t.cT_Titulo_tarea,
           usuarioAsignado: t.usuarioAsignado?.cT_Nombre_usuario ?? 'Sin usuario asignado',
+          usuarioCreador: t.usuarioCreador?.cT_Nombre_usuario ?? 'Sin usuario creador',
+          estado: t.estados?.cT_Estado ?? 'Sin estado',
+          prioridad: t.prioridades?.cT_Nombre_prioridad ?? 'Sin prioridad',
+          complejidad: t.complejidades?.cT_Nombre ?? 'Sin complejidad',
+          fechaLimite: t.cF_Fecha_limite,
+          numeroGIS: t.cN_Numero_GIS,
+        }))
+      )
+    );
+  }
+
+  getAllByIdUsuarioCreador(id: number): Observable<Tarea[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/ByUsuarioCreador/${id}`).pipe(
+      map((rawTareas) =>
+        rawTareas.map((t) => ({
+          id: t.cN_Id_tarea,
+          titulo: t.cT_Titulo_tarea,
+          usuarioAsignado: t.usuarioAsignado?.cT_Nombre_usuario ?? 'Sin usuario asignado',
+          usuarioCreador: t.usuarioCreador?.cT_Nombre_usuario ?? 'Sin usuario creador',
           estado: t.estados?.cT_Estado ?? 'Sin estado',
           prioridad: t.prioridades?.cT_Nombre_prioridad ?? 'Sin prioridad',
           complejidad: t.complejidades?.cT_Nombre ?? 'Sin complejidad',
@@ -75,5 +95,21 @@ export class TareasService {
   }
 
 
-
+  getAllByIdUsuarioAsignado(id: number): Observable<Tarea[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/ByUsuarioAsignado/${id}`).pipe(
+      map((rawTareas) =>
+        rawTareas.map((t) => ({
+          id: t.cN_Id_tarea,
+          titulo: t.cT_Titulo_tarea,
+          usuarioAsignado: t.usuarioAsignado?.cT_Nombre_usuario ?? 'Sin usuario asignado',
+          usuarioCreador: t.usuarioCreador?.cT_Nombre_usuario ?? 'Sin usuario creador',
+          estado: t.estados?.cT_Estado ?? 'Sin estado',
+          prioridad: t.prioridades?.cT_Nombre_prioridad ?? 'Sin prioridad',
+          complejidad: t.complejidades?.cT_Nombre ?? 'Sin complejidad',
+          fechaLimite: t.cF_Fecha_limite,
+          numeroGIS: t.cN_Numero_GIS,
+        }))
+      )
+    );
+  }
 }
