@@ -14,7 +14,7 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [roleGuard]},
   { path: 'estado', component: EstadoComponent },
   { path: 'tareas', component:  TareasComponent, canActivate: [roleGuard], data: { roles: [1, 2, 3] }},
-  {path: 'tareas/:id', component: DetalleTareaComponent, canActivate: [roleGuard], data: { roles: [2] } },
+  {path: 'tareas/:id', component: DetalleTareaComponent, canActivate: [roleGuard], data: { roles: [1, 2, 3] } },
   {path: 'perfil', component: PerfilComponent, canActivate: [roleGuard]},
   {path: 'login', component: LoginComponent},
   { path: 'unauthorized', component: UnauthorizedComponent },

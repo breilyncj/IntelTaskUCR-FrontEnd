@@ -1,63 +1,159 @@
-<div class="tarea-detalle-wrapper">
-  <section class="tarea-detalle-card">
-    <h1 class="titulo-principal">Detalles de la Tarea</h1>
+<div class="tarea-page-wrapper">
+  <section class="tarea-card ancho-total">
+    <h1 class="tarea-titulo">🗂️ Detalles de la Tarea</h1>
 
-    <div class="detalle-grid">
-      <div class="detalle-item">
-        <span class="label">Asignada a</span>
-        <span class="valor">{{ tareaConRelaciones?.usuarioAsignado }}</span>
+    <div class="tarea-grid">
+      <div class="tarea-info">
+        <span class="tarea-label">👤 Asignada a:</span>
+        <span class="tarea-valor">{{ tareaConRelaciones?.usuarioAsignado }}</span>
       </div>
 
-      <div class="detalle-item">
-        <span class="label">Fecha de asignación</span>
-        <span class="valor">{{ tareaConRelaciones?.fechaAsignacion | date:'longDate' }}</span>
+      <div class="tarea-info">
+        <span class="tarea-label">📅 Fecha de asignación:</span>
+        <span class="tarea-valor">{{ tareaConRelaciones?.fechaAsignacion | date:'longDate' }}</span>
       </div>
 
-      <div class="detalle-item">
-        <span class="label">Creada por</span>
-        <span class="valor">{{ tareaConRelaciones?.usuarioCreador }}</span>
+      <div class="tarea-info">
+        <span class="tarea-label">📝 Creada por:</span>
+        <span class="tarea-valor">{{ tareaConRelaciones?.usuarioCreador }}</span>
       </div>
 
-      <div class="detalle-item">
-        <span class="label">Estado</span>
-        <span class="valor">{{ tareaConRelaciones?.estado }}</span>
+      <div class="tarea-info">
+        <span class="tarea-label">📌 Estado:</span>
+        <span class="tarea-valor">{{ tareaConRelaciones?.estado }}</span>
       </div>
 
-      <div class="detalle-item">
-        <span class="label">Prioridad</span>
-        <span class="valor">{{ tareaConRelaciones?.prioridad }}</span>
+      <div class="tarea-info">
+        <span class="tarea-label">⚠️ Prioridad:</span>
+        <span class="tarea-valor">{{ tareaConRelaciones?.prioridad }}</span>
       </div>
 
-      <div class="detalle-item">
-        <span class="label">Complejidad</span>
-        <span class="valor">{{ tareaConRelaciones?.complejidad }}</span>
+      <div class="tarea-info">
+        <span class="tarea-label">📊 Complejidad:</span>
+        <span class="tarea-valor">{{ tareaConRelaciones?.complejidad }}</span>
       </div>
 
-      <div class="detalle-item">
-        <span class="label">Fecha límite</span>
-        <span class="valor">{{ tareaConRelaciones?.fechaLimite | date:'longDate' }}</span>
+      <div class="tarea-info">
+        <span class="tarea-label">📆 Fecha límite:</span>
+        <span class="tarea-valor">{{ tareaConRelaciones?.fechaLimite | date:'longDate' }}</span>
       </div>
     </div>
 
-    <div class="detalle-texto">
-      <h3>Descripción</h3>
+    <div class="tarea-texto">
+      <h3>🧾 Descripción</h3>
       <p>{{ tareaConRelaciones?.descripcion }}</p>
     </div>
 
-    <div class="detalle-texto">
-      <h3>Descripción esperada</h3>
+    <div class="tarea-texto">
+      <h3>🎯 Descripción esperada</h3>
       <p>{{ tareaConRelaciones?.descripcionEsperada }}</p>
     </div>
 
-    <div class="botones-accion">
-      <button class="btn btn-editar">Editar</button>
-      <button class="btn btn-eliminar">Eliminar</button>
+    <div class="tarea-acciones">
+      <button class="btn-editar" data-bs-toggle="modal" data-bs-target="#editarTareaModal">✏️ Editar</button>
+      <button class="btn-eliminar">🗑️ Desactivar</button>
+    </div>
+
+    <div class="tarea-volver-interno">
+      <a routerLink="/tareas" class="btn-volver">← Volver a la lista</a>
     </div>
   </section>
 
-  <div class="boton-atras-container">
-    <a routerLink="/tareas" class="btn btn-volver">
-      ← Volver
-    </a>
+
+
+  <!-- Modal Crear Tarea -->
+  <div class="modal fade" id="editarTareaModal" tabindex="-1" aria-labelledby="editarTareaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content shadow-lg rounded-3 border-0">
+        <form [formGroup]="form" >
+          <div class="modal-header" style="background-color: #104c8c; color: white;">
+            <h5 class="modal-title" id="editarTareaLabel">Crear Nueva Tarea</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+
+          <div class="modal-body overflow-auto" style="max-height: 70vh;">
+            <div class="row g-3">
+              <div class="col-md-8">
+                <label for="tituloTarea" class="form-label">Título de la tarea</label>
+                <input type="text" class="form-control" id="tituloTarea" formControlName="tituloTarea" placeholder="Ingrese título">
+              </div>
+
+              <div class="col-md-4">
+                <label for="numeroGIS" class="form-label">Número GIS</label>
+                <input type="text" class="form-control" id="numeroGIS" formControlName="numeroGIS" placeholder="Ingrese número GIS">
+              </div>
+
+              <div class="col-md-4">
+                <label for="prioridad" class="form-label">Prioridad</label>
+                <input type="number" class="form-control" id="prioridad" formControlName="prioridad" placeholder="Ingrese prioridad">
+              </div>
+
+              <div class="col-md-4">
+                <label for="complejidad" class="form-label">Complejidad</label>
+                <input type="number" class="form-control" id="complejidad" formControlName="complejidad" placeholder="Ingrese complejidad">
+              </div>
+
+              <div class="col-md-4">
+                <label for="estado" class="form-label">Estado</label>
+                <input type="number" class="form-control" id="estado" formControlName="estado" placeholder="Ingrese estado">
+              </div>
+
+              <div class="col-md-6">
+                <label for="usuarioAsignado" class="form-label">Usuario asignado</label>
+                <input type="number" class="form-control" id="usuarioAsignado" formControlName="usuarioAsignado" placeholder="Ingrese usuario asignado">
+              </div>
+
+              <div class="col-md-6">
+                <label for="fechaAsignacion" class="form-label">Fecha de asignación</label>
+                <input type="datetime-local" class="form-control" id="fechaAsignacion" formControlName="fechaAsignacion">
+              </div>
+
+              <div class="col-md-6">
+                <label for="fechaLimite" class="form-label">Fecha límite</label>
+                <input type="datetime-local" class="form-control" id="fechaLimite" formControlName="fechaLimite">
+              </div>
+
+              <div class="col-md-6">
+                <label for="fechaFinalizacion" class="form-label">Fecha de finalización</label>
+                <input type="datetime-local" class="form-control" id="fechaFinalizacion" formControlName="fechaFinalizacion">
+              </div>
+
+              <div class="col-md-6">
+                <label for="usuarioCreador" class="form-label">Usuario creador</label>
+                <input type="number" class="form-control" id="usuarioCreador" formControlName="usuarioCreador" placeholder="Ingrese usuario creador">
+              </div>
+
+              <div class="col-md-6">
+                <label for="tareaOrigen" class="form-label">Tarea de origen</label>
+                <input type="number" class="form-control" id="tareaOrigen" formControlName="tareaOrigen" placeholder="Ingrese ID o nombre de tarea de origen">
+              </div>
+
+              <div class="col-12">
+                <label for="descripcionTarea" class="form-label">Descripción de la tarea</label>
+                <textarea class="form-control" id="descripcionTarea" formControlName="descripcionTarea" rows="4" placeholder="Descripción completa de la tarea..."></textarea>
+              </div>
+
+              <div class="col-12">
+                <label for="descripcionEspera" class="form-label">Descripción de espera</label>
+                <textarea class="form-control" id="descripcionEspera" formControlName="descripcionEspera" rows="4" placeholder="Motivo por el cual la tarea puede estar en espera..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer" style="background-color: #e6f0ff;">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn" style="background-color: #104c8c; color: white;" [disabled]="form.invalid">Modificar tarea</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
+
+
+
+
+
+
+
+

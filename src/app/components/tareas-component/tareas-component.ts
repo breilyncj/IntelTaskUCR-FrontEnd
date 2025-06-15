@@ -5,6 +5,8 @@ import {Tarea, TareasCreate} from '../../models/tarea.model';
 import { SidenavService } from '../../services/sidenav-service';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {RouterModule} from '@angular/router';
+import {UsuarioService} from '../../services/usuario-service';
+import {LoginService} from '../../services/login-service';
 
 
 @Component({
@@ -20,12 +22,16 @@ export class TareasComponent implements OnInit{
   error: string | null = null;
   sidenavExpandido: boolean = true;
   form: FormGroup;
+  activeButton: string = 'todas';  // valor inicial, por ejemplo
+
 
 
   constructor(
     private fb: FormBuilder,
     private tareasService: TareasService,
-    private sidenavService: SidenavService
+    private sidenavService: SidenavService,
+    private usuarioService: UsuarioService,
+    private loginService: LoginService
   ) {
     this.form = this.fb.group({
       tareaOrigen: [null], // puede ser null
@@ -58,7 +64,9 @@ export class TareasComponent implements OnInit{
     });
   }
 
-  private getAllWithRelaciones(): void {
+
+
+  public getAllWithRelaciones(): void {
     this.tareasService.getAllWithRelaciones().subscribe({
       next: (data) => {
         this.tareas = data;
@@ -91,7 +99,6 @@ export class TareasComponent implements OnInit{
 
 
   public crearTarea(){
-
     console.log(this.form.value);
     this.tareasService.crearTarea(this.mapFormToTareaCreate(this.form.value)).subscribe({
       next: (nuevaTarea) => {
@@ -110,6 +117,47 @@ export class TareasComponent implements OnInit{
       this.sidenavExpandido = !estado;
     });
   }
+
+  public getAllAsignadasPorMi() {
+    this.loading = true;
+    const idUsuario = this.loginService.getUser()?.cN_Id_usuario;
+
+    this.usuarioService.getTareasAsignadasPorMiById(idUsuario).subscribe({
+      next: (data) => {
+        console.log('Tareas asignadas por mí:', data);
+        this.tareas = data;
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error al cargar tareas:', error);
+        this.error = 'Error al cargar las tareas asignadas por mí';
+        this.loading = false;
+      }
+    });
+  }
+
+  public getAllAsignadasAMi() {
+    this.loading = true;
+    const idUsuario = this.loginService.getUser()?.cN_Id_usuario;
+
+    this.usuarioService.getTareasAsignadasAMiById(idUsuario).subscribe({
+      next: (data) => {
+        console.log('Tareas asignadas por mí:', data);
+        this.tareas = data;
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error al cargar tareas:', error);
+        this.error = 'Error al cargar las tareas asignadas por mí';
+        this.loading = false;
+      }
+    });
+  }
+
+  setActiveButton(buttonName: string) {
+    this.activeButton = buttonName;
+  }
+
 
   ngOnInit(): void {
 

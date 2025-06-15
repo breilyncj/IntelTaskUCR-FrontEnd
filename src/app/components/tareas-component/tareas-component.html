@@ -15,15 +15,16 @@
       Gestión de tareas
     </div>
     <div class="btn-group" role="group" aria-label="Filtros tareas">
-      <button type="button" class="btn btn-outline-primary text-white active">
-        Todas
-      </button>
-      <button type="button" class="btn btn-outline-primary text-black">
-        Asignadas por mí
-      </button>
-      <button type="button" class="btn btn-outline-primary text-black">
-        Asignadas a mí
-      </button>
+      <button
+        type="button"  class="btn btn-outline-primary" [ngClass]="{'active text-white': activeButton === 'todas', 'text-black': activeButton !== 'todas'}"
+        (click)="setActiveButton('todas'); getAllWithRelaciones();">Todas</button>
+
+      <button type="button" class="btn btn-outline-primary" [ngClass]="{'active text-white': activeButton === 'asignadasPorMi', 'text-black': activeButton !== 'asignadasPorMi'}"
+        (click)="setActiveButton('asignadasPorMi'); getAllAsignadasAMi();">Asignadas por mí</button>
+
+      <button type="button" class="btn btn-outline-primary" [ngClass]="{'active text-white': activeButton === 'asignadasAMi', 'text-black': activeButton !== 'asignadasAMi'}"
+        (click)="setActiveButton('asignadasAMi'); getAllAsignadasPorMi();">Asignadas a mí</button>
+
     </div>
   </div>
 
