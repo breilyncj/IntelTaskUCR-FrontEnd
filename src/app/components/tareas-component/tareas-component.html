@@ -20,10 +20,10 @@
         (click)="setActiveButton('todas'); getAllWithRelaciones();">Todas</button>
 
       <button type="button" class="btn btn-outline-primary" [ngClass]="{'active text-white': activeButton === 'asignadasPorMi', 'text-black': activeButton !== 'asignadasPorMi'}"
-        (click)="setActiveButton('asignadasPorMi'); getAllAsignadasPorMi();">Asignadas por mí</button>
+              (click)="setActiveButton('asignadasPorMi'); getAllAsignadasPorMi();">Asignadas por mí</button>
 
       <button type="button" class="btn btn-outline-primary" [ngClass]="{'active text-white': activeButton === 'asignadasAMi', 'text-black': activeButton !== 'asignadasAMi'}"
-        (click)="setActiveButton('asignadasAMi'); getAllAsignadasAMi();">Asignadas a mí</button>
+              (click)="setActiveButton('asignadasAMi'); getAllAsignadasAMi();">Asignadas a mí</button>
 
     </div>
   </div>
@@ -47,12 +47,9 @@
         Crear tarea
       </button>
     </div>
-
   </div>
 
-
   <div class="tablaTareas">
-
     @if (loading) {
       <div>Cargando tareas...</div>
     }
@@ -60,38 +57,49 @@
       <div>{{ error }}</div>
     }
     @else {
-      <table class="table">
-        <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Título</th>
-          <th scope="col" >Asignado a</th>
-          <th scope="col">Estado</th>
-          <th scope="col">Prioridad</th>
-          <th scope="col">Complejidad</th>
-          <th scope="col">Fecha Límite</th>
-          <th scope="col">Número GIS</th>
-          <th scope="col">Ver más</th>
-        </tr>
-        </thead>
-        <tbody class="table-group-divider">
-          @for (item of tareas; track item.id) {
-            <tr>
-              <th scope="row">{{ item.id }}</th>
-              <td>{{ item.titulo }}</td>
-              <td>{{ item.usuarioAsignado }}</td>
-              <td>{{ item.estado }}</td>
-              <td>{{ item.prioridad }}</td>
-              <td>{{ item.complejidad }}</td>
-              <td>{{ item.fechaLimite }}</td>
-              <td>{{ item.numeroGIS }}</td>
-              <td><a class="btn btn-primary btn-sm" [routerLink]="['/tareas', item.id]">Ver más</a></td>
-            </tr>
-          }
-        </tbody>
-      </table>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Título</th>
+            <th scope="col">Asignado a</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Prioridad</th>
+            <th scope="col">Complejidad</th>
+            <th scope="col">Fecha Límite</th>
+            <th scope="col">Número GIS</th>
+            <th scope="col">Opciones</th>
+          </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            @for (item of tareas; track item.id) {
+              <tr>
+                <th scope="row">{{ item.id }}</th>
+                <td>{{ item.titulo }}</td>
+                <td>{{ item.usuarioAsignado }}</td>
+                <td>{{ item.estado }}</td>
+                <td>{{ item.prioridad }}</td>
+                <td>{{ item.complejidad }}</td>
+                <td>{{ item.fechaLimite }}</td>
+                <td>{{ item.numeroGIS }}</td>
+                <td class="botones">
+                  <a class="btn btn-success btn-sm custom-btn me-2" [routerLink]="['/tareas', item.id]">
+                    <i class="bi bi-pencil"></i>
+                  </a>
+                  <a class="btn btn-info btn-sm custom-btn" [routerLink]="['/tareas', item.id]">
+                    <i class="bi bi-arrow-right-short"></i>
+                  </a>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
     }
   </div>
+
+
 
 
   <!-- Modal Crear Tarea -->
@@ -187,4 +195,5 @@
 
 
 </div>
+
 

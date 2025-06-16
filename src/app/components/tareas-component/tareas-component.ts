@@ -115,8 +115,14 @@ export class TareasComponent implements OnInit{
   private escucharSidenav() {
     this.sidenavService.collapsed$.subscribe((estado) => {
       this.sidenavExpandido = !estado;
+
+      // Forzar reflow/redibujo
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+      }, 200);
     });
   }
+
 
   public getAllAsignadasAMi() {
     this.loading = true;

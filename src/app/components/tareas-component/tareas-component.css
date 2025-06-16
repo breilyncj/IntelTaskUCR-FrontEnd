@@ -113,9 +113,38 @@ table thead th {
   color: #0d3f75;
 }
 
+/* Botones de editar y ver más */
+.botones {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.custom-btn {
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  display: inline-block;
+}
+
+.custom-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.custom-btn:active {
+  transform: scale(0.95);
+  box-shadow: none;
+}
+
+
 
 /* Solución global para quitar scroll horizontal inesperado */
 body, html {
   overflow-x: hidden;
+}
+
+
+/**/
+.table-responsive {
+  max-width: 100%;
+  overflow-x: auto;
 }
 
