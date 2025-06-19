@@ -55,15 +55,32 @@
         </a>
       </li>
 
-      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <li class="nav-item" routerLinkActive="active" data-bs-toggle="modal" href="#logoutModal" >
         <a class="nav-link">
           <i class="bi bi-box-arrow-right"></i>
-          <span class="nav-text" (click)="logout()">Salir</span>
+          <span class="nav-text" >Cerrar sesión</span>
         </a>
       </li>
     </ul>
-
-
   </nav>
-
 </aside>
+
+
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered logout-dialog">
+    <div class="modal-content logout-modal">
+      <div class="modal-header">
+        <h5 class="modal-title" id="logoutModalLabel">¿Cerrar Sesión?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <p>¿Estás seguro de que deseas cerrar sesión?</p>
+        <p class="subtext">Serás redirigido a la página de inicio de sesión.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="logout()" data-bs-dismiss="modal">Sí, cerrar sesión</button>
+      </div>
+    </div>
+  </div>
+</div>

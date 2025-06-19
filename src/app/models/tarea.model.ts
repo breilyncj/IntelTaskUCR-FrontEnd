@@ -10,6 +10,16 @@ export interface Tarea {
   numeroGIS: string;
 }
 
+export interface prioridadTarea {
+  cN_Id_prioridad: number;
+  cT_Nombre_prioridad: string;
+}
+
+export interface complejidadTarea {
+  cN_Id_complejidad: number;
+  cT_Nombre:string;
+}
+
 export interface TareasCreate {
   cN_Id_tarea?: number;
   cN_Tarea_origen: number | null;

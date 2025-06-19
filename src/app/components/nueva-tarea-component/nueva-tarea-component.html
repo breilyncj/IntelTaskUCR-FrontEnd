@@ -1,0 +1,181 @@
+<div class="container mt-4 p-4 rounded bg-white">
+
+<!-- Encabezado -->
+  <form [formGroup]="form" (ngSubmit)="crearTarea()"  class="row g-3">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h4 class="text-primary fw-semibold mb-0" style="color: #104c8c">
+        <i class="bi bi-clipboard-plus me-2"></i> Nueva tarea
+      </h4>
+      <!-- ✅ CORRECTO: solo type="submit", nada más -->
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Crear</button>
+
+    </div>
+
+
+      <hr class="titulo-linea" />
+
+    <!-- Mensaje -->
+    <div class="alert alert-info py-2" role="alert">
+      Para crear la tarea, por favor ingrese los siguientes datos:
+    </div>
+
+
+
+    <!-- Fila 1 -->
+    <div class="col-md-3">
+      <label for="tituloTarea" class="form-label">Título de la tarea</label>
+      <input type="text" id="tituloTarea" formControlName="tituloTarea" class="form-control" placeholder="Ingrese título">
+    </div>
+
+    <div class="col-md-2">
+      <label for="numeroGIS" class="form-label">Número GIS</label>
+      <input type="text" id="numeroGIS" formControlName="numeroGIS" class="form-control" placeholder="Número GIS">
+    </div>
+
+    <!-- Prioridad -->
+    <div class="col-md-2">
+      <label for="prioridad" class="form-label">Prioridad</label>
+      <select id="prioridad" class="form-select" formControlName="prioridad">
+        <option *ngFor="let p of prioridades" [value]="p.cN_Id_prioridad">{{ p.cT_Nombre_prioridad }}</option>
+      </select>
+    </div>
+
+    <!-- Complejidad -->
+    <div class="col-md-2">
+      <label for="complejidad" class="form-label">Complejidad</label>
+      <select id="complejidad" class="form-select" formControlName="complejidad">
+        <option *ngFor="let c of complejidades" [value]="c.cN_Id_complejidad">{{ c.cT_Nombre }}</option>
+      </select>
+    </div>
+
+
+
+    <!-- Fila 2 -->
+    <div class="col-md-4">
+      <label for="fechaLimite" class="form-label">Fecha límite</label>
+      <input type="datetime-local" id="fechaLimite" formControlName="fechaLimite" class="form-control">
+    </div>
+
+    <div class="col-md-4">
+      <label for="fechaFinalizacion" class="form-label">Fecha finalización</label>
+      <input type="datetime-local" id="fechaFinalizacion" formControlName="fechaFinalizacion" class="form-control">
+    </div>
+
+
+    <!-- Descripción amplia -->
+    <div class="col-md-12">
+      <label for="descripcionTarea" class="form-label">Descripción</label>
+      <textarea id="descripcionTarea" rows="3" formControlName="descripcionTarea" class="form-control" placeholder="Describe brevemente la tarea..."></textarea>
+    </div>
+
+    <!-- Switch: asignar tarea -->
+    <div class="col-md-12">
+      <div class="form-check form-switch mt-2">
+        <input class="form-check-input" type="checkbox" id="asignarSwitch"
+               [checked]="asignarDeInmediato"
+               (change)="onAsignarSwitchChange($event)" name="asignarSwitch">
+        <label class="form-check-label" for="asignarSwitch">
+          ¿Asignar tarea de inmediato?
+        </label>
+      </div>
+    </div>
+
+
+    @if(asignarDeInmediato){
+      <!-- Tabla de usuarios (solo estructura, aún sin lógica condicional) -->
+      <div class="col-md-12 mt-3 tablaTareas">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>Seleccionar</th>
+              <th>Nombre</th>
+              <th>Correo</th>
+              <th># de tareas</th>
+              <th>Ver más</th>
+            </tr>
+            </thead>
+            <tbody>
+              @for (item of usuarios; track item.id_usuario) {
+            <tr>
+              <td>
+                <input
+                  type="radio"
+                  class="form-check-input"
+                  name="usuarioAsignado"
+                  [value]="item.id_usuario"
+                  formControlName="usuarioAsignado"
+                />
+              </td>
+              <td>{{ item.nombre_usuario }} </td>
+              <td>{{item.correo_usuario }}</td>
+              <td>{{item.cantidadTareasAsignadas}}</td>
+              <td>
+                <button
+                  class="btn btn-sm btn-outline-primary"
+                  (click)="abrirDetalleUsuario(item)"
+                  data-bs-toggle="modal"
+                  data-bs-target="#detalleUsuarioModal"
+                >Ver</button>
+              </td>
+            </tr>}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
+  </form>
+</div>
+
+<!-- Modal para ver detalle del usuario -->
+
+<div class="modal fade" id="detalleUsuarioModal" tabindex="-1" aria-labelledby="detalleUsuarioLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="detalleUsuarioLabel">Detalle del Usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <div class="modal-body">
+        <p><strong>Nombre:</strong> {{ usuarioDetalle?.cT_Nombre_usuario }}</p>
+        <p><strong>Correo:</strong> {{ usuarioDetalle?.cT_Correo_usuario }}</p>
+        <p><strong>Rol:</strong> {{ usuarioDetalle?.cN_Id_rol || 'No especificado' }}</p>
+
+        <h6 class="mt-3">Tareas asignadas:</h6>
+
+        <table class="table table-sm table-bordered mt-2">
+          <thead class="table-light">
+          <tr>
+            <th>Título</th>
+            <th>Estado</th>
+            <th>Fecha Límite</th>
+            <th>Prioridad</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let tarea of usuarioDetalle?.tareasUsuarioAsignado ?? []">
+            <td>{{ tarea.cT_Titulo_tarea }}</td>
+            <td>{{ tarea.cN_Id_estado }}</td>
+            <td>{{ tarea.cF_Fecha_limite | date:'shortDate' }}</td>
+            <td>{{ tarea.cN_Id_prioridad }}</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <div *ngIf="usuarioDetalle?.tareasUsuarioAsignado?.length === 0" class="text-muted">
+          No hay tareas asignadas.
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+

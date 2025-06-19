@@ -130,5 +130,134 @@ body{
   width:100%;
 }
 
-/**/
+/*Modal*/
+/* Asegura el centrado total */
+
+.logout-dialog {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Estilos visuales */
+.logout-modal {
+  background-color: #ffffff;
+  border-radius: 16px;
+  border: 2px solid #004080;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Cabecera */
+.logout-modal .modal-header {
+  background-color: #004080;
+  color: white;
+  border-bottom: none;
+  padding: 1.2rem 1.5rem;
+}
+
+/* Cuerpo */
+.logout-modal .modal-body {
+  background-color: #88b8f0;
+  color: #003366;
+  text-align: center;
+  font-size: 1rem;
+  padding: 1.5rem;
+}
+
+.logout-modal .modal-body .subtext {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  color: #002244;
+}
+
+/* Footer */
+.logout-modal .modal-footer {
+  border-top: none;
+  background-color: #f8f9fa;
+  padding: 1rem 1.5rem;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* Botones */
+.logout-modal .btn-outline-secondary {
+  border-color: #004080;
+  color: #004080;
+}
+
+.logout-modal .btn-outline-secondary:hover {
+  background-color: #004080;
+  color: white;
+}
+
+.logout-modal .btn-primary {
+  background-color: #004080;
+  border-color: #004080;
+}
+
+.logout-modal .btn-primary:hover {
+  background-color: #003060;
+  border-color: #003060;
+}
+
+
+.logout-modal .modal-footer {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  background-color: #f8f9fa;
+  border-top: none;
+  padding: 1.25rem 1.5rem;
+}
+
+/* Botón de cancelar: contorno con hover suave */
+.logout-modal .btn-outline-secondary {
+  border: 2px solid #004080;
+  color: #004080;
+  background-color: transparent;
+  padding: 0.5rem 1.2rem;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.logout-modal .btn-outline-secondary:hover {
+  background-color: #004080;
+  color: white;
+  box-shadow: 0 0 10px rgba(0, 64, 128, 0.2);
+}
+
+/* Botón primario: color principal con hover profundo */
+.logout-modal .btn-primary {
+  background-color: #004080;
+  border: 2px solid #004080;
+  color: white;
+  padding: 0.5rem 1.2rem;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.logout-modal .btn-primary:hover {
+  background-color: #003060;
+  border-color: #003060;
+  box-shadow: 0 0 10px rgba(0, 48, 96, 0.3);
+}
+
+
+/* Animación suave */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
 

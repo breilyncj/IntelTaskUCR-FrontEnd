@@ -1,0 +1,82 @@
+/* Línea sutil debajo del título */
+
+.titulo-linea {
+  border: none;
+  border-top: 2px solid #104c8c; /* azul oscuro */
+  margin-top: 4px;
+  margin-bottom: 16px;
+  opacity: 0.5; /* Para que sea sutil */
+}
+
+/* Botón hover coherente */
+.btn-group .btn:hover {
+  color: white !important;
+}
+
+/* Estilo coherente para la tabla */
+.tablaTareas table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.tablaTareas thead {
+  background-color: #99c4ff;
+  color: #1a1a1a;
+}
+
+.tablaTareas thead th {
+  padding: 12px 16px;
+  font-weight: 600;
+  text-align: left;
+  border-bottom: 2px solid #7aa7f7;
+  user-select: none;
+}
+
+.tablaTareas tbody tr {
+  background-color: #daf2ff;
+  transition: background-color 0.25s ease;
+}
+
+.tablaTareas tbody tr:hover {
+  background-color: #c0dcff;
+  cursor: default;
+}
+
+.tablaTareas tbody td,
+.tablaTareas tbody th {
+  padding: 12px 16px;
+  border-bottom: 1px solid #b0d2ff;
+  color: #222;
+}
+
+.tablaTareas tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Centrado horizontal y vertical */
+.tablaTareas thead th,
+.tablaTareas tbody td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* (Opcional) Ajustes para las celdas */
+.tablaTareas th,
+.tablaTareas td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #b0d2ff;
+}
+
+/* Ya definidos anteriormente, pero reforzados */
+.tablaTareas thead {
+  background-color: #99c4ff;
+}
+
+.tablaTareas tbody tr {
+  background-color: #daf2ff;
+  transition: background-color 0.25s ease;
+}

@@ -7,6 +7,8 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import {RouterModule} from '@angular/router';
 import {UsuarioService} from '../../services/usuario-service';
 import {LoginService} from '../../services/login-service';
+import {UsuarioAsignado} from '../../models/usuario.model';
+import {EstadoService} from '../../services/estado-service';
 
 
 @Component({
@@ -21,13 +23,19 @@ export class TareasComponent implements OnInit{
   loading = true;
   error: string | null = null;
   sidenavExpandido: boolean = true;
+  estados: any[] = [];
+  estadoActual: string = '';
   form: FormGroup;
   activeButton: string = 'todas';  // valor inicial, por ejemplo
 
+  usuarios: UsuarioAsignado[] = [];
+  asignarDeInmediato: boolean = false;
+  usuarioSeleccionado: UsuarioAsignado | null = null;
 
 
   constructor(
     private fb: FormBuilder,
+    private estadosService: EstadoService,
     private tareasService: TareasService,
     private sidenavService: SidenavService,
     private usuarioService: UsuarioService,
@@ -162,6 +170,28 @@ export class TareasComponent implements OnInit{
 
   setActiveButton(buttonName: string) {
     this.activeButton = buttonName;
+  }
+
+
+  obtenerUsuarios(): void {
+    this.usuarioService.getAll().subscribe({
+      next: (res) => this.usuarios = res,
+      error: (err) => console.error('Error cargando usuarios', err)
+    });
+  }
+
+  seleccionarUsuario(usuario: UsuarioAsignado): void {
+    this.usuarioSeleccionado = usuario;
+
+    // Puedes actualizar el formulario directamente si lo necesitas
+    this.form.patchValue({
+      usuarioAsignado: usuario.id_usuario
+    });
+
+    // También puedes cambiar el estado automáticamente si deseas:
+    this.form.patchValue({
+      estado: 2 // "Asignado"
+    });
   }
 
 

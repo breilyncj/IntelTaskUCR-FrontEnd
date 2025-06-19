@@ -43,7 +43,7 @@
         <i class="bi bi-puzzle-fill"></i>
       </button>
 
-      <button class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#crearTareaModal" style="background-color: #104c8c; border-color: #104c8c;">
+      <button class="btn btn-primary" [routerLink]="['/nuevaTarea']"  style="background-color: #104c8c; border-color: #104c8c;">
         Crear tarea
       </button>
     </div>
@@ -140,16 +140,6 @@
               </div>
 
               <div class="col-md-6">
-                <label for="usuarioAsignado" class="form-label">Usuario asignado</label>
-                <input type="number" class="form-control" id="usuarioAsignado" formControlName="usuarioAsignado" placeholder="Ingrese usuario asignado">
-              </div>
-
-              <div class="col-md-6">
-                <label for="fechaAsignacion" class="form-label">Fecha de asignación</label>
-                <input type="datetime-local" class="form-control" id="fechaAsignacion" formControlName="fechaAsignacion">
-              </div>
-
-              <div class="col-md-6">
                 <label for="fechaLimite" class="form-label">Fecha límite</label>
                 <input type="datetime-local" class="form-control" id="fechaLimite" formControlName="fechaLimite">
               </div>
@@ -157,11 +147,6 @@
               <div class="col-md-6">
                 <label for="fechaFinalizacion" class="form-label">Fecha de finalización</label>
                 <input type="datetime-local" class="form-control" id="fechaFinalizacion" formControlName="fechaFinalizacion">
-              </div>
-
-              <div class="col-md-6">
-                <label for="usuarioCreador" class="form-label">Usuario creador</label>
-                <input type="number" class="form-control" id="usuarioCreador" formControlName="usuarioCreador" placeholder="Ingrese usuario creador">
               </div>
 
               <div class="col-md-6">
@@ -174,12 +159,11 @@
                 <textarea class="form-control" id="descripcionTarea" formControlName="descripcionTarea" rows="4" placeholder="Descripción completa de la tarea..."></textarea>
               </div>
 
-              <div class="col-12">
-                <label for="descripcionEspera" class="form-label">Descripción de espera</label>
-                <textarea class="form-control" id="descripcionEspera" formControlName="descripcionEspera" rows="4" placeholder="Motivo por el cual la tarea puede estar en espera..."></textarea>
-              </div>
             </div>
           </div>
+
+
+
 
           <div class="modal-footer" style="background-color: #e6f0ff;">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

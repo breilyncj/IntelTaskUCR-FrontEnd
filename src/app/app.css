@@ -44,7 +44,14 @@ main {
   flex: 1;
   transition: margin-left 0.5s ease;
   margin-left: 40px;
+}
 
+/* app.component.css o styles.css */
+.main-scrollable {
+  overflow: auto;
+}
+.main-no-scroll {
+  overflow: hidden;
 }
 
 
