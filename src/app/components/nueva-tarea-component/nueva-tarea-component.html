@@ -3,11 +3,10 @@
 <!-- Encabezado -->
   <form [formGroup]="form" (ngSubmit)="crearTarea()"  class="row g-3">
     <div class="d-flex justify-content-between align-items-center mb-2">
-      <h4 class="text-primary fw-semibold mb-0" style="color: #104c8c">
+      <h4 class="fw-semibold mb-0" style="color: #104c8c">
         <i class="bi bi-clipboard-plus me-2"></i> Nueva tarea
       </h4>
-      <!-- ✅ CORRECTO: solo type="submit", nada más -->
-      <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Crear</button>
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Crear +</button>
 
     </div>
 
@@ -22,50 +21,107 @@
 
 
     <!-- Fila 1 -->
-    <div class="col-md-3">
+    <!-- Título -->
+    <div class="col-md-4">
       <label for="tituloTarea" class="form-label">Título de la tarea</label>
-      <input type="text" id="tituloTarea" formControlName="tituloTarea" class="form-control" placeholder="Ingrese título">
+      <input
+        type="text"
+        id="tituloTarea"
+        formControlName="tituloTarea"
+        class="form-control"
+        placeholder="Ingrese título"
+        [ngClass]="{ 'is-invalid': form.get('tituloTarea')?.invalid && form.get('tituloTarea')?.touched }"
+      />
+      <div class="invalid-feedback d-block" *ngIf="form.get('tituloTarea')?.touched && form.get('tituloTarea')?.invalid">
+        <small *ngIf="form.get('tituloTarea')?.errors?.['required']">El título es obligatorio.</small>
+      </div>
     </div>
 
+    <!-- Número GIS -->
     <div class="col-md-2">
       <label for="numeroGIS" class="form-label">Número GIS</label>
-      <input type="text" id="numeroGIS" formControlName="numeroGIS" class="form-control" placeholder="Número GIS">
+      <input
+        type="text"
+        id="numeroGIS"
+        formControlName="numeroGIS"
+        class="form-control"
+        placeholder="Número GIS"
+        [ngClass]="{ 'is-invalid': form.get('numeroGIS')?.invalid && form.get('numeroGIS')?.touched }"
+      />
     </div>
 
     <!-- Prioridad -->
-    <div class="col-md-2">
+    <div class="col-md-3">
       <label for="prioridad" class="form-label">Prioridad</label>
-      <select id="prioridad" class="form-select" formControlName="prioridad">
+      <select
+        id="prioridad"
+        class="form-select"
+        formControlName="prioridad"
+        [ngClass]="{ 'is-invalid': form.get('prioridad')?.invalid && form.get('prioridad')?.touched }"
+      >
+        <option value="">Seleccione una prioridad</option>
         <option *ngFor="let p of prioridades" [value]="p.cN_Id_prioridad">{{ p.cT_Nombre_prioridad }}</option>
       </select>
+      <div class="invalid-feedback d-block" *ngIf="form.get('prioridad')?.touched && form.get('prioridad')?.invalid">
+        <small *ngIf="form.get('prioridad')?.errors?.['required']">Debe seleccionar una prioridad.</small>
+      </div>
     </div>
 
     <!-- Complejidad -->
-    <div class="col-md-2">
+    <div class="col-md-3">
       <label for="complejidad" class="form-label">Complejidad</label>
-      <select id="complejidad" class="form-select" formControlName="complejidad">
+      <select
+        id="complejidad"
+        class="form-select"
+        formControlName="complejidad"
+        [ngClass]="{ 'is-invalid': form.get('complejidad')?.invalid && form.get('complejidad')?.touched }"
+      >
+        <option value="">Seleccione una complejidad</option>
         <option *ngFor="let c of complejidades" [value]="c.cN_Id_complejidad">{{ c.cT_Nombre }}</option>
       </select>
+      <div class="invalid-feedback d-block" *ngIf="form.get('complejidad')?.touched && form.get('complejidad')?.invalid">
+        <small *ngIf="form.get('complejidad')?.errors?.['required']">Debe seleccionar una complejidad.</small>
+      </div>
     </div>
 
-
-
-    <!-- Fila 2 -->
+    <!-- Fecha límite -->
     <div class="col-md-4">
       <label for="fechaLimite" class="form-label">Fecha límite</label>
-      <input type="datetime-local" id="fechaLimite" formControlName="fechaLimite" class="form-control">
+      <input
+        type="datetime-local"
+        id="fechaLimite"
+        formControlName="fechaLimite"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': form.get('fechaLimite')?.invalid && form.get('fechaLimite')?.touched }"
+      />
     </div>
 
+    <!-- Fecha finalización -->
     <div class="col-md-4">
       <label for="fechaFinalizacion" class="form-label">Fecha finalización</label>
-      <input type="datetime-local" id="fechaFinalizacion" formControlName="fechaFinalizacion" class="form-control">
+      <input
+        type="datetime-local"
+        id="fechaFinalizacion"
+        formControlName="fechaFinalizacion"
+        class="form-control"
+      />
     </div>
 
-
-    <!-- Descripción amplia -->
+    <!-- Descripción -->
     <div class="col-md-12">
       <label for="descripcionTarea" class="form-label">Descripción</label>
-      <textarea id="descripcionTarea" rows="3" formControlName="descripcionTarea" class="form-control" placeholder="Describe brevemente la tarea..."></textarea>
+      <textarea
+        id="descripcionTarea"
+        rows="3"
+        formControlName="descripcionTarea"
+        class="form-control"
+        placeholder="Describe brevemente la tarea..."
+        [ngClass]="{ 'is-invalid': form.get('descripcionTarea')?.invalid && form.get('descripcionTarea')?.touched }"
+      ></textarea>
+      <div class="invalid-feedback d-block" *ngIf="form.get('descripcionTarea')?.touched && form.get('descripcionTarea')?.invalid">
+        <small *ngIf="form.get('descripcionTarea')?.errors?.['required']">La descripción es obligatoria.</small>
+        <small *ngIf="form.get('descripcionTarea')?.errors?.['minlength']">Mínimo 5 caracteres.</small>
+      </div>
     </div>
 
     <!-- Switch: asignar tarea -->
@@ -128,24 +184,25 @@
 </div>
 
 <!-- Modal para ver detalle del usuario -->
-
 <div class="modal fade" id="detalleUsuarioModal" tabindex="-1" aria-labelledby="detalleUsuarioLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg rounded-3">
 
-      <div class="modal-header">
-        <h5 class="modal-title" id="detalleUsuarioLabel">Detalle del Usuario</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title fw-semibold" id="detalleUsuarioLabel">👤 Detalle del Usuario</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
 
-      <div class="modal-body">
-        <p><strong>Nombre:</strong> {{ usuarioDetalle?.cT_Nombre_usuario }}</p>
-        <p><strong>Correo:</strong> {{ usuarioDetalle?.cT_Correo_usuario }}</p>
-        <p><strong>Rol:</strong> {{ usuarioDetalle?.cN_Id_rol || 'No especificado' }}</p>
+      <div class="modal-body px-4 py-3">
+        <div class="mb-3">
+          <p><strong>Nombre:</strong> {{ usuarioDetalle?.cT_Nombre_usuario }}</p>
+          <p><strong>Correo:</strong> {{ usuarioDetalle?.cT_Correo_usuario }}</p>
+          <p><strong>Rol:</strong> {{ usuarioDetalle?.cN_Id_rol || 'No especificado' }}</p>
+        </div>
 
-        <h6 class="mt-3">Tareas asignadas:</h6>
+        <h6 class="fw-semibold text-primary mb-2">📋 Tareas asignadas</h6>
 
-        <table class="table table-sm table-bordered mt-2">
+        <table class="table table-bordered table-sm rounded shadow-sm overflow-hidden tabla-usuario">
           <thead class="table-light">
           <tr>
             <th>Título</th>
@@ -164,18 +221,57 @@
           </tbody>
         </table>
 
-        <div *ngIf="usuarioDetalle?.tareasUsuarioAsignado?.length === 0" class="text-muted">
+        <div *ngIf="usuarioDetalle?.tareasUsuarioAsignado?.length === 0" class="text-muted mt-2">
           No hay tareas asignadas.
         </div>
       </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      <div class="modal-footer bg-light border-top-0">
+        <button type="button" class="btn btn-outline-primary px-4" data-bs-dismiss="modal">Cerrar</button>
       </div>
 
     </div>
   </div>
 </div>
+
+
+<!-- Modal de éxito -->
+<div class="modal fade" id="modalExito" tabindex="-1" aria-labelledby="modalExitoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content modal-exito">
+      <div class="modal-header modal-exito-header text-white">
+        <h5 class="modal-title" id="modalExitoLabel">¡Éxito!</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        La tarea fue registrada correctamente.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn modal-exito-btn" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal de error -->
+<div class="modal fade" id="modalError" tabindex="-1" aria-labelledby="modalErrorLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-danger">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="modalErrorLabel">Error</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        Ocurrió un error al registrar la tarea. Inténtelo de nuevo.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 

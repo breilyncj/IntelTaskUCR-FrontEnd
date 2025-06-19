@@ -80,3 +80,109 @@
   background-color: #daf2ff;
   transition: background-color 0.25s ease;
 }
+
+
+/* ALERTA INFORMATIVA */
+.alert-info {
+  background-color: #e7f3ff;
+  border-color: #b6e0fe;
+  color: #084298;
+  font-size: 0.95rem;
+  border-radius: 6px;
+}
+
+/* MODALES */
+.modal-header.bg-success,
+.modal-header.bg-danger {
+  border-bottom: none;
+}
+
+.modal-content.border-success,
+.modal-content.border-danger {
+  border-width: 2px;
+  border-radius: 12px;
+}
+
+.modal-title {
+  font-weight: bold;
+}
+
+.modal-body {
+  font-size: 1rem;
+}
+
+/* MODAL BOTONES */
+.modal-footer .btn {
+  border-radius: 6px;
+  font-weight: 500;
+  min-width: 100px;
+}
+
+/*MODAL DE DETALLE TODO SU CSS*/
+/* Tabla dentro del modal */
+.tabla-usuario {
+  font-size: 0.9rem;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.tabla-usuario th,
+.tabla-usuario td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 10px;
+}
+
+.tabla-usuario thead {
+  background-color: #dbefff;
+  color: #003366;
+}
+
+.tabla-usuario tbody tr:nth-child(odd) {
+  background-color: #f4f9ff;
+}
+
+.tabla-usuario tbody tr:nth-child(even) {
+  background-color: #e9f2fb;
+}
+
+.tabla-usuario tbody tr:hover {
+  background-color: #cbe4ff;
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Modal */
+.modal-content {
+  border-radius: 12px;
+}
+
+.modal-header {
+  border-bottom: none;
+}
+
+.modal-footer {
+  border-top: none;
+}
+
+/* Modal de éxito personalizado */
+.modal-exito {
+  border: 2px solid #104c8c;
+  border-radius: 12px;
+}
+
+.modal-exito-header {
+  background-color: #104c8c;
+}
+
+.modal-exito-btn {
+  background-color: #104c8c;
+  color: white;
+  font-weight: 500;
+  border-radius: 6px;
+  min-width: 100px;
+  transition: background-color 0.3s ease;
+}
+
+.modal-exito-btn:hover {
+  background-color: #0d3b6b;
+}

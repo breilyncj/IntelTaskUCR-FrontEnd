@@ -2,11 +2,13 @@ import {Component, OnInit} from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {UsuarioService} from '../../services/usuario-service';
-import {complejidadTarea, prioridadTarea} from '../../models/tarea.model';
 import {RouterModule} from '@angular/router';
 import {TareasService} from '../../services/tareas-service';
 import {LoginService} from '../../services/login-service';
 import {TareasCreate} from '../../models/tarea.model';
+
+import { AfterViewInit } from '@angular/core';
+import * as bootstrap from 'bootstrap';
 
 
 @Component({
@@ -22,7 +24,6 @@ export class NuevaTareaComponent implements OnInit{
   loading = true;
   error: string | null = null;
   usuarios: any[] = [];
-  usuarioSeleccionadoId: number | null = null;
   usuarioDetalle: any | null = null;
   prioridades: any[] = [];
   complejidades: any[] = [];
@@ -36,13 +37,13 @@ export class NuevaTareaComponent implements OnInit{
   ) {
     this.form = this.fb.group({
       tareaOrigen: [null], // puede ser null
-      tituloTarea: ['', Validators.required], // puede ser null
-      descripcionTarea: ['', Validators.required], // requerido
+      tituloTarea: ['', Validators.required, Validators.minLength(3)], // puede ser null
+      descripcionTarea: ['', Validators.required, Validators.minLength(5), Validators.maxLength(50)], // requerido
       descripcionEspera: [null], // puede ser null
       complejidad: [null, Validators.required], // requerido
       estado: [null], // requerido
       prioridad: [null, Validators.required], // requerido
-      numeroGIS: ['', Validators.required], // puede ser null
+      numeroGIS: ['', Validators.required, Validators.minLength(3)], // puede ser null
       fechaAsignacion: [null], // requerido
       fechaLimite: [null, Validators.required], // requerido
       fechaFinalizacion: [null, Validators.required], // requerido
@@ -122,6 +123,27 @@ export class NuevaTareaComponent implements OnInit{
     this.getComplejidades();
   }
 
+  resetFormulario(): void {
+    this.form.reset({
+      tareaOrigen: null,
+      tituloTarea: '',
+      descripcionTarea: '',
+      descripcionEspera: null,
+      complejidad: null,
+      estado: null,
+      prioridad: null,
+      numeroGIS: '',
+      fechaAsignacion: null,
+      fechaLimite: null,
+      fechaFinalizacion: null,
+      usuarioCreador: null,
+      usuarioAsignado: null
+    });
+
+    this.asignarDeInmediato = true;
+  }
+
+
 
   crearTarea() {
     const formValue = this.form.value;
@@ -161,6 +183,9 @@ export class NuevaTareaComponent implements OnInit{
     this.tareasService.crearTarea(nuevaTarea).subscribe({
       next: (respuesta) => {
         console.log('Tarea creada correctamente', respuesta);
+        const modalExito = new bootstrap.Modal(document.getElementById('modalExito')!);
+        modalExito.show();
+        this.resetFormulario();
       },
       error: (error) => {
         console.error('Error al crear tarea', error);
