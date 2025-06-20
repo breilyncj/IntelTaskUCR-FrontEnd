@@ -1,15 +1,37 @@
-<section class="card">
-  <img class="avatar" src="profile.jpg" alt="Foto de perfil" />
-  <h1>{{ perfil?.cT_Nombre_usuario}}</h1>
-  <p class="bio">
-    Esta es una breve biografía donde puedes describirte en dos o tres frases.
-    Destaca tus habilidades, intereses o profesión.
-  </p>
-  <div class="contact">
-    <a href="mailto:correo@ejemplo.com"><span class="valor">{{ perfil?.cT_Correo_usuario}}</span></a> |
-    <a href="tel:+50688888888">{{perfil?.cF_Fecha_nacimiento}}</a> |
-    <a href="https://linkedin.com/in/usuario" target="_blank" rel="noopener"
-    >LinkedIn</a
-    >
-  </div>
+<section class="profile-container">
+  <section class="profile-card">
+    <div class="profile-main">
+      <!-- IZQUIERDA: foto, nombre, correo -->
+      <div class="left-panel">
+        <img class="avatar-large" src="perfil.png" alt="Foto de perfil" />
+        <h1 class="nombre-grande">{{ perfil?.cT_Nombre_usuario }}</h1>
+        <p class="correo">{{ perfil?.cT_Correo_usuario }}</p>
+      </div>
+
+      <!-- DERECHA: info detallada + extra -->
+      <div class="right-panel">
+        <p><strong>Rol:</strong> {{ perfil?.cN_Id_rol === 1 ? 'Administrador' : 'Usuario' }}</p>
+        <p><strong>Fecha de nacimiento:</strong> {{ perfil?.cF_Fecha_nacimiento | date:'longDate' }}</p>
+        <p><strong>Estado:</strong>
+          <span [ngClass]="perfil?.cB_Estado_usuario ? 'activo' : 'inactivo'">
+            {{ perfil?.cB_Estado_usuario ? 'Activo' : 'Inactivo' }}
+          </span>
+        </p>
+        <p><strong>Fecha de creación:</strong> {{ perfil?.cF_Fecha_creacion_usuario | date:'short' }}</p>
+        <p><strong>Última modificación:</strong> {{ perfil?.cF_Fecha_modificacion_usuario | date:'short' }}</p>
+
+        <!-- Aquí puedes agregar más cosas estáticas o dinámicas -->
+        <div class="extra-info">
+          <h3>Sobre mí</h3>
+          <p>Profesional dedicado con experiencia en proyectos tecnológicos y gestión de equipos.</p>
+          <h3>Habilidades</h3>
+          <ul>
+            <li>Gestión de proyectos</li>
+            <li>Desarrollo Angular & TypeScript</li>
+            <li>Comunicación efectiva</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
 </section>

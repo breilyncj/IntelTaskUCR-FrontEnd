@@ -1,14 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import {Component,  OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Perfil} from '../../models/perfil.model';
 import { PerfilService } from '../../services/perfil-service';
 import {LoginService} from '../../services/login-service';
-
+import { NgClass, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-perfil-component',
   standalone: true,
-  imports: [],
+  imports: [
+    NgClass,
+    DatePipe, CommonModule],
   templateUrl: './perfil-component.html',
   styleUrl: './perfil-component.css'
 })

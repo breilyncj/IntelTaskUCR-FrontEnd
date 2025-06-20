@@ -1,47 +1,107 @@
-body {
-  font-family: Arial, sans-serif;
-  background: #f2f2f2;
+.profile-container {
+  padding: 3rem;
+  background: white;
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
+  align-items: flex-start;
+  height: 100vh;      /* que tome toda la pantalla vertical */
+  overflow: hidden;   /* evitar scroll interno */
 }
 
-.card {
-  background: #ffffff;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+
+.profile-container {
+  overflow: hidden;  /* Quita scroll de este contenedor */
+  height: 100vh;     /* Altura máxima igual a la pantalla */
+}
+
+
+.profile-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem 3rem;
+  max-width: 900px;
+  width: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  color: #2a3b47;
+}
+
+.profile-main {
+  display: flex;
+  gap: 3rem;
+}
+
+/* Panel izquierdo: foto, nombre, correo */
+.left-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: 2px solid #dbe4ec;
+  padding-right: 2rem;
+}
+
+.avatar-large {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #90caff;
+  margin-bottom: 1rem;
+}
+
+.nombre-grande {
+  font-size: 2.4rem;
+  color: #104c8c;
+  margin: 0.25rem 0;
   text-align: center;
 }
 
-.avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 1rem;
+.correo {
+  font-size: 1.1rem;
+  color: #5c7a99;
+  margin-bottom: 2rem;
+  text-align: center;
+  word-break: break-word;
 }
 
-h1 {
-  margin: 0 0 0.5rem;
-}
-
-.bio {
+/* Panel derecho: info y extra */
+.right-panel {
+  flex: 2;
   font-size: 1rem;
-  color: #555555;
+}
+
+.right-panel p {
   margin-bottom: 1rem;
 }
 
-.contact a {
-  display: inline-block;
-  margin: 0 0.25rem;
-  text-decoration: none;
-  color: #1a73e8;
+.activo {
+  color: #0b7b32;
+  font-weight: bold;
 }
 
-.contact a:hover {
-  text-decoration: underline;
+.inactivo {
+  color: #b02a2a;
+  font-weight: bold;
 }
+
+.extra-info h3 {
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  color: #104c8c;
+}
+
+.extra-info ul {
+  padding-left: 1.2rem;
+  margin-top: 0;
+}
+
+.extra-info li {
+  margin-bottom: 0.4rem;
+}
+
