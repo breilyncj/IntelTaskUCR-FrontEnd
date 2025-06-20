@@ -10,6 +10,7 @@ import {LoginComponent} from './components/login-component/login-component';
 import {roleGuard} from './guards/role-guard';
 import {UnauthorizedComponent} from './components/unauthorized-component/unauthorized-component';
 import {NuevaTareaComponent} from './components/nueva-tarea-component/nueva-tarea-component';
+import { EditarTareaComponent } from './components/editar-tarea-component/editar-tarea-component';
 
 
 export const routes: Routes = [
@@ -21,8 +22,9 @@ export const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'nuevaTarea', component: NuevaTareaComponent},
   { path: 'unauthorized', component: UnauthorizedComponent },
-  { path: '', redirectTo: 'nuevaTarea', pathMatch: 'full' },
-  { path: '**', redirectTo: 'nuevaTarea' },
+  { path: 'editarTarea/:id', component: EditarTareaComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '**', redirectTo: 'home' },
 
 ];
 

@@ -134,6 +134,9 @@ table thead th {
   box-shadow: none;
 }
 
+.mi-control-opaco {
+  opacity: 0.6; /* 0 = totalmente transparente, 1 = opaco */
+}
 
 
 /* Solución global para quitar scroll horizontal inesperado */
@@ -146,5 +149,23 @@ body, html {
 .table-responsive {
   max-width: 100%;
   overflow-x: auto;
+}
+
+
+.btn-estado {
+  margin-right: 8px; /* Separación respecto al botón anterior */
+  background-color: #6f42c1; /* Un morado bonito por ejemplo */
+  border-color: #6f42c1;
+  color: white; /* Icono blanco */
+}
+
+.btn-estado i {
+  color: white; /* Asegura que el ícono sea blanco */
+}
+
+/**/
+th {
+  text-align: center;
+  vertical-align: middle;
 }
 

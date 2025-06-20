@@ -2,13 +2,13 @@
 
 <div
   class="container-fluid p-3"
-  [ngStyle]="{
-    'margin-left.px': sidenavExpandido ? 40 : 0,
-    'width': sidenavExpandido ? 'calc(100% - 40px)' : '100%'
+  [ngClass]="{
+    'sidenav-expanded': sidenavExpandido,
+    'sidenav-collapsed': !sidenavExpandido
   }"
   style="background: white; border-radius: 8px; max-width: 1400px; margin-right: auto; margin-left: auto; overflow-x: hidden;">
 
-  <!-- Header -->
+<!-- Header -->
   <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2" style="border-color: #99c4ff !important;">
     <div class="d-flex align-items-center gap-2" style="color: #104c8c; font-weight: 600; font-size: 1.25rem;">
       <i class="bi bi-kanban-fill"></i>
@@ -39,9 +39,18 @@
     </div>
 
     <div>
-      <button class="btn btn-outline-primary me-3" title="Rompecabezas" style="color: #104c8c;">
-        <i class="bi bi-puzzle-fill"></i>
+
+      <button
+        class="btn btn-outline-primary me-3"
+        style="background-color: #104c8c; border-color: #104c8c; color: white;"
+        (click)="toggleSeleccion()">
+        {{ seleccionHabilitada ? 'Cancelar selección' : 'Seleccionar' }}
       </button>
+
+      <button class="btn btn-outline-primary me-3" title="Rompecabezas" style="background-color: #104c8c; border-color: #104c8c; color: white;">
+        <i class="bi bi-puzzle-fill"> Crear subtarea</i>
+      </button>
+
 
       <button class="btn btn-primary" [routerLink]="['/nuevaTarea']"  style="background-color: #104c8c; border-color: #104c8c;">
         Crear tarea
@@ -57,127 +66,147 @@
       <div>{{ error }}</div>
     }
     @else {
+
+      <div class="d-flex align-items-center justify-content-start mb-2 mi-control-opaco">
+        <label for="selectCantidad" class="me-2 mb-0 fw-semibold">Mostrar</label>
+        <select id="selectCantidad"
+                class="form-select form-select-sm w-auto"
+                [(ngModel)]="tamanoPagina">
+          <option [value]="5">5</option>
+          <option [value]="10">10</option>
+          <option [value]="25">25</option>
+          <option [value]="50">50</option>
+        </select>
+        <span class="ms-2">resultados</span>
+      </div>
+
+
       <div class="table-responsive">
         <table class="table">
           <thead>
           <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Título</th>
-            <th scope="col">Asignado a</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Prioridad</th>
-            <th scope="col">Complejidad</th>
-            <th scope="col">Fecha Límite</th>
-            <th scope="col">Número GIS</th>
-            <th scope="col">Opciones</th>
+            <th *ngIf="seleccionHabilitada">✔</th>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Asignado a</th>
+            <th>Estado</th>
+            <th>Prioridad</th>
+            <th>Complejidad</th>
+            <th>Número GIS</th>
+            <th>Opciones</th>
           </tr>
           </thead>
-          <tbody class="table-group-divider">
-            @for (item of tareas; track item.id) {
-              <tr>
-                <th scope="row">{{ item.id }}</th>
-                <td>{{ item.titulo }}</td>
-                <td>{{ item.usuarioAsignado }}</td>
-                <td>{{ item.estado }}</td>
-                <td>{{ item.prioridad }}</td>
-                <td>{{ item.complejidad }}</td>
-                <td>{{ item.fechaLimite }}</td>
-                <td>{{ item.numeroGIS }}</td>
-                <td class="botones">
-                  <a class="btn btn-success btn-sm custom-btn me-2" [routerLink]="['/tareas', item.id]">
-                    <i class="bi bi-pencil"></i>
-                  </a>
-                  <a class="btn btn-info btn-sm custom-btn" [routerLink]="['/tareas', item.id]">
-                    <i class="bi bi-arrow-right-short"></i>
-                  </a>
-                </td>
-              </tr>
-            }
+          <tbody>
+          <tr *ngFor="let item of tareasPaginadas">
+            <td *ngIf="seleccionHabilitada" class="text-center">
+              <input
+                type="radio"
+                name="seleccionTarea"
+                [value]="item.id"
+                [checked]="tareaSeleccionadaId === item.id"
+                (change)="seleccionarTarea(item.id)"
+              />
+            </td>
+            <td>{{ item.id }}</td>
+            <td>{{ item.titulo }}</td>
+            <td>{{ item.usuarioAsignado }}</td>
+            <td>{{ item.estado }}</td>
+            <td>{{ item.prioridad }}</td>
+            <td>{{ item.complejidad }}</td>
+            <td>{{ item.numeroGIS }}</td>
+            <td class="botones">
+              <a
+                *ngIf="puedeEditarTarea(item)"
+                class="btn btn-success btn-sm custom-btn me-2"
+                [routerLink]="['/editarTarea', item.id]">
+                <i class="bi bi-pencil"></i>
+              </a>
+
+              <a
+                class="btn btn-info btn-sm custom-btn btn-estado"
+                data-bs-toggle="modal"
+                data-bs-target="#cambiarEstadoModal"
+                (click)="cargarTarea(item.id)"
+              >
+                <i class="bi bi-arrow-repeat"></i>
+              </a>
+
+
+
+              <a class="btn btn-info btn-sm custom-btn" [routerLink]="['/tareas', item.id]">
+                <i class="bi bi-arrow-right-short"></i>
+              </a>
+            </td>
+          </tr>
           </tbody>
         </table>
       </div>
     }
   </div>
+</div>
 
 
+<!-- Modal -->
+<div class="modal fade" id="cambiarEstadoModal" tabindex="-1" aria-labelledby="cambiarEstadoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
 
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="cambiarEstadoLabel">Cambiar estado</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
 
-  <!-- Modal Crear Tarea -->
-  <div class="modal fade" id="crearTareaModal" tabindex="-1" aria-labelledby="crearTareaLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content shadow-lg rounded-3 border-0">
-        <form [formGroup]="form" (ngSubmit)="crearTarea()">
-          <div class="modal-header" style="background-color: #104c8c; color: white;">
-            <h5 class="modal-title" id="crearTareaLabel">Crear Nueva Tarea</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-          </div>
+      <form [formGroup]="form" (ngSubmit)="modificarEstado()" >
+        <div class="modal-body text-center">
 
-          <div class="modal-body overflow-auto" style="max-height: 70vh;">
-            <div class="row g-3">
-              <div class="col-md-8">
-                <label for="tituloTarea" class="form-label">Título de la tarea</label>
-                <input type="text" class="form-control" id="tituloTarea" formControlName="tituloTarea" placeholder="Ingrese título">
-              </div>
+          <!-- Select de estados -->
+          <label for="estadoSelect" class="form-label fw-semibold">Nuevo estado:</label>
+          <select
+            id="estadoSelect"
+            class="form-select"
+            formControlName="estadoSeleccionado"
+            (change)="onEstadoChange()"
+          >
+            <option value="" disabled>Seleccione un estado</option>
+            <option *ngFor="let e of estados" [value]="e.id">
+              {{ e.estado }}
+            </option>
+          </select>
 
-              <div class="col-md-4">
-                <label for="numeroGIS" class="form-label">Número GIS</label>
-                <input type="text" class="form-control" id="numeroGIS" formControlName="numeroGIS" placeholder="Ingrese número GIS">
-              </div>
-
-              <div class="col-md-4">
-                <label for="prioridad" class="form-label">Prioridad</label>
-                <input type="number" class="form-control" id="prioridad" formControlName="prioridad" placeholder="Ingrese prioridad">
-              </div>
-
-              <div class="col-md-4">
-                <label for="complejidad" class="form-label">Complejidad</label>
-                <input type="number" class="form-control" id="complejidad" formControlName="complejidad" placeholder="Ingrese complejidad">
-              </div>
-
-              <div class="col-md-4">
-                <label for="estado" class="form-label">Estado</label>
-                <input type="number" class="form-control" id="estado" formControlName="estado" placeholder="Ingrese estado">
-              </div>
-
-              <div class="col-md-6">
-                <label for="fechaLimite" class="form-label">Fecha límite</label>
-                <input type="datetime-local" class="form-control" id="fechaLimite" formControlName="fechaLimite">
-              </div>
-
-              <div class="col-md-6">
-                <label for="fechaFinalizacion" class="form-label">Fecha de finalización</label>
-                <input type="datetime-local" class="form-control" id="fechaFinalizacion" formControlName="fechaFinalizacion">
-              </div>
-
-              <div class="col-md-6">
-                <label for="tareaOrigen" class="form-label">Tarea de origen</label>
-                <input type="number" class="form-control" id="tareaOrigen" formControlName="tareaOrigen" placeholder="Ingrese ID o nombre de tarea de origen">
-              </div>
-
-              <div class="col-12">
-                <label for="descripcionTarea" class="form-label">Descripción de la tarea</label>
-                <textarea class="form-control" id="descripcionTarea" formControlName="descripcionTarea" rows="4" placeholder="Descripción completa de la tarea..."></textarea>
-              </div>
-
+          <!-- Justificación (solo si mostrarDescripcion es true) -->
+          <div class="col-md-12 mt-3" *ngIf="mostrarDescripcion">
+            <label for="descripcionEsperaTarea" class="form-label">Justificación:</label>
+            <textarea
+              id="descripcionEspera"
+              rows="3"
+              formControlName="descripcionEspera"
+              class="form-control"
+              placeholder="Justifique porque la tarea se encuentra en espera..."
+              [ngClass]="{
+                'is-invalid': form.get('descripcionEspera')?.invalid && form.get('descripcionEspera')?.touched
+              }"
+            ></textarea>
+            <div
+              class="invalid-feedback d-block"
+              *ngIf="form.get('descripcionEspera')?.touched && form.get('descripcionEspera')?.invalid"
+            >
+              <small *ngIf="form.get('descripcionEspera')?.errors?.['required']">La descripción es obligatoria.</small>
+              <small *ngIf="form.get('descripcionEspera')?.errors?.['minlength']">Mínimo 5 caracteres.</small>
             </div>
           </div>
 
+        </div>
 
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-success btn-sm" [disabled]="form.invalid">Guardar</button>
 
+        </div>
+      </form>
 
-          <div class="modal-footer" style="background-color: #e6f0ff;">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn" style="background-color: #104c8c; color: white;" [disabled]="form.invalid">Crear tarea</button>
-          </div>
-        </form>
-      </div>
     </div>
   </div>
-
-
-
-
-
 </div>
+
 
 

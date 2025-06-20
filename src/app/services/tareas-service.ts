@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {map, Observable} from 'rxjs';
-import {Tarea, TareasCreate} from '../models/tarea.model';
+import {complejidadTarea, Tarea, TareasCreate, estadoTarea} from '../models/tarea.model';
 import {TareaConRelacionesVista} from '../models/tarea-con-relaciones-vista.model';
 
 @Injectable({
@@ -11,6 +11,7 @@ import {TareaConRelacionesVista} from '../models/tarea-con-relaciones-vista.mode
 export class TareasService {
   private baseUrl = environment.apiUrl; // Ya configurado en environment.ts
   private apiUrl = `${this.baseUrl}/Tareas`; // Se construye a partir del baseUrl
+  private apiUrlDos = `${this.baseUrl}`;
 
   constructor(private http: HttpClient) { }
 
@@ -22,6 +23,7 @@ export class TareasService {
           titulo: t.cT_Titulo_tarea,
           usuarioAsignado: t.cN_Usuario_asignado,
           usuarioCreador: t.usuarioCreador?.cT_Nombre_usuario ?? 'Sin usuario creador',
+          usuarioCreadorId: t.usuarioCreador?.cN_Id_usuario ?? null,
           estado: t.cN_Id_estado,
           prioridad: t.cN_Id_prioridad,
           complejidad: t.cN_Id_complejidad,
@@ -32,6 +34,29 @@ export class TareasService {
     );
   }
 
+  getById(id: number): Observable<TareasCreate> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`).pipe(
+      map(t => ({
+        cN_Id_tarea: t.cN_Id_tarea,
+        cN_Tarea_origen: t.cN_Tarea_origen,
+        cT_Titulo_tarea: t.cT_Titulo_tarea,
+        cT_Descripcion_tarea: t.cT_Descripcion_tarea,
+        cT_Descripcion_espera: t.cT_Descripcion_espera,
+        cN_Id_complejidad: t.cN_Id_complejidad,
+        cN_Id_estado: t.cN_Id_estado,
+        cN_Id_prioridad: t.cN_Id_prioridad,
+        cN_Numero_GIS: t.cN_Numero_GIS,
+        cF_Fecha_asignacion: t.cF_Fecha_asignacion,
+        cF_Fecha_limite: t.cF_Fecha_limite,
+        cF_Fecha_finalizacion: t.cF_Fecha_finalizacion,
+        cN_Usuario_creador: t.cN_Usuario_creador,
+        cN_Usuario_asignado: t.cN_Usuario_asignado
+      }))
+    );
+  }
+
+
+
   getAllWithRelaciones(): Observable<Tarea[]> {
     return this.http.get<any[]>(`${this.apiUrl}/withRelaciones`).pipe(
       map((rawTareas) =>
@@ -40,6 +65,7 @@ export class TareasService {
           titulo: t.cT_Titulo_tarea,
           usuarioAsignado: t.usuarioAsignado?.cT_Nombre_usuario ?? 'Sin usuario asignado',
           usuarioCreador: t.usuarioCreador?.cT_Nombre_usuario ?? 'Sin usuario creador',
+          usuarioCreadorId: t.usuarioCreador?.cN_Id_usuario ?? null,
           estado: t.estados?.cT_Estado ?? 'Sin estado',
           prioridad: t.prioridades?.cT_Nombre_prioridad ?? 'Sin prioridad',
           complejidad: t.complejidades?.cT_Nombre ?? 'Sin complejidad',
@@ -58,6 +84,7 @@ export class TareasService {
           titulo: t.cT_Titulo_tarea,
           usuarioAsignado: t.usuarioAsignado?.cT_Nombre_usuario ?? 'Sin usuario asignado',
           usuarioCreador: t.usuarioCreador?.cT_Nombre_usuario ?? 'Sin usuario creador',
+          usuarioCreadorId: t.usuarioCreador?.cN_Id_usuario ?? null,
           estado: t.estados?.cT_Estado ?? 'Sin estado',
           prioridad: t.prioridades?.cT_Nombre_prioridad ?? 'Sin prioridad',
           complejidad: t.complejidades?.cT_Nombre ?? 'Sin complejidad',
@@ -94,6 +121,9 @@ export class TareasService {
     return this.http.post<TareasCreate>(this.apiUrl, tarea);
   }
 
+  editarTarea(id: number, tarea: TareasCreate): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${id}`, tarea);
+  }
 
   getAllByIdUsuarioAsignado(id: number): Observable<Tarea[]> {
     return this.http.get<any[]>(`${this.apiUrl}/ByUsuarioAsignado/${id}`).pipe(
@@ -103,6 +133,7 @@ export class TareasService {
           titulo: t.cT_Titulo_tarea,
           usuarioAsignado: t.usuarioAsignado?.cT_Nombre_usuario ?? 'Sin usuario asignado',
           usuarioCreador: t.usuarioCreador?.cT_Nombre_usuario ?? 'Sin usuario creador',
+          usuarioCreadorId: t.usuarioCreador?.cN_Id_usuario ?? null,
           estado: t.estados?.cT_Estado ?? 'Sin estado',
           prioridad: t.prioridades?.cT_Nombre_prioridad ?? 'Sin prioridad',
           complejidad: t.complejidades?.cT_Nombre ?? 'Sin complejidad',

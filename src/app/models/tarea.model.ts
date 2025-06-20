@@ -3,6 +3,7 @@ export interface Tarea {
   titulo: string;
   usuarioAsignado: number;
   usuarioCreador: number;
+  usuarioCreadorId: number | null;
   estado: number;
   prioridad: number;
   complejidad: number;
@@ -18,6 +19,11 @@ export interface prioridadTarea {
 export interface complejidadTarea {
   cN_Id_complejidad: number;
   cT_Nombre:string;
+}
+
+export interface estadoTarea {
+  cN_Id_estado: number;
+  cT_Estado: string;
 }
 
 export interface TareasCreate {

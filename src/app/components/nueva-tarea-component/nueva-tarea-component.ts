@@ -21,10 +21,10 @@ import * as bootstrap from 'bootstrap';
 export class NuevaTareaComponent implements OnInit{
   form: FormGroup;
   asignarDeInmediato: boolean = true;
+  usuarioDetalle: any | null = null;
   loading = true;
   error: string | null = null;
   usuarios: any[] = [];
-  usuarioDetalle: any | null = null;
   prioridades: any[] = [];
   complejidades: any[] = [];
 

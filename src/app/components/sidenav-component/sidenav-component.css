@@ -11,7 +11,7 @@ body{
 }
 
 .sidenav{
-  width: 270px;
+  width: 220px;
   position: fixed;
   top:64px;
   left: 0;
@@ -23,7 +23,7 @@ body{
 }
 
 .sidenav.collapsed {
-  width: 85px;
+  width: 72px;
 }
 
 .sidenav-header{
@@ -245,6 +245,15 @@ body{
   border-color: #003060;
   box-shadow: 0 0 10px rgba(0, 48, 96, 0.3);
 }
+
+.nav-text {
+  display: inline-block;
+  width: 140px; /* o el máximo estimado como 130-150px */
+  white-space: nowrap;
+  overflow: hidden;
+  transition: opacity 0.4s ease;
+}
+
 
 
 /* Animación suave */

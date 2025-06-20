@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {TareasService} from '../../services/tareas-service';
 import {Tarea, TareasCreate} from '../../models/tarea.model';
 import { SidenavService } from '../../services/sidenav-service';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormsModule  } from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {UsuarioService} from '../../services/usuario-service';
 import {LoginService} from '../../services/login-service';
@@ -14,7 +14,7 @@ import {EstadoService} from '../../services/estado-service';
 @Component({
   selector: 'app-tareas-component',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, FormsModule ],
   templateUrl: './tareas-component.html',
   styleUrl: './tareas-component.css'
 })
@@ -24,13 +24,19 @@ export class TareasComponent implements OnInit{
   error: string | null = null;
   sidenavExpandido: boolean = true;
   estados: any[] = [];
-  estadoActual: string = '';
-  form: FormGroup;
-  activeButton: string = 'todas';  // valor inicial, por ejemplo
 
-  usuarios: UsuarioAsignado[] = [];
-  asignarDeInmediato: boolean = false;
-  usuarioSeleccionado: UsuarioAsignado | null = null;
+  usuarioActualId: number | null = null;
+  tareaActual: TareasCreate | null = null;
+
+
+  form: FormGroup;
+  activeButton: string = 'todas';
+
+  seleccionHabilitada: boolean = false;
+  tareaSeleccionadaId: number | null = null;
+  tamanoPagina: number = 10;
+
+  mostrarDescripcion = false;
 
 
   constructor(
@@ -42,36 +48,18 @@ export class TareasComponent implements OnInit{
     private loginService: LoginService
   ) {
     this.form = this.fb.group({
-      tareaOrigen: [null], // puede ser null
-      tituloTarea: [null], // puede ser null
-      descripcionTarea: ['', Validators.required], // requerido
-      descripcionEspera: [null], // puede ser null
-      complejidad: [null, Validators.required], // requerido
-      estado: [null, Validators.required], // requerido
-      prioridad: [null, Validators.required], // requerido
-      numeroGIS: [null], // puede ser null
-      fechaAsignacion: [null, Validators.required], // requerido
-      fechaLimite: [null, Validators.required], // requerido
-      fechaFinalizacion: [null, Validators.required], // requerido
-      usuarioCreador: [null, Validators.required], // requerido
-      usuarioAsignado: [null] // puede ser null
+
+      descripcionEspera: [''], // puede ser null
+
+      estadoSeleccionado: [null, Validators.required],
+
     });
   }
 
 
-  private getAll() : void{
-    this.tareasService.getAll().subscribe({
-      next: (data) => {
-        this.tareas = data;
-        this.loading = false;
-      },
-      error: (error) => {
-        this.error = 'Error al cargar las tareas'
-        this.loading = false;
-      }
-    });
+  get tareasPaginadas() {
+    return this.tareas.slice(0, this.tamanoPagina);
   }
-
 
 
   public getAllWithRelaciones(): void {
@@ -87,38 +75,6 @@ export class TareasComponent implements OnInit{
     });
   }
 
-  public mapFormToTareaCreate(formValue: any): TareasCreate {
-    return {
-      cN_Tarea_origen: formValue.tareaOrigen,
-      cT_Titulo_tarea: formValue.tituloTarea,
-      cT_Descripcion_tarea: formValue.descripcionTarea,
-      cT_Descripcion_espera: formValue.descripcionEspera,
-      cN_Id_complejidad: formValue.complejidad,
-      cN_Id_estado: formValue.estado,
-      cN_Id_prioridad: formValue.prioridad,
-      cN_Numero_GIS: formValue.numeroGIS,
-      cF_Fecha_asignacion: formValue.fechaAsignacion,
-      cF_Fecha_limite: formValue.fechaLimite,
-      cF_Fecha_finalizacion: formValue.fechaFinalizacion,
-      cN_Usuario_creador: formValue.usuarioCreador,
-      cN_Usuario_asignado: formValue.usuarioAsignado,
-    };
-  }
-
-
-  public crearTarea(){
-    console.log(this.form.value);
-    this.tareasService.crearTarea(this.mapFormToTareaCreate(this.form.value)).subscribe({
-      next: (nuevaTarea) => {
-        console.log('Tarea creada:', nuevaTarea);
-        console.log('Id asignado:', nuevaTarea.cN_Id_tarea);
-      },
-      error: (err) => {
-        console.error('Error al crear tarea:', err);
-      },
-
-    });
-  }
 
   private escucharSidenav() {
     this.sidenavService.collapsed$.subscribe((estado) => {
@@ -130,7 +86,6 @@ export class TareasComponent implements OnInit{
       }, 200);
     });
   }
-
 
   public getAllAsignadasAMi() {
     this.loading = true;
@@ -172,34 +127,110 @@ export class TareasComponent implements OnInit{
     this.activeButton = buttonName;
   }
 
+  toggleSeleccion(): void {
+    this.seleccionHabilitada = !this.seleccionHabilitada;
+    if (!this.seleccionHabilitada) {
+      this.tareaSeleccionadaId = null;
+    }
+  }
 
-  obtenerUsuarios(): void {
-    this.usuarioService.getAll().subscribe({
-      next: (res) => this.usuarios = res,
-      error: (err) => console.error('Error cargando usuarios', err)
+  seleccionarTarea(id: number): void {
+    this.tareaSeleccionadaId = id;
+  }
+
+  puedeEditarTarea(item: Tarea): boolean {
+    const usuario = this.loginService.getUser();
+    const puedeEditar = item.usuarioCreadorId === usuario?.cN_Id_usuario;
+    return puedeEditar;
+  }
+
+  getEstados(): void {
+    this.estadosService.getAll().subscribe({
+      next: (data) => {
+        this.estados = data;
+        console.log('Complejidades recibidas:', this.estados);
+      },
+      error: (error) => {
+        console.error('Error al cargar los estados:', error);
+      }
     });
   }
 
-  seleccionarUsuario(usuario: UsuarioAsignado): void {
-    this.usuarioSeleccionado = usuario;
 
-    // Puedes actualizar el formulario directamente si lo necesitas
-    this.form.patchValue({
-      usuarioAsignado: usuario.id_usuario
-    });
+  onEstadoChange() {
+    const idEstado = this.form.get('estadoSeleccionado')?.value;
+    const estadoSeleccionadoObj = this.estados.find(e => e.id === +idEstado);
 
-    // También puedes cambiar el estado automáticamente si deseas:
-    this.form.patchValue({
-      estado: 2 // "Asignado"
+    console.log('Estado seleccionado:', idEstado, estadoSeleccionadoObj);
+    // Mostrar textarea si id es 4 o si el nombre es "En espera" (case insensitive)
+    this.mostrarDescripcion =
+      idEstado === 4 ||
+      (estadoSeleccionadoObj?.estado.toLowerCase() === 'en espera');
+
+    const descripcionControl = this.form.get('descripcionEspera');
+
+    if (this.mostrarDescripcion) {
+      descripcionControl?.setValidators([Validators.required, Validators.minLength(5)]);
+    } else {
+      descripcionControl?.clearValidators();
+      descripcionControl?.setValue('');
+    }
+
+    descripcionControl?.updateValueAndValidity();
+  }
+
+  //Para editarEstados
+  cargarTarea(id: number): void {
+    this.tareasService.getById(id).subscribe({
+      next: (tarea) => {
+        if (!tarea) {
+          console.error('Tarea no encontrada');
+          return;
+        }
+
+        this.tareaActual = tarea;
+
+        this.form.patchValue({
+          estadoSeleccionado: tarea.cN_Id_estado,
+          descripcionEspera: tarea.cT_Descripcion_espera
+        });
+      },
+      error: (err) => {
+        console.error('Error al cargar la tarea', err);
+      }
     });
   }
+
+  modificarEstado(): void {
+    if (!this.tareaActual) {
+      console.error('No hay tarea cargada');
+      return;
+    }
+
+    if (this.form.invalid) {
+      console.warn('Formulario inválido');
+      return;
+    }
+
+    const nuevaTarea: TareasCreate = {
+      ...this.tareaActual, // mantiene todo lo demás igual
+      cN_Id_estado: Number(this.form.get('estadoSeleccionado')?.value),
+      cT_Descripcion_espera: this.form.get('descripcionEspera')?.value
+    };
+
+    this.tareasService.editarTarea(nuevaTarea.cN_Id_tarea!, nuevaTarea).subscribe({
+      next: () => console.log('Tarea modificada con éxito'),
+      error: (err) => console.error('Error al modificar la tarea', err)
+    });
+  }
+
 
 
   ngOnInit(): void {
-
+    this.usuarioActualId = this.loginService.getUser()?.cN_Id_usuario ?? null;
     this.getAllWithRelaciones();
+    this.getEstados();
     this.escucharSidenav();
   }
-
 
 }
