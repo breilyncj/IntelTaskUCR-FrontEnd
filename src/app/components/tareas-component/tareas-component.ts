@@ -4,12 +4,13 @@ import {TareasService} from '../../services/tareas-service';
 import {Tarea, TareasCreate} from '../../models/tarea.model';
 import { SidenavService } from '../../services/sidenav-service';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormsModule  } from '@angular/forms';
-import {RouterModule} from '@angular/router';
+import {RouterModule, Router} from '@angular/router';
 import {UsuarioService} from '../../services/usuario-service';
 import {LoginService} from '../../services/login-service';
 import {UsuarioAsignado} from '../../models/usuario.model';
 import {EstadoService} from '../../services/estado-service';
-
+import Swal from 'sweetalert2';
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-tareas-component',
@@ -56,10 +57,6 @@ export class TareasComponent implements OnInit{
     });
   }
 
-
-  get tareasPaginadas() {
-    return this.tareas.slice(0, this.tamanoPagina);
-  }
 
 
   public getAllWithRelaciones(): void {
@@ -213,17 +210,30 @@ export class TareasComponent implements OnInit{
     }
 
     const nuevaTarea: TareasCreate = {
-      ...this.tareaActual, // mantiene todo lo demás igual
+      ...this.tareaActual, // mantiene campos anteriores
       cN_Id_estado: Number(this.form.get('estadoSeleccionado')?.value),
-      cT_Descripcion_espera: this.form.get('descripcionEspera')?.value
+      cT_Descripcion_espera: this.form.get('descripcionEspera')?.value ?? ''
     };
 
     this.tareasService.editarTarea(nuevaTarea.cN_Id_tarea!, nuevaTarea).subscribe({
-      next: () => console.log('Tarea modificada con éxito'),
-      error: (err) => console.error('Error al modificar la tarea', err)
-    });
-  }
+      next: () => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Estado actualizado',
+          text: 'La tarea fue modificada correctamente.',
+          timer: 2000,
+          showConfirmButton: false
+        }).then(() => {
 
+          this.getAllWithRelaciones();
+
+          this.form.reset();
+          this.mostrarDescripcion = false;
+          this.tareaActual = null;
+          this.tareaSeleccionadaId = 0;
+        });
+      }});
+  }
 
 
   ngOnInit(): void {

@@ -1,7 +1,7 @@
 <div class="container mt-4 p-4 rounded bg-white">
 
   <!-- Encabezado -->
-  <form [formGroup]="form"  class="row g-3">
+  <form [formGroup]="form"  (ngSubmit)="guardarCambios()" class="row g-3">
     <div class="d-flex justify-content-between align-items-center mb-2">
       <h4 class="fw-semibold mb-0" style="color: #104c8c">
         <i class="bi bi-clipboard-plus me-2"></i> Modificar tarea
@@ -36,18 +36,7 @@
       </div>
     </div>
 
-    <!-- Número GIS -->
-    <div class="col-md-2">
-      <label for="numeroGIS" class="form-label">Número GIS</label>
-      <input
-        type="text"
-        id="numeroGIS"
-        formControlName="numeroGIS"
-        class="form-control"
-        placeholder="Número GIS"
-        [ngClass]="{ 'is-invalid': form.get('numeroGIS')?.invalid && form.get('numeroGIS')?.touched }"
-      />
-    </div>
+
 
     <!-- Prioridad -->
     <div class="col-md-3">

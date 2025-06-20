@@ -1,15 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {CommonModule} from '@angular/common';
-import {RouterModule} from '@angular/router';
+import {RouterModule, ActivatedRoute, Router } from '@angular/router';
 import {UsuarioService} from '../../services/usuario-service';
 import {TareasService} from '../../services/tareas-service';
 import {LoginService} from '../../services/login-service';
+import {TareasCreate} from '../../models/tarea.model';
+import Swal from 'sweetalert2';
+import { ChangeDetectorRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-editar-tarea-component',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, FormsModule ],
   templateUrl: './editar-tarea-component.html',
   styleUrl: './editar-tarea-component.css'
 })
@@ -23,22 +27,26 @@ export class EditarTareaComponent implements OnInit{
   complejidades: any[] = [];
   asignarDeInmediato: boolean = true;
   usuarioDetalle: any | null = null;
+  tareaActual!: TareasCreate;
 
   constructor(
     private fb: FormBuilder,
     private UsuarioService: UsuarioService,
     private tareasService: TareasService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.form = this.fb.group({
       tareaOrigen: [null], // puede ser null
-      tituloTarea: ['', Validators.required, Validators.minLength(3)], // puede ser null
-      descripcionTarea: ['', Validators.required, Validators.minLength(5), Validators.maxLength(50)], // requerido
+      tituloTarea: ['', [Validators.required, Validators.minLength(3)]], // puede ser null
+      descripcionTarea: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]], // requerido
       descripcionEspera: [null], // puede ser null
       complejidad: [null, Validators.required], // requerido
       estado: [null], // requerido
       prioridad: [null, Validators.required], // requerido
-      numeroGIS: ['', Validators.required, Validators.minLength(3)], // puede ser null
+      numeroGIS: [null], // puede ser null
       fechaAsignacion: [null], // requerido
       fechaLimite: [null, Validators.required], // requerido
       fechaFinalizacion: [null, Validators.required], // requerido
@@ -108,10 +116,96 @@ export class EditarTareaComponent implements OnInit{
     });
   }
 
+  resetFormulario(): void {
+    this.form.reset({
+      tareaOrigen: null,
+      tituloTarea: '',
+      descripcionTarea: '',
+      descripcionEspera: null,
+      complejidad: null,
+      estado: null,
+      prioridad: null,
+      numeroGIS: '',
+      fechaAsignacion: null,
+      fechaLimite: null,
+      fechaFinalizacion: null,
+      usuarioCreador: null,
+      usuarioAsignado: null
+    });
+
+    this.asignarDeInmediato = true;
+  }
+
+  formatearFecha(fecha: Date): string {
+    return new Date(fecha).toISOString().slice(0, 16); // 'yyyy-MM-ddTHH:mm'
+  }
+
+  cargarTarea(id: number): void {
+    this.tareasService.getById(id).subscribe({
+      next: (tarea) => {
+        this.tareaActual = tarea;
+
+        this.form.patchValue({
+          tituloTarea: tarea.cT_Titulo_tarea,
+          descripcionTarea: tarea.cT_Descripcion_tarea,
+          prioridad: tarea.cN_Id_prioridad,
+          complejidad: tarea.cN_Id_complejidad,
+          numeroGIS: tarea.cN_Numero_GIS,
+          fechaLimite: this.formatearFecha(tarea.cF_Fecha_limite),
+          fechaFinalizacion: this.formatearFecha(tarea.cF_Fecha_finalizacion),
+          usuarioAsignado: tarea.cN_Usuario_asignado
+        });
+
+        this.cdr.detectChanges();
+        console.log('✔️ Datos precargados al formulario');
+      },
+      error: (err) => {
+        console.error('Error al cargar tarea:', err);
+      }
+    });
+  }
+
+
+  guardarCambios(): void {
+    if (this.form.invalid || !this.tareaActual) {
+      console.warn('Formulario inválido o tarea no cargada');
+      return;
+    }
+
+    const tareaEditada: TareasCreate = {
+      ...this.tareaActual, // mantiene campos no editables
+      cT_Titulo_tarea: this.form.get('tituloTarea')?.value,
+      cT_Descripcion_tarea: this.form.get('descripcionTarea')?.value,
+      cN_Id_prioridad: this.form.get('prioridad')?.value,
+      cN_Id_complejidad: this.form.get('complejidad')?.value,
+      cF_Fecha_limite: new Date(this.form.get('fechaLimite')?.value),
+      cF_Fecha_finalizacion: new Date(this.form.get('fechaFinalizacion')?.value),
+      cN_Usuario_asignado: this.form.get('usuarioAsignado')?.value
+    };
+
+    this.tareasService.editarTarea(tareaEditada.cN_Id_tarea!, tareaEditada).subscribe({
+      next: () => {
+        Swal.fire('Éxito', 'Tarea modificada correctamente', 'success');
+        setTimeout(() => {
+          this.router.navigate(['/tareas']);
+        }, 1500);
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error al guardar cambios', err);
+        Swal.fire('Error', 'No se pudo modificar la tarea', 'error');
+      }
+    });
+  }
+
   ngOnInit(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    if (id) {
+      this.cargarTarea(id);
+    }
+
     this.getUsuarios();
     this.getPrioridades();
     this.getComplejidades();
   }
-
 }
