@@ -26,6 +26,7 @@ export class TareasComponent implements OnInit{
   sidenavExpandido: boolean = true;
   estados: any[] = [];
 
+  tareasFiltradas: Tarea[] = [];
   usuarioActualId: number | null = null;
   tareaActual: TareasCreate | null = null;
 
@@ -38,6 +39,16 @@ export class TareasComponent implements OnInit{
 
   mostrarDescripcion = false;
 
+  filtroEstado: string = '';
+  // filtroUsuario: string = '';
+  // filtroPrioridad: string = '';
+  // filtroComplejidad: string = '';
+  // filtroFechaLimite: string = '';
+  // filtroFechaFinalizacion: string = '';
+  // filtroTitulo: string = '';
+  // filtroDescripcion: string = '';
+  // filtroNumeroGIS: string = '';
+  // filtroUsuarioAsignado: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -56,12 +67,25 @@ export class TareasComponent implements OnInit{
     });
   }
 
-
+  getTareasByEstado(estadoSeleccionado: string){
+    console.log(estadoSeleccionado);
+    if (!estadoSeleccionado) {
+      console.log("No hay estado seleccionado. Mostrando todas las tareas.");
+      this.tareasFiltradas = [...this.tareas]; // copia de todas
+      return;
+    }
+    console.log("Filtrando tareas por estado...");
+    this.tareasFiltradas = this.tareas.filter(tarea =>
+      tarea.estado?.trim().toLowerCase() === estadoSeleccionado.trim().toLowerCase()
+    );
+  }
 
   public getAllWithRelaciones(): void {
     this.tareasService.getAllWithRelaciones().subscribe({
       next: (data) => {
+        // console.log('Tareas con relaciones:', data);
         this.tareas = data;
+        this.tareasFiltradas = [...data];
         this.loading = false;
       },
       error: (error) => {
@@ -91,6 +115,7 @@ export class TareasComponent implements OnInit{
       next: (data) => {
         console.log('Tareas asignadas a mí:', data);
         this.tareas = data;
+        this.tareasFiltradas = [...data];
         this.loading = false;
       },
       error: (error) => {
@@ -109,6 +134,7 @@ export class TareasComponent implements OnInit{
       next: (data) => {
         console.log('Tareas asignadas Por mí:', data);
         this.tareas = data;
+        this.tareasFiltradas = [...data];
         this.loading = false;
       },
       error: (error) => {

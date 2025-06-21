@@ -17,7 +17,7 @@
     <div class="btn-group" role="group" aria-label="Filtros tareas">
       <button
         type="button"  class="btn btn-outline-primary" [ngClass]="{'active text-white': activeButton === 'todas', 'text-black': activeButton !== 'todas'}"
-        (click)="setActiveButton('todas'); getAllWithRelaciones();">Todas</button>
+        (click)="setActiveButton('todas'); ">Todas</button>
 
       <button type="button" class="btn btn-outline-primary" [ngClass]="{'active text-white': activeButton === 'asignadasPorMi', 'text-black': activeButton !== 'asignadasPorMi'}"
               (click)="setActiveButton('asignadasPorMi'); getAllAsignadasPorMi();">Asignadas por mí</button>
@@ -37,9 +37,10 @@
           <i class="bi bi-filter-circle"></i>
         </label>
 
-        <select class="form-select border border-primary" id="filtroEstado" >
+        <select class="form-select border border-primary" id="filtroEstado"
+        [(ngModel)]="filtroEstado" (ngModelChange)="getTareasByEstado(filtroEstado)" >
           <option value="">Todos los estados</option>
-          <option *ngFor="let estado of estados" [value]="estado.id">{{ estado.estado }}</option>
+          <option *ngFor="let estado of estados" [value]="estado.estado">{{ estado.estado }}</option>
         </select>
       </div>
 
@@ -96,7 +97,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let item of tareas">
+          <tr *ngFor="let item of tareasFiltradas">
             <td *ngIf="seleccionHabilitada" class="text-center">
               <input
                 type="radio"

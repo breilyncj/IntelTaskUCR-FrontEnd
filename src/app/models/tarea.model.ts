@@ -4,7 +4,7 @@ export interface Tarea {
   usuarioAsignado: number;
   usuarioCreador: number;
   usuarioCreadorId: number | null;
-  estado: number;
+  estado: string;
   prioridad: number;
   complejidad: number;
   fechaLimite: Date;
