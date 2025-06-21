@@ -1,10 +1,10 @@
 <div class="container mt-4 p-4 rounded bg-white">
 
 <!-- Encabezado -->
-  <form [formGroup]="form" (ngSubmit)="crearTarea()"  class="row g-3">
+  <form [formGroup]="form" (ngSubmit)="asignacion()"  class="row g-3">
     <div class="d-flex justify-content-between align-items-center mb-2">
       <h4 class="fw-semibold mb-0" style="color: #104c8c">
-        <i class="bi bi-clipboard-plus me-2"></i> Nueva tarea
+        <i class="bi bi-clipboard-plus me-2"></i> {{getTitulo()}}
       </h4>
       <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Crear +</button>
 
@@ -126,7 +126,7 @@
                [checked]="asignarDeInmediato"
                (change)="onAsignarSwitchChange($event)" name="asignarSwitch">
         <label class="form-check-label" for="asignarSwitch">
-          ¿Cambiar el usuario asignado?
+          ¿Asignar tarea de inmediato?
         </label>
       </div>
     </div>

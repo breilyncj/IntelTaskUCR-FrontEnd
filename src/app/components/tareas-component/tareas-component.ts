@@ -35,7 +35,6 @@ export class TareasComponent implements OnInit{
 
   seleccionHabilitada: boolean = false;
   tareaSeleccionadaId: number | null = null;
-  tamanoPagina: number = 10;
 
   mostrarDescripcion = false;
 
@@ -235,6 +234,9 @@ export class TareasComponent implements OnInit{
       }});
   }
 
+  filtrarEstado(){
+
+  }
 
   ngOnInit(): void {
     this.usuarioActualId = this.loginService.getUser()?.cN_Id_usuario ?? null;

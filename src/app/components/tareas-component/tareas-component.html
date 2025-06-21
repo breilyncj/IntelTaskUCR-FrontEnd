@@ -31,11 +31,25 @@
   <!-- Segunda fila: búsqueda, icono y botón crear -->
   <div class="d-flex align-items-center justify-content-between mb-4">
 
-    <div class="input-group" style="max-width: 400px;">
-      <span class="input-group-text bg-white border border-primary" style="color: #104c8c;">
-        <i class="bi bi-search"></i>
-      </span>
-      <input type="text" class="form-control border border-primary" placeholder="Buscar tareas..."/>
+    <div class="d-flex flex-wrap gap-2 align-items-center mb-3" style="max-width: 100%;">
+      <div class="input-group" style="width: 220px;">
+        <label class="input-group-text bg-white border border-primary" for="filtroEstado" style="color: #104c8c;">
+          <i class="bi bi-filter-circle"></i>
+        </label>
+
+        <select class="form-select border border-primary" id="filtroEstado" >
+          <option value="">Todos los estados</option>
+          <option *ngFor="let estado of estados" [value]="estado.id">{{ estado.estado }}</option>
+        </select>
+      </div>
+
+
+
+      <!-- Botón opcional para limpiar o actualizar -->
+      <button class="btn btn-outline-secondary" type="button" title="Refrescar">
+        <i class="bi bi-arrow-clockwise"></i>
+      </button>
+
     </div>
 
     <div>
@@ -48,7 +62,7 @@
       </button>
 
       <button class="btn btn-outline-primary me-3" title="Rompecabezas" style="background-color: #104c8c; border-color: #104c8c; color: white;">
-        <i class="bi bi-puzzle-fill"> Crear subtarea</i>
+        <i class="bi bi-puzzle-fill"  [routerLink]="['/nuevaTarea', tareaSeleccionadaId]"  > Crear subtarea</i>
       </button>
 
 
@@ -115,9 +129,6 @@
               >
                 <i class="bi bi-arrow-repeat"></i>
               </a>
-
-
-
               <a class="btn btn-info btn-sm custom-btn" [routerLink]="['/tareas', item.id]">
                 <i class="bi bi-arrow-right-short"></i>
               </a>

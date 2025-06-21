@@ -2,13 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {UsuarioService} from '../../services/usuario-service';
-import {RouterModule} from '@angular/router';
+import {RouterModule, Router, ActivatedRoute} from '@angular/router';
 import {TareasService} from '../../services/tareas-service';
 import {LoginService} from '../../services/login-service';
 import {TareasCreate} from '../../models/tarea.model';
 
 import { AfterViewInit } from '@angular/core';
 import * as bootstrap from 'bootstrap';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -27,13 +28,17 @@ export class NuevaTareaComponent implements OnInit{
   usuarios: any[] = [];
   prioridades: any[] = [];
   complejidades: any[] = [];
+  tareaPadreId: number | null = null;
+  titulo: string = '';
 
 
   constructor(
     private fb: FormBuilder,
     private UsuarioService: UsuarioService,
     private tareasService: TareasService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.form = this.fb.group({
       tareaOrigen: [null], // puede ser null
@@ -121,6 +126,10 @@ export class NuevaTareaComponent implements OnInit{
     this.getUsuarios();
     this.getPrioridades();
     this.getComplejidades();
+    const id = this.route.snapshot.paramMap.get('id');
+    this.tareaPadreId = id ? +id : null;
+
+    this.getTitulo();
   }
 
   resetFormulario(): void {
@@ -143,7 +152,69 @@ export class NuevaTareaComponent implements OnInit{
     this.asignarDeInmediato = true;
   }
 
+  asignacion(){
+    if(this.tareaPadreId !== null){
+      this.crearTareaHija();
+    } else{
+      this.crearTarea()
+    }
+  }
 
+  getTitulo(): string {
+    const id = this.route.snapshot.paramMap.get('id');
+    return this.titulo = id ? 'Crear subtarea' : 'Nueva tarea';
+  }
+
+
+  crearTareaHija(): void {
+    const idTareaOrigen = Number(this.route.snapshot.params['id']);
+    const formValue = this.form.value;
+
+    const fechaAsignacion = new Date();
+
+    const fechaLimiteDate = new Date(formValue.fechaLimite);
+    const fechaFinalizacionDate = new Date(formValue.fechaFinalizacion);
+
+    const usuario = this.loginService.getUser();
+    const usuarioCreadorId = usuario?.id || usuario?.cN_Id_usuario;  // según la propiedad que tenga el id
+
+    const usuarioAsignado = formValue.usuarioAsignado !== undefined && formValue.usuarioAsignado !== null
+      ? Number(formValue.usuarioAsignado)
+      : null;
+
+    const estadoId = usuarioAsignado ? 2 : 1;
+
+    const subTarea: TareasCreate = {
+      cN_Tarea_origen: idTareaOrigen,
+      cT_Titulo_tarea: formValue.tituloTarea,
+      cT_Descripcion_tarea: formValue.descripcionTarea,
+      cT_Descripcion_espera: null,
+      cN_Id_complejidad: Number(formValue.complejidad),
+      cN_Id_estado: estadoId,
+      cN_Id_prioridad:  Number(formValue.prioridad),
+      cN_Numero_GIS: formValue.numeroGIS,
+      cF_Fecha_asignacion: fechaAsignacion,
+      cF_Fecha_limite: fechaLimiteDate,
+      cF_Fecha_finalizacion: fechaFinalizacionDate,
+      cN_Usuario_creador: usuarioCreadorId,
+      cN_Usuario_asignado: usuarioAsignado
+    };
+
+    this.tareasService.crearTarea(subTarea).subscribe({
+      next: (respuesta) => {
+        console.log('Tarea hija creada correctamente', respuesta);
+        Swal.fire('Éxito', 'Subtarea creada correctamente', 'success');
+        setTimeout(() => {
+          this.router.navigate(['/tareas']);
+        }, 1500);
+        this.resetFormulario();
+      },
+      error: (error) => {
+        console.error('Error al crear tarea hija', error);
+      }
+    });
+
+  }
 
   crearTarea() {
     const formValue = this.form.value;
@@ -169,15 +240,15 @@ export class NuevaTareaComponent implements OnInit{
       cT_Titulo_tarea: formValue.tituloTarea,
       cT_Descripcion_tarea: formValue.descripcionTarea,
       cT_Descripcion_espera: null,
-      cN_Id_complejidad: Number(formValue.complejidad),  // select del combo
+      cN_Id_complejidad: Number(formValue.complejidad),
       cN_Id_estado: estadoId,
-      cN_Id_prioridad:  Number(formValue.prioridad), // select del combo
+      cN_Id_prioridad:  Number(formValue.prioridad),
       cN_Numero_GIS: formValue.numeroGIS,
       cF_Fecha_asignacion: fechaAsignacion,
       cF_Fecha_limite: fechaLimiteDate,
       cF_Fecha_finalizacion: fechaFinalizacionDate,
       cN_Usuario_creador: usuarioCreadorId,
-      cN_Usuario_asignado: usuarioAsignado // puede ser null
+      cN_Usuario_asignado: usuarioAsignado
     };
 
     this.tareasService.crearTarea(nuevaTarea).subscribe({

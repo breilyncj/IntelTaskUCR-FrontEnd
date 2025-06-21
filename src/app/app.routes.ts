@@ -23,6 +23,7 @@ export const routes: Routes = [
   {path: 'nuevaTarea', component: NuevaTareaComponent},
   { path: 'unauthorized', component: UnauthorizedComponent },
   { path: 'editarTarea/:id', component: EditarTareaComponent },
+  {path: 'nuevaTarea/:id', component: NuevaTareaComponent},
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', redirectTo: 'home' },
 
