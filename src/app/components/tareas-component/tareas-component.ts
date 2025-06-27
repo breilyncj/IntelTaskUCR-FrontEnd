@@ -25,6 +25,7 @@ export class TareasComponent implements OnInit{
   error: string | null = null;
   sidenavExpandido: boolean = true;
   estados: any[] = [];
+  tareasOriginal: Tarea[] = [];
 
   tareasFiltradas: Tarea[] = [];
   usuarioActualId: number | null = null;
@@ -83,7 +84,7 @@ export class TareasComponent implements OnInit{
   public getAllWithRelaciones(): void {
     this.tareasService.getAllWithRelaciones().subscribe({
       next: (data) => {
-        // console.log('Tareas con relaciones:', data);
+        this.tareasOriginal = data;
         this.tareas = data;
         this.tareasFiltradas = [...data];
         this.loading = false;
@@ -113,7 +114,6 @@ export class TareasComponent implements OnInit{
 
     this.tareasService.getAllByIdUsuarioAsignado(idUsuario).subscribe({
       next: (data) => {
-        console.log('Tareas asignadas a mí:', data);
         this.tareas = data;
         this.tareasFiltradas = [...data];
         this.loading = false;
@@ -132,7 +132,6 @@ export class TareasComponent implements OnInit{
 
     this.tareasService.getAllByIdUsuarioCreador(idUsuario).subscribe({
       next: (data) => {
-        console.log('Tareas asignadas Por mí:', data);
         this.tareas = data;
         this.tareasFiltradas = [...data];
         this.loading = false;
@@ -147,6 +146,13 @@ export class TareasComponent implements OnInit{
 
   setActiveButton(buttonName: string) {
     this.activeButton = buttonName;
+
+    if (buttonName === 'todas') {
+      this.filtroEstado = '';
+      this.tareas = [...this.tareasOriginal];      // Recupera todas
+      this.tareasFiltradas = [...this.tareasOriginal];  // Muestra todas
+      console.log("Botón TODAS: recargo desde copia local");
+    }
   }
 
   toggleSeleccion(): void {
@@ -260,15 +266,10 @@ export class TareasComponent implements OnInit{
       }});
   }
 
-  filtrarEstado(){
-
-  }
-
   ngOnInit(): void {
     this.usuarioActualId = this.loginService.getUser()?.cN_Id_usuario ?? null;
     this.getAllWithRelaciones();
     this.getEstados();
     this.escucharSidenav();
   }
-
 }

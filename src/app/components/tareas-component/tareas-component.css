@@ -3,7 +3,6 @@
 }
 table thead th {
   white-space: nowrap;     /* Evita que el texto se divida en varias líneas */
-  min-width: 100px;        /* Ancho mínimo para que no se achique demasiado */
   padding: 8px 12px;       /* Para dar espacio interno */
   text-align: left;        /* O centrado si prefieres */
   color: #104c8c;
@@ -13,12 +12,19 @@ table thead th {
 /*probando*/
 .tablaTareas table {
   width: 100%;
+
   border-collapse: collapse;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   box-shadow: 0 0 8px rgb(0 0 0 / 0.1);
   border-radius: 8px;
   overflow: hidden; /* para que el borde redondeado aplique */
 }
+
+th.col-titulo, td.col-titulo {
+  white-space: normal; /* 👈 Permite saltos de línea */
+  word-break: break-word; /* 👈 Corta palabras largas si es necesario */
+}
+
 
 .tablaTareas thead {
   background-color: #99c4ff;
@@ -169,3 +175,55 @@ th {
   vertical-align: middle;
 }
 
+table {
+  table-layout: fixed;
+}
+
+th, td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* 👈 Se mantiene en una línea por defecto */
+}
+
+/*Select de fitro*/
+.form-select {
+  background-color: #ffffff;
+  border: 2px solid #104c8c;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.95rem;
+  color: #104c8c;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-select:focus {
+  outline: none;
+  border-color: #7aa7f7;
+  box-shadow: 0 0 0 2px rgba(16, 76, 140, 0.2);
+}
+
+.form-select option {
+  color: #104c8c;
+}
+
+.input-group-text {
+  background: #104c8c;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px 0 0 6px;
+}
+
+
+input[type="radio"] {
+  opacity: 1 !important;
+  display: inline-block !important;
+}
+
+th.col-seleccion,
+td.col-seleccion {
+  width: 5%;
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: initial;
+  text-align: center;
+}
