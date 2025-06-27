@@ -105,7 +105,7 @@
                 name="seleccionTarea"
                 [value]="item.id"
                 [checked]="tareaSeleccionadaId === item.id"
-                (change)="seleccionarTarea(item.id)"
+                (click)="intentarSeleccionarTarea(item)"
               />
 
             </td>

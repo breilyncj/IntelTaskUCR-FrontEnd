@@ -6,6 +6,7 @@ import {RouterModule, Router, ActivatedRoute} from '@angular/router';
 import {TareasService} from '../../services/tareas-service';
 import {LoginService} from '../../services/login-service';
 import {TareasCreate} from '../../models/tarea.model';
+import {TareaConRelacionesVista} from '../../models/tarea-con-relaciones-vista.model';
 
 import { AfterViewInit } from '@angular/core';
 import * as bootstrap from 'bootstrap';
@@ -30,6 +31,7 @@ export class NuevaTareaComponent implements OnInit{
   complejidades: any[] = [];
   tareaPadreId: number | null = null;
   titulo: string = '';
+  tareaPadre: TareaConRelacionesVista | null = null;
 
 
   constructor(
@@ -121,17 +123,6 @@ export class NuevaTareaComponent implements OnInit{
       }
     });
   }
-
-  ngOnInit(): void {
-    this.getUsuarios();
-    this.getPrioridades();
-    this.getComplejidades();
-    const id = this.route.snapshot.paramMap.get('id');
-    this.tareaPadreId = id ? +id : null;
-
-    this.getTitulo();
-  }
-
   resetFormulario(): void {
     this.form.reset({
       tareaOrigen: null,
@@ -262,6 +253,51 @@ export class NuevaTareaComponent implements OnInit{
         console.error('Error al crear tarea', error);
       }
     });
+  }
+
+  get minFecha(): string {
+    const now = new Date();
+    return now.toISOString().slice(0, 16);
+  }
+
+  ngOnInit(): void {
+    this.getUsuarios();
+    this.getPrioridades();
+    this.getComplejidades();
+    const id = this.route.snapshot.paramMap.get('id');
+    this.tareaPadreId = id ? +id : null;
+    this.getTareasPadre();
+    this.getTitulo();
+  }
+
+
+  get maxFechaPadre(): string | undefined {
+    if (this.tareaPadre) {
+      return new Date(this.tareaPadre.fechaLimite).toISOString().slice(0, 16);
+    }
+    return undefined; // NO null
+  }
+
+  get maxFechaFinalPadre(): string | null {
+    if (this.tareaPadre) {
+      return new Date(this.tareaPadre.fechaFinalizacion).toISOString().slice(0, 16);
+    }
+    return null; // Si NO hay tarea padre, no hay límite superior
+  }
+
+  getTareasPadre(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if(id !== null){
+      this.tareasService.getTareaWithRelacionesById(Number(id)).subscribe({
+        next: (data) => {
+          console.log('Papá:', data);
+          this.tareaPadre = data;
+        },
+        error: (err) => {
+          console.error('Error al cargar tarea padre:', err);
+        }
+      })
+    }
   }
 
 

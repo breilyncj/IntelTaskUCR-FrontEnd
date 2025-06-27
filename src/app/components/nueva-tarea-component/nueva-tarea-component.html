@@ -8,8 +8,41 @@
       </h4>
       <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Crear +</button>
 
+    </div><hr class="titulo-linea" />
+
+    <div *ngIf="tareaPadre" class="alert alert-info shadow-sm p-4 mb-4 rounded-3 tarea-padre-box">
+      <h5 class="fw-bold mb-3">
+        <i class="bi bi-diagram-3-fill me-2 text-primary"></i>
+        Tarea origen: {{ tareaPadre.titulo }}
+      </h5>
+      <div class="row">
+        <div class="col-md-6 mb-2">
+          <strong>Descripción:</strong> {{ tareaPadre.descripcion }}
+        </div>
+        <div class="col-md-6 mb-2">
+          <strong>Estado:</strong> {{ tareaPadre.estado }}
+        </div>
+        <div class="col-md-6 mb-2">
+          <strong>Prioridad:</strong> {{ tareaPadre.prioridad }}
+        </div>
+        <div class="col-md-6 mb-2">
+          <strong>Complejidad:</strong> {{ tareaPadre.complejidad }}
+        </div>
+        <div class="col-md-6 mb-2">
+          <strong>Creada por:</strong> {{ tareaPadre.usuarioCreador }}
+        </div>
+        <div class="col-md-6 mb-2">
+          <strong>Fecha límite:</strong> {{ tareaPadre.fechaLimite }}
+        </div>
+        <div class="col-md-6 mb-2">
+          <strong>Fecha finalización:</strong> {{ tareaPadre.fechaFinalizacion }}
+        </div>
+        <div class="col-md-6 mb-2">
+          <strong>Código de la tarea:</strong> #{{ tareaPadre.id }}
+        </div>
+      </div>
     </div>
-      <hr class="titulo-linea" />
+
 
     <!-- Mensaje -->
     <div class="alert alert-info py-2" role="alert">
@@ -87,8 +120,10 @@
         id="fechaLimite"
         formControlName="fechaLimite"
         class="form-control"
-        [ngClass]="{ 'is-invalid': form.get('fechaLimite')?.invalid && form.get('fechaLimite')?.touched }"
+        [min]="minFecha"
+        [attr.max]="tareaPadre ? maxFechaPadre : null"
       />
+
     </div>
 
     <!-- Fecha finalización -->
@@ -99,6 +134,9 @@
         id="fechaFinalizacion"
         formControlName="fechaFinalizacion"
         class="form-control"
+        [min]="minFecha"
+        [attr.max]="tareaPadre ? maxFechaFinalPadre : null"
+        [ngClass]="{ 'is-invalid': form.get('fechaFinalizacion')?.invalid && form.get('fechaFinalizacion')?.touched }"
       />
     </div>
 
@@ -163,6 +201,7 @@
               <td>{{item.cantidadTareasAsignadas}}</td>
               <td>
                 <button
+                  type="button"
                   class="btn btn-sm btn-outline-primary"
                   (click)="abrirDetalleUsuario(item)"
                   data-bs-toggle="modal"

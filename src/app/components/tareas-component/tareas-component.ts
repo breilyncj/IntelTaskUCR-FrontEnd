@@ -10,6 +10,8 @@ import {LoginService} from '../../services/login-service';
 import {UsuarioAsignado} from '../../models/usuario.model';
 import {EstadoService} from '../../services/estado-service';
 import Swal from 'sweetalert2';
+import {TareaConRelacionesVista} from '../../models/tarea-con-relaciones-vista.model';
+
 declare var bootstrap: any;
 
 @Component({
@@ -26,7 +28,7 @@ export class TareasComponent implements OnInit{
   sidenavExpandido: boolean = true;
   estados: any[] = [];
   tareasOriginal: Tarea[] = [];
-
+  tareaConRelacionesVista: TareaConRelacionesVista[] = [];
   tareasFiltradas: Tarea[] = [];
   usuarioActualId: number | null = null;
   tareaActual: TareasCreate | null = null;
@@ -163,7 +165,28 @@ export class TareasComponent implements OnInit{
   }
 
   seleccionarTarea(id: number): void {
+
     this.tareaSeleccionadaId = id;
+
+  }
+
+  intentarSeleccionarTarea(item: Tarea) {
+    if (this.estaVencida(item.fechaLimite)) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Tarea vencida',
+        text: 'No puede crear una subtarea porque la tarea padre ya venció.'
+      });
+      return;
+    }
+
+    // Si no está vencida, permitir selección
+    this.tareaSeleccionadaId = item.id;
+  }
+
+  estaVencida(fecha: string | Date | undefined): boolean {
+    if (!fecha) return false;
+    return new Date(fecha) < new Date();
   }
 
   puedeEditarTarea(item: Tarea): boolean {
