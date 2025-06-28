@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {map, Observable} from 'rxjs';
 import {complejidadTarea, Tarea, TareasCreate, estadoTarea} from '../models/tarea.model';
 import {TareaConRelacionesVista} from '../models/tarea-con-relaciones-vista.model';
+import {Adjunto} from '../models/adjunto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -112,10 +113,18 @@ export class TareasService {
         fechaLimite: t.cF_Fecha_limite,
         fechaFinalizacion: t.cF_Fecha_finalizacion,
         numeroGIS: t.cN_Numero_GIS ?? '',
-        tareaOrigen: t.cN_Tarea_origen
+        tareaOrigen: t.cN_Tarea_origen,
+        adjuntos: t.adjuntos?.map((a: Adjunto) => ({
+          cN_Id_adjuntos: a.cN_Id_adjuntos,
+          cT_Archivo_ruta: a.cT_Archivo_ruta,
+          cN_Usuario_accion: a.cN_Usuario_accion,
+          cF_Fecha_registro: a.cF_Fecha_registro,
+          nombreArchivo: a.nombreArchivo
+        })) ?? []
       }))
     );
   }
+
 
   updateEstadoTarea(id: number, nuevoEstado: string) {
     return this.http.put(`${this.baseUrl}/Tareas/${id}/estado`, nuevoEstado, {

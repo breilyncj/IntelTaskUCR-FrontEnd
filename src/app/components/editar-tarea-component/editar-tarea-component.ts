@@ -116,26 +116,6 @@ export class EditarTareaComponent implements OnInit{
     });
   }
 
-  resetFormulario(): void {
-    this.form.reset({
-      tareaOrigen: null,
-      tituloTarea: '',
-      descripcionTarea: '',
-      descripcionEspera: null,
-      complejidad: null,
-      estado: null,
-      prioridad: null,
-      numeroGIS: '',
-      fechaAsignacion: null,
-      fechaLimite: null,
-      fechaFinalizacion: null,
-      usuarioCreador: null,
-      usuarioAsignado: null
-    });
-
-    this.asignarDeInmediato = true;
-  }
-
   formatearFecha(fecha: Date): string {
     return new Date(fecha).toISOString().slice(0, 16); // 'yyyy-MM-ddTHH:mm'
   }

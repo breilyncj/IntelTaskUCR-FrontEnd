@@ -5,6 +5,7 @@ import { TareasService} from '../../services/tareas-service';
 import {TareaConRelacionesVista} from '../../models/tarea-con-relaciones-vista.model';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {environment} from '../../../environments/environment';
 import{ SidenavService } from '../../services/sidenav-service';
 import{ EstadoService} from '../../services/estado-service';
 import Swal from 'sweetalert2';
@@ -19,19 +20,20 @@ import Swal from 'sweetalert2';
 })
 export class DetalleTareaComponent implements OnInit {
   tareaConRelaciones: TareaConRelacionesVista | null = null;
-  sidenavExpandido: boolean = true;
   loading = true;
   error = '';
   form: FormGroup;
   tareaPadre: TareaConRelacionesVista | null = null;
+  archivoSeleccionado: File | null = null;
+
+  mostrarAdjuntos = false;
+
 
   constructor(
     private tareasService: TareasService,
     private router: Router,
     private route: ActivatedRoute,
-    private fb: FormBuilder,
-    private sidenavService: SidenavService,
-    private estadoService: EstadoService
+    private fb: FormBuilder
   ) {
   this.form = this.fb.group({
     tareaOrigen: [null], // puede ser null
@@ -56,7 +58,7 @@ export class DetalleTareaComponent implements OnInit {
         this.tareaConRelaciones = data;
         this.loading = false;
 
-        // Verifica si tiene tarea padre:
+        console.log('Tarea con adjuntos:', this.tareaConRelaciones);
         if (this.tareaConRelaciones?.tareaOrigen) {
           this.getTareaPadre(this.tareaConRelaciones.tareaOrigen);
         } else {
@@ -69,19 +71,6 @@ export class DetalleTareaComponent implements OnInit {
       }
     });
   }
-
-  getTareaPadre(id: number): void {
-    this.tareasService.getTareaWithRelacionesById(id).subscribe({
-      next: (data) => {
-        console.log('Papá:', data);
-        this.tareaPadre = data;
-      },
-      error: (err) => {
-        console.error('Error al cargar tarea padre:', err);
-      }
-    });
-  }
-
 
   irEditarTarea(): void {
     const id = Number(this.route.snapshot.params['id']);
@@ -118,6 +107,26 @@ export class DetalleTareaComponent implements OnInit {
     });
   }
 
+  getTareaPadre(id: number): void {
+    this.tareasService.getTareaWithRelacionesById(id).subscribe({
+      next: (data) => {
+        console.log('Papá:', data);
+        this.tareaPadre = data;
+      },
+      error: (err) => {
+        console.error('Error al cargar tarea padre:', err);
+      }
+    });
+  }
+
+  descargarAdjunto(adjunto: any): void {
+    if (adjunto.url) {
+      const urlCompleta = environment.apiUrl + adjunto.url;
+      window.open(urlCompleta, '_blank');
+    } else {
+      console.warn('Adjunto no tiene ruta disponible');
+    }
+  }
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.params['id']);

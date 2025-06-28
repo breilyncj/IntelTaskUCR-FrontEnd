@@ -7,6 +7,7 @@ import {TareasService} from '../../services/tareas-service';
 import {LoginService} from '../../services/login-service';
 import {TareasCreate} from '../../models/tarea.model';
 import {TareaConRelacionesVista} from '../../models/tarea-con-relaciones-vista.model';
+import {AdjuntosService} from '../../services/adjuntos-service';
 
 import { AfterViewInit } from '@angular/core';
 import * as bootstrap from 'bootstrap';
@@ -32,6 +33,7 @@ export class NuevaTareaComponent implements OnInit{
   tareaPadreId: number | null = null;
   titulo: string = '';
   tareaPadre: TareaConRelacionesVista | null = null;
+  archivoSeleccionado: File | null = null
 
 
   constructor(
@@ -40,22 +42,23 @@ export class NuevaTareaComponent implements OnInit{
     private tareasService: TareasService,
     private loginService: LoginService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private adjuntosService: AdjuntosService,
   ) {
     this.form = this.fb.group({
-      tareaOrigen: [null], // puede ser null
-      tituloTarea: ['', Validators.required, Validators.minLength(3)], // puede ser null
-      descripcionTarea: ['', Validators.required, Validators.minLength(5), Validators.maxLength(50)], // requerido
-      descripcionEspera: [null], // puede ser null
-      complejidad: [null, Validators.required], // requerido
-      estado: [null], // requerido
-      prioridad: [null, Validators.required], // requerido
-      numeroGIS: ['', Validators.required, Validators.minLength(3)], // puede ser null
-      fechaAsignacion: [null], // requerido
-      fechaLimite: [null, Validators.required], // requerido
-      fechaFinalizacion: [null, Validators.required], // requerido
-      usuarioCreador: [null], // requerido
-      usuarioAsignado: [null], // puede ser null
+      tareaOrigen: [null],
+      tituloTarea: ['', [Validators.required, Validators.minLength(3)]],
+      descripcionTarea: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
+      descripcionEspera: [null],
+      complejidad: [null, Validators.required],
+      estado: [null],
+      prioridad: [null, Validators.required],
+      numeroGIS: ['', [Validators.required, Validators.minLength(3)]],
+      fechaAsignacion: [null],
+      fechaLimite: [null, Validators.required],
+      fechaFinalizacion: [null, Validators.required],
+      usuarioCreador: [null],
+      usuarioAsignado: [null],
     });
   }
 
@@ -147,7 +150,7 @@ export class NuevaTareaComponent implements OnInit{
     if(this.tareaPadreId !== null){
       this.crearTareaHija();
     } else{
-      this.crearTarea()
+      this.crearTarea();
     }
   }
 
@@ -207,54 +210,6 @@ export class NuevaTareaComponent implements OnInit{
 
   }
 
-  crearTarea() {
-    const formValue = this.form.value;
-
-    // Fecha actual (fecha + hora)
-    const fechaAsignacion = new Date();
-
-    const fechaLimiteDate = new Date(formValue.fechaLimite);
-    const fechaFinalizacionDate = new Date(formValue.fechaFinalizacion);
-
-    const usuario = this.loginService.getUser();
-    const usuarioCreadorId = usuario?.id || usuario?.cN_Id_usuario;  // según la propiedad que tenga el id
-
-
-    const usuarioAsignado = formValue.usuarioAsignado !== undefined && formValue.usuarioAsignado !== null
-      ? Number(formValue.usuarioAsignado)
-      : null;
-
-    const estadoId = usuarioAsignado ? 2 : 1;
-
-    const nuevaTarea: TareasCreate = {
-      cN_Tarea_origen: null,
-      cT_Titulo_tarea: formValue.tituloTarea,
-      cT_Descripcion_tarea: formValue.descripcionTarea,
-      cT_Descripcion_espera: null,
-      cN_Id_complejidad: Number(formValue.complejidad),
-      cN_Id_estado: estadoId,
-      cN_Id_prioridad:  Number(formValue.prioridad),
-      cN_Numero_GIS: formValue.numeroGIS,
-      cF_Fecha_asignacion: fechaAsignacion,
-      cF_Fecha_limite: fechaLimiteDate,
-      cF_Fecha_finalizacion: fechaFinalizacionDate,
-      cN_Usuario_creador: usuarioCreadorId,
-      cN_Usuario_asignado: usuarioAsignado
-    };
-
-    this.tareasService.crearTarea(nuevaTarea).subscribe({
-      next: (respuesta) => {
-        console.log('Tarea creada correctamente', respuesta);
-        const modalExito = new bootstrap.Modal(document.getElementById('modalExito')!);
-        modalExito.show();
-        this.resetFormulario();
-      },
-      error: (error) => {
-        console.error('Error al crear tarea', error);
-      }
-    });
-  }
-
   get minFecha(): string {
     const now = new Date();
     return now.toISOString().slice(0, 16);
@@ -300,7 +255,62 @@ export class NuevaTareaComponent implements OnInit{
     }
   }
 
+  onFileSelected(event: any) {
+    this.archivoSeleccionado = event.target.files[0];
+  }
+
+  crearTarea() {
+    if (this.form.invalid) return;
+
+    const formValue = this.form.value;
+
+    const nuevaTarea: TareasCreate = this.armarTareaDesdeFormulario(formValue);
+
+    this.tareasService.crearTarea(nuevaTarea).subscribe({
+      next: (tareaCreada) => {
+        const idTarea = tareaCreada.cN_Id_tarea + "";
+        const usuario = this.loginService.getUser();
+        const idUsuario = usuario?.id || usuario?.cN_Id_usuario || '';
 
 
+        Swal.fire('✅ Tarea creada', '', 'success');
+        this.resetFormulario();
+      },
+      error: (err) => {
+        console.error('Error creando tarea', err);
+      }
+    });
+  }
+
+// Función para armar el objeto TareasCreate a partir del formulario
+  armarTareaDesdeFormulario(formValue: any): TareasCreate {
+    const fechaAsignacion = new Date();
+    const fechaLimiteDate = new Date(formValue.fechaLimite);
+    const fechaFinalizacionDate = new Date(formValue.fechaFinalizacion);
+    const usuario = this.loginService.getUser();
+    const usuarioCreadorId = usuario?.id || usuario?.cN_Id_usuario;
+
+    const usuarioAsignado = formValue.usuarioAsignado !== undefined && formValue.usuarioAsignado !== null
+      ? Number(formValue.usuarioAsignado)
+      : null;
+
+    const estadoId = usuarioAsignado ? 2 : 1;
+
+    return {
+      cN_Tarea_origen: null,
+      cT_Titulo_tarea: formValue.tituloTarea,
+      cT_Descripcion_tarea: formValue.descripcionTarea,
+      cT_Descripcion_espera: null,
+      cN_Id_complejidad: Number(formValue.complejidad),
+      cN_Id_estado: estadoId,
+      cN_Id_prioridad: Number(formValue.prioridad),
+      cN_Numero_GIS: formValue.numeroGIS,
+      cF_Fecha_asignacion: fechaAsignacion,
+      cF_Fecha_limite: fechaLimiteDate,
+      cF_Fecha_finalizacion: fechaFinalizacionDate,
+      cN_Usuario_creador: usuarioCreadorId,
+      cN_Usuario_asignado: usuarioAsignado
+    };
+  }
 
 }
