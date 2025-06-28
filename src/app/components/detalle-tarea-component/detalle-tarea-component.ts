@@ -6,6 +6,9 @@ import {TareaConRelacionesVista} from '../../models/tarea-con-relaciones-vista.m
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import{ SidenavService } from '../../services/sidenav-service';
+import{ EstadoService} from '../../services/estado-service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-detalle-tarea-component',
@@ -20,13 +23,15 @@ export class DetalleTareaComponent implements OnInit {
   loading = true;
   error = '';
   form: FormGroup;
+  tareaPadre: TareaConRelacionesVista | null = null;
 
   constructor(
     private tareasService: TareasService,
     private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private sidenavService: SidenavService
+    private sidenavService: SidenavService,
+    private estadoService: EstadoService
   ) {
   this.form = this.fb.group({
     tareaOrigen: [null], // puede ser null
@@ -50,6 +55,13 @@ export class DetalleTareaComponent implements OnInit {
       next: (data) => {
         this.tareaConRelaciones = data;
         this.loading = false;
+
+        // Verifica si tiene tarea padre:
+        if (this.tareaConRelaciones?.tareaOrigen) {
+          this.getTareaPadre(this.tareaConRelaciones.tareaOrigen);
+        } else {
+          console.log('Esta tarea no tiene tarea origen.');
+        }
       },
       error: (error) => {
         this.error = 'Error al cargar la tarea con relaciones';
@@ -58,11 +70,54 @@ export class DetalleTareaComponent implements OnInit {
     });
   }
 
-  private escucharSidenav() {
-    this.sidenavService.collapsed$.subscribe((estado) => {
-      this.sidenavExpandido = !estado;
+  getTareaPadre(id: number): void {
+    this.tareasService.getTareaWithRelacionesById(id).subscribe({
+      next: (data) => {
+        console.log('Papá:', data);
+        this.tareaPadre = data;
+      },
+      error: (err) => {
+        console.error('Error al cargar tarea padre:', err);
+      }
     });
   }
+
+
+  irEditarTarea(): void {
+    const id = Number(this.route.snapshot.params['id']);
+    this.router.navigate(['/editarTarea', id]);
+  }
+
+  toggleEstado() {
+    if (!this.tareaConRelaciones) return;
+
+    const tareaId = this.tareaConRelaciones.id;
+
+    // Verifica estado actual:
+    const estadoActual = this.tareaConRelaciones.estado;
+
+    let nuevoEstadoId: number;
+    if (estadoActual === 'Inactivo') {
+      nuevoEstadoId = 8; // Activar
+    } else {
+      nuevoEstadoId = 9; // Desactivar
+    }
+
+    this.tareasService.updateEstadoTarea(tareaId, nuevoEstadoId.toString()).subscribe({
+      next: () => {
+        Swal.fire('Éxito', `La tarea se ha ${nuevoEstadoId === 8 ? 'activado' : 'desactivado'} correctamente.`, 'success');
+
+        // Actualiza el dato local:
+        this.tareaConRelaciones!.estado = nuevoEstadoId === 8 ? 'Activo' : 'Inactivo';
+        this.getTareaConRelacionesPorId(tareaId);
+      },
+      error: (err) => {
+        console.error('Error:', err);
+        Swal.fire('Error', 'No se pudo cambiar el estado.', 'error');
+      }
+    });
+  }
+
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.params['id']);

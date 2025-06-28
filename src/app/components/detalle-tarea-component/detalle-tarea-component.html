@@ -1,159 +1,103 @@
-<div class="tarea-page-wrapper">
-  <section class="tarea-card ancho-total">
-    <h1 class="tarea-titulo">🗂️ Detalles de la Tarea</h1>
+<div class="container my-4 p-4 bg-white rounded shadow-sm">
 
-    <div class="tarea-grid">
-      <div class="tarea-info">
-        <span class="tarea-label">👤 Asignada a:</span>
-        <span class="tarea-valor">{{ tareaConRelaciones?.usuarioAsignado }}</span>
-      </div>
-
-      <div class="tarea-info">
-        <span class="tarea-label">📅 Fecha de asignación:</span>
-        <span class="tarea-valor">{{ tareaConRelaciones?.fechaAsignacion | date:'longDate' }}</span>
-      </div>
-
-      <div class="tarea-info">
-        <span class="tarea-label">📝 Creada por:</span>
-        <span class="tarea-valor">{{ tareaConRelaciones?.usuarioCreador }}</span>
-      </div>
-
-      <div class="tarea-info">
-        <span class="tarea-label">📌 Estado:</span>
-        <span class="tarea-valor">{{ tareaConRelaciones?.estado }}</span>
-      </div>
-
-      <div class="tarea-info">
-        <span class="tarea-label">⚠️ Prioridad:</span>
-        <span class="tarea-valor">{{ tareaConRelaciones?.prioridad }}</span>
-      </div>
-
-      <div class="tarea-info">
-        <span class="tarea-label">📊 Complejidad:</span>
-        <span class="tarea-valor">{{ tareaConRelaciones?.complejidad }}</span>
-      </div>
-
-      <div class="tarea-info">
-        <span class="tarea-label">📆 Fecha límite:</span>
-        <span class="tarea-valor">{{ tareaConRelaciones?.fechaLimite | date:'longDate' }}</span>
-      </div>
+  <!-- Encabezado -->
+  <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+    <h2 class="fw-bold text-primary m-0">
+      🗂️ Detalles de la Tarea
+    </h2>
+    <div>
+      <button class="btn btn-sm btn-outline-primary me-2" (click)="irEditarTarea()">
+        ✏️ Editar
+      </button>
+      <button class="btn btn-sm btn-outline-danger" (click)="toggleEstado()">
+        🗑️ Desactivar
+      </button>
     </div>
+  </div>
 
-    <div class="tarea-texto">
-      <h3>🧾 Descripción</h3>
-      <p>{{ tareaConRelaciones?.descripcion }}</p>
+  <!-- Info principal -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-6">
+      <strong>👤 Asignada a:</strong> {{ tareaConRelaciones?.usuarioAsignado }}
     </div>
-
-    <div class="tarea-texto">
-      <h3>🎯 Descripción esperada</h3>
-      <p>{{ tareaConRelaciones?.descripcionEsperada }}</p>
+    <div class="col-md-6">
+      <strong>📅 Fecha de asignación:</strong> {{ tareaConRelaciones?.fechaAsignacion | date:'longDate' }}
     </div>
-
-    <div class="tarea-acciones">
-      <button class="btn-editar" >✏️ Editar</button>
-      <button class="btn-eliminar">🗑️ Desactivar</button>
+    <div class="col-md-6">
+      <strong>📝 Creada por:</strong> {{ tareaConRelaciones?.usuarioCreador }}
     </div>
-
-    <div class="tarea-volver-interno">
-      <a routerLink="/tareas" class="btn-volver">← Volver a la lista</a>
+    <div class="col-md-6">
+      <strong>📌 Estado:</strong> {{ tareaConRelaciones?.estado }}
     </div>
-  </section>
+    <div class="col-md-6">
+      <strong>⚠️ Prioridad:</strong> {{ tareaConRelaciones?.prioridad }}
+    </div>
+    <div class="col-md-6">
+      <strong>📊 Complejidad:</strong> {{ tareaConRelaciones?.complejidad }}
+    </div>
+    <div class="col-md-6">
+      <strong>📆 Fecha límite:</strong> {{ tareaConRelaciones?.fechaLimite | date:'longDate' }}
+    </div>
+  </div>
 
+  <!-- Descripción -->
+  <div class="mb-4">
+    <h5 class="fw-bold text-primary border-start border-4 ps-2">🧾 Descripción</h5>
+    <p class="bg-light p-3 rounded">{{ tareaConRelaciones?.descripcion }}</p>
+  </div>
 
+  <!-- Descripción esperada -->
+  <div class="mb-4">
+    <h5 class="fw-bold text-primary border-start border-4 ps-2">🎯 Descripción esperada</h5>
+    <p class="bg-light p-3 rounded">{{ tareaConRelaciones?.descripcionEsperada }}</p>
+  </div>
 
-  <!-- Modal Crear Tarea -->
-  <div class="modal fade" id="editarTareaModal" tabindex="-1" aria-labelledby="editarTareaLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content shadow-lg rounded-3 border-0">
-        <form [formGroup]="form" >
-          <div class="modal-header" style="background-color: #104c8c; color: white;">
-            <h5 class="modal-title" id="editarTareaLabel">Crear Nueva Tarea</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-          </div>
-
-          <div class="modal-body overflow-auto" style="max-height: 70vh;">
-            <div class="row g-3">
-              <div class="col-md-8">
-                <label for="tituloTarea" class="form-label">Título de la tarea</label>
-                <input type="text" class="form-control" id="tituloTarea" formControlName="tituloTarea" placeholder="Ingrese título">
-              </div>
-
-              <div class="col-md-4">
-                <label for="numeroGIS" class="form-label">Número GIS</label>
-                <input type="text" class="form-control" id="numeroGIS" formControlName="numeroGIS" placeholder="Ingrese número GIS">
-              </div>
-
-              <div class="col-md-4">
-                <label for="prioridad" class="form-label">Prioridad</label>
-                <input type="number" class="form-control" id="prioridad" formControlName="prioridad" placeholder="Ingrese prioridad">
-              </div>
-
-              <div class="col-md-4">
-                <label for="complejidad" class="form-label">Complejidad</label>
-                <input type="number" class="form-control" id="complejidad" formControlName="complejidad" placeholder="Ingrese complejidad">
-              </div>
-
-              <div class="col-md-4">
-                <label for="estado" class="form-label">Estado</label>
-                <input type="number" class="form-control" id="estado" formControlName="estado" placeholder="Ingrese estado">
-              </div>
-
-              <div class="col-md-6">
-                <label for="usuarioAsignado" class="form-label">Usuario asignado</label>
-                <input type="number" class="form-control" id="usuarioAsignado" formControlName="usuarioAsignado" placeholder="Ingrese usuario asignado">
-              </div>
-
-              <div class="col-md-6">
-                <label for="fechaAsignacion" class="form-label">Fecha de asignación</label>
-                <input type="datetime-local" class="form-control" id="fechaAsignacion" formControlName="fechaAsignacion">
-              </div>
-
-              <div class="col-md-6">
-                <label for="fechaLimite" class="form-label">Fecha límite</label>
-                <input type="datetime-local" class="form-control" id="fechaLimite" formControlName="fechaLimite">
-              </div>
-
-              <div class="col-md-6">
-                <label for="fechaFinalizacion" class="form-label">Fecha de finalización</label>
-                <input type="datetime-local" class="form-control" id="fechaFinalizacion" formControlName="fechaFinalizacion">
-              </div>
-
-              <div class="col-md-6">
-                <label for="usuarioCreador" class="form-label">Usuario creador</label>
-                <input type="number" class="form-control" id="usuarioCreador" formControlName="usuarioCreador" placeholder="Ingrese usuario creador">
-              </div>
-
-              <div class="col-md-6">
-                <label for="tareaOrigen" class="form-label">Tarea de origen</label>
-                <input type="number" class="form-control" id="tareaOrigen" formControlName="tareaOrigen" placeholder="Ingrese ID o nombre de tarea de origen">
-              </div>
-
-              <div class="col-12">
-                <label for="descripcionTarea" class="form-label">Descripción de la tarea</label>
-                <textarea class="form-control" id="descripcionTarea" formControlName="descripcionTarea" rows="4" placeholder="Descripción completa de la tarea..."></textarea>
-              </div>
-
-              <div class="col-12">
-                <label for="descripcionEspera" class="form-label">Descripción de espera</label>
-                <textarea class="form-control" id="descripcionEspera" formControlName="descripcionEspera" rows="4" placeholder="Motivo por el cual la tarea puede estar en espera..."></textarea>
-              </div>
-            </div>
-          </div>
-
-          <div class="modal-footer" style="background-color: #e6f0ff;">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn" style="background-color: #104c8c; color: white;" [disabled]="form.invalid">Modificar tarea</button>
-          </div>
-        </form>
+  <!-- Tarea padre -->
+  <div *ngIf="tareaPadre; else sinTareaPadre" class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+      <h5 class="mb-0 fw-semibold">
+        <i class="bi bi-diagram-3-fill me-2"></i>
+        Tarea Origen
+      </h5>
+      <span class="badge bg-light text-primary">#{{ tareaPadre.id }}</span>
+    </div>
+    <div class="card-body bg-light">
+      <div class="mb-2">
+        <strong class="text-dark">📌 Título:</strong>
+        <span class="ms-1">{{ tareaPadre.titulo }}</span>
+      </div>
+      <div class="mb-2">
+        <strong class="text-dark">🗒️ Descripción:</strong>
+        <span class="ms-1">{{ tareaPadre.descripcion }}</span>
+      </div>
+      <div class="mb-2">
+        <strong class="text-dark">📌 Estado:</strong>
+        <span class="badge  bg-success text-white ms-1">{{ tareaPadre.estado }}</span>
+      </div>
+      <div class="mb-2">
+        <strong class="text-dark">⚡ Prioridad:</strong>
+        <span class="badge bg-primary text-white ms-1">{{ tareaPadre.prioridad }}</span>
       </div>
     </div>
   </div>
+
+  <ng-template #sinTareaPadre>
+    <div class="alert alert-secondary text-muted">
+      Esta tarea no tiene tarea origen.
+    </div>
+  </ng-template>
+
+  <ng-template #sinTareaPadre>
+    <div class="alert alert-secondary">
+      Esta tarea no tiene una tarea origen asignada.
+    </div>
+  </ng-template>
+
+  <!-- Volver -->
+  <div class="mt-4">
+    <a routerLink="/tareas" class="btn btn-outline-primary">
+      ← Volver a la lista
+    </a>
+  </div>
+
 </div>
-
-
-
-
-
-
-
-

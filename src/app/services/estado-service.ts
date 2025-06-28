@@ -24,4 +24,14 @@ export class EstadoService {
       )
     );
   }
+
+  getById(id: number): Observable<Estado> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`).pipe(
+      map(e => ({
+        id: e.cN_Id_estado,
+        estado: e.cT_Estado,
+        descripcion: e.cT_Descripcion,
+      }))
+    );
+  }
 }

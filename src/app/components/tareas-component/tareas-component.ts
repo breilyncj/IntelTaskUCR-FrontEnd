@@ -164,11 +164,6 @@ export class TareasComponent implements OnInit{
     }
   }
 
-  seleccionarTarea(id: number): void {
-
-    this.tareaSeleccionadaId = id;
-
-  }
 
   intentarSeleccionarTarea(item: Tarea) {
     if (this.estaVencida(item.fechaLimite)) {
