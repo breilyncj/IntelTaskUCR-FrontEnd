@@ -51,37 +51,28 @@
           <strong>Notificaciones programadas</strong>
         </div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item d-flex justify-content-between align-items-start">
+          <li *ngFor="let noti of notificacionesProgramadas" class="list-group-item d-flex justify-content-between align-items-start">
             <div>
-              <strong>¡En 15 minutos comenzamos!</strong><br />
-              <small class="text-muted">01/06/2025 - 09:15 am</small>
+              <strong>{{ noti.cT_Titulo_notificacion }}</strong><br />
+              <small class="text-muted">{{ noti.cF_Fecha_notificacion | date:'dd/MM/yyyy - hh:mm a' }}</small>
             </div>
             <div>
-              <button class="btn btn-sm btn-outline-primary me-1">
+              <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#editarNotificacionModal">
                 <i class="bi bi-pencil-fill"></i>
               </button>
-              <button class="btn btn-sm btn-outline-danger">
+
+              <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#confirmarEliminarModal" >
                 <i class="bi bi-trash-fill"></i>
               </button>
             </div>
           </li>
-          <li class="list-group-item d-flex justify-content-between align-items-start">
-            <div>
-              <strong>¡Feliz cumpleaños! 🎉</strong><br />
-              <small class="text-muted">01/06/2025 - 09:15 am</small>
-            </div>
-            <div>
-              <button class="btn btn-sm btn-outline-primary me-1">
-                <i class="bi bi-pencil-fill"></i>
-              </button>
-              <button class="btn btn-sm btn-outline-danger">
-                <i class="bi bi-trash-fill"></i>
-              </button>
-            </div>
+          <li *ngIf="notificacionesProgramadas.length === 0" class="list-group-item text-center text-muted">
+            No hay notificaciones programadas.
           </li>
         </ul>
       </div>
     </div>
+
   </div>
 </div>
 
@@ -115,57 +106,93 @@
         <div class="tab-content">
           <!-- Tab 1: Enviar -->
           <div class="tab-pane fade show active" id="enviar" role="tabpanel">
-            <form>
+            <form  (ngSubmit)="crearNotificacion()" #formEnviar="ngForm">
               <!-- Destinatarios -->
               <div class="mb-3">
-                <label class="form-label">Destinatario(s)</label>
+                <label class="form-label">Personas destinatarias</label>
                 <div class="input-group">
-                  <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
-                  <input type="text" class="form-control" placeholder="Selecciona usuarios" readonly>
-                  <button type="button" class="btn btn-outline-primary" onclick="abrirSelectorUsuarios()">
+                    <span class="input-group-text">
+                      <i class="bi bi-person-fill"></i>
+                    </span>
+                  <input type="text" class="form-control" [value]="usuariosNombresConcatenados" readonly />
+                  <button type="button" class="btn btn-outline-primary" (click)="mostrarSelector = !mostrarSelector">
                     <i class="bi bi-plus"></i>
                   </button>
                 </div>
-                <!-- Lista de seleccionados -->
-                <div id="usuariosSeleccionados" class="mt-2">
-                  <!-- Aquí se inyectan chips o badges con los usuarios -->
+
+                <!-- Panel flotante compacto -->
+                <div *ngIf="mostrarSelector" class="mt-2 p-2 border rounded bg-light shadow-sm" style="max-height: 250px; overflow-y: auto;">
+                  <div *ngFor="let user of usuarios" class="d-flex justify-content-between align-items-center mb-2 px-2 py-1 rounded hover-highlight">
+                    <span>{{ user.nombre_usuario }}</span>
+                    <button type="button"  class="btn btn-sm"
+                            [ngClass]="usuarioYaSeleccionado(user) ? 'btn-outline-danger' : 'btn-outline-success'"
+                            (click)="toggleSeleccionUsuario(user)">
+                      {{ usuarioYaSeleccionado(user) ? 'Quitar' : 'Agregar' }}
+                    </button>
+                  </div>
                 </div>
               </div>
+
 
               <!-- Asunto -->
               <div class="mb-3">
                 <label class="form-label">Asunto</label>
-                <input type="text" class="form-control" placeholder="Asunto de la notificación">
+                <input type="text" class="form-control" placeholder="Asunto de la notificación" [(ngModel)]="titulo" name="titulo" required>
               </div>
 
               <!-- Mensaje -->
               <div class="mb-3">
                 <label class="form-label">Mensaje</label>
-                <textarea class="form-control" rows="3" placeholder="Escribe el mensaje..."></textarea>
+                <textarea class="form-control" rows="3" placeholder="Escribe el mensaje..." [(ngModel)]="mensaje" name="mensaje" required></textarea>
               </div>
 
               <!-- Botones -->
               <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-primary">Enviar</button>
+                <button type="submit" class="btn btn-primary" (click)="tipoNotificacionSeleccionado = 1" [disabled]="usuariosSeleccionados.length === 0 || !formEnviar.valid">
+                  Enviar notificación
+                </button>
               </div>
             </form>
           </div>
 
           <!-- Tab 2: Programar -->
           <div class="tab-pane fade" id="programar" role="tabpanel">
-            <form>
+            <form (ngSubmit)="crearNotificacion()" #formProgramar="ngForm">
+
               <div class="mb-3">
-                <label class="form-label">Destinatario(s)</label>
+                <label class="form-label">Personas destinatarias</label>
                 <div class="input-group">
-                  <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
-                  <input type="text" class="form-control" value="Dylan Valverde" readonly>
-                  <button class="btn btn-outline-secondary" type="button">Agregar +</button>
+                    <span class="input-group-text">
+                      <i class="bi bi-person-fill"></i>
+                    </span>
+                  <input type="text" class="form-control" [value]="usuariosNombresConcatenados" readonly />
+                  <button  type="button" class="btn btn-outline-primary" (click)="mostrarSelector = !mostrarSelector">
+                    <i class="bi bi-plus"></i>
+                  </button>
                 </div>
+
+                <!-- Panel flotante compacto -->
+                <div *ngIf="mostrarSelector" class="mt-2 p-2 border rounded bg-light shadow-sm" style="max-height: 250px; overflow-y: auto;">
+                  <div *ngFor="let user of usuarios" class="d-flex justify-content-between align-items-center mb-2 px-2 py-1 rounded hover-highlight">
+                    <span>{{ user.nombre_usuario }}</span>
+                    <button type="button" class="btn btn-sm"
+                            [ngClass]="usuarioYaSeleccionado(user) ? 'btn-outline-danger' : 'btn-outline-success'"
+                            (click)="toggleSeleccionUsuario(user)">
+                      {{ usuarioYaSeleccionado(user) ? 'Quitar' : 'Agregar' }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Asunto -->
+              <div class="mb-3">
+                <label class="form-label">Asunto</label>
+                <input type="text" class="form-control" placeholder="Asunto de la notificación" [(ngModel)]="titulo" name="titulo" required>
               </div>
 
               <div class="mb-3">
                 <label class="form-label">Mensaje</label>
-                <textarea class="form-control" rows="2">¡Feliz regreso de vacaciones amigo!</textarea>
+                <textarea class="form-control" rows="3" placeholder="Escribe el mensaje..." [(ngModel)]="mensaje" name="mensaje" required></textarea>
               </div>
 
               <div class="row g-3 mb-4">
@@ -173,20 +200,22 @@
                   <label class="form-label">Fecha</label>
                   <div class="input-group">
                     <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
-                    <input type="date" class="form-control" value="2025-04-25">
+                    <input type="date" class="form-control" [(ngModel)]="fechaProgramada" name="fechaProgramada">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Hora</label>
                   <div class="input-group">
                     <span class="input-group-text"><i class="bi bi-clock"></i></span>
-                    <input type="time" class="form-control" value="09:05">
+                    <input type="time" class="form-control" [(ngModel)]="horaProgramada" name="horaProgramada">
                   </div>
                 </div>
               </div>
 
-              <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-primary">Guardar</button>
+              <div class=" d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary" (click)="tipoNotificacionSeleccionado = 2" [disabled]="usuariosSeleccionados.length === 0 || !formEnviar.valid">
+                  Guardar
+                </button>
               </div>
             </form>
 
@@ -194,6 +223,110 @@
         </div>
       </div>
 
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Editar Notificación Programada -->
+<div class="modal fade" id="editarNotificacionModal" tabindex="-1" aria-labelledby="editarNotificacionLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content shadow rounded-4">
+
+      <!-- Header -->
+      <div class="modal-header border-bottom-0 pb-0">
+        <h5 class="modal-title w-100 text-center" id="editarNotificacionLabel">Editar notificación programada</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <hr class="titulo-linea" style="border: none; height: 2px; background-color: #104c8c;" />
+
+      <form  #formEditar="ngForm">
+        <div class="modal-body pt-3">
+
+          <!-- Personas destinatarias -->
+          <div class="mb-3">
+            <label class="form-label">Personas destinatarias</label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="bi bi-person-fill"></i>
+              </span>
+              <input type="text" class="form-control" readonly />
+              <button type="button" class="btn btn-outline-primary" >
+                <i class="bi bi-plus"></i>
+              </button>
+            </div>
+
+            <!-- Panel selector usuarios -->
+            <div class="mt-2 p-2 border rounded bg-light shadow-sm" style="max-height: 250px; overflow-y: auto;">
+              <div  class="d-flex justify-content-between align-items-center mb-2 px-2 py-1 rounded hover-highlight">
+                <span></span>
+                <button type="button" class="btn btn-sm"
+                        >
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Asunto -->
+          <div class="mb-3">
+            <label class="form-label">Asunto</label>
+            <input type="text" class="form-control" placeholder="Asunto de la notificación"  name="tituloEditar" required>
+          </div>
+
+          <!-- Mensaje -->
+          <div class="mb-3">
+            <label class="form-label">Mensaje</label>
+            <textarea class="form-control" rows="3" placeholder="Escribe el mensaje..." name="mensajeEditar" required></textarea>
+          </div>
+
+          <!-- Fecha y Hora -->
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <label class="form-label">Fecha</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
+                <input type="date" class="form-control"  name="fechaProgramadaEditar" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Hora</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-clock"></i></span>
+                <input type="time" class="form-control"  name="horaProgramadaEditar" required>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer d-flex justify-content-end">
+          <button type="submit" class="btn btn-primary" [disabled]="!formEditar.valid">
+            Guardar cambios
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Confirmar Eliminación -->
+<div class="modal fade" id="confirmarEliminarModal" tabindex="-1" aria-labelledby="confirmarEliminarLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow rounded-4">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmarEliminarLabel">Confirmar eliminación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        ¿Está seguro que desea eliminar esta notificación programada?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger">Eliminar</button>
+      </div>
     </div>
   </div>
 </div>

@@ -117,3 +117,8 @@ textarea.form-control {
   min-width: 150px;
 }
 
+/*Para el model de desglose de usuarios*/
+.hover-highlight:hover {
+  background-color: #f1f1f1;
+  transition: background-color 0.2s;
+}

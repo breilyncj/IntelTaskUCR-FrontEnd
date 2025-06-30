@@ -28,7 +28,6 @@ export class UsuarioService {
         usuarios.map((u) => {
 
           const tareas = u.tareasUsuarioAsignado ?? [];
-          console.log(tareas);
           return {
             id_usuario: u.cN_Id_usuario,
             nombre_usuario: u.cT_Nombre_usuario,
