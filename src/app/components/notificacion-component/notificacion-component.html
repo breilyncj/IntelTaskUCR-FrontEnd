@@ -1,0 +1,200 @@
+<div class="container mt-4" style="background: white; border-radius: 8px; max-width: 1400px; margin-right: auto; margin-left: auto; overflow-x: hidden;">
+  <!-- Título y botón -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0"  style="color: #104c8c; font-weight: 600; font-size: 1.25rem;">
+      <i class="bi bi-envelope-fill"></i> Notificaciones
+    </h4>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crearNotificacionModal">
+      <i class="bi bi-plus"></i> Crear notificación
+    </button>
+  </div>
+
+  <hr class="titulo-linea" style="border: none; height: 2px; background-color: #104c8c;" />
+
+  <div class="row">
+    <!-- Notificaciones enviadas -->
+    <div class="col-lg-8 mb-4">
+      <div class="card custom-card shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white">
+          <span><strong>Notificaciones enviadas</strong></span>
+          <div class="d-flex align-items-center gap-2">
+            <select
+              class="form-select custom-select-filtro"
+              id="filtroEstado"
+              [(ngModel)]="filtroEstado"
+              (change)="filtrar()"
+            >
+              <option value="">Todos</option>
+              <option value="EnviadosPorMi">Enviados por mi</option>
+              <option value="Recibidos">Enviados a mi</option>
+            </select>
+          </div>
+        </div>
+        <ul class="list-group list-group-flush notification-list">
+          <li *ngFor="let notificacion of notificacionesFiltradas" class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <strong>{{ notificacion.cT_Titulo_notificacion }}</strong><br />
+              <small class="text-muted">{{ notificacion.cT_Texto_notificacion }}</small><br />
+              <small class="text-muted">Enviado por: {{ notificacion.cT_Correo_origen }}</small>
+            </div>
+            <small class="text-muted">{{ notificacion.cF_Fecha_notificacion | date:'medium' }}</small>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+
+    <!-- Notificaciones programadas -->
+    <div class="col-lg-4 mb-4">
+      <div class="card custom-card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <strong>Notificaciones programadas</strong>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div>
+              <strong>¡En 15 minutos comenzamos!</strong><br />
+              <small class="text-muted">01/06/2025 - 09:15 am</small>
+            </div>
+            <div>
+              <button class="btn btn-sm btn-outline-primary me-1">
+                <i class="bi bi-pencil-fill"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-danger">
+                <i class="bi bi-trash-fill"></i>
+              </button>
+            </div>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div>
+              <strong>¡Feliz cumpleaños! 🎉</strong><br />
+              <small class="text-muted">01/06/2025 - 09:15 am</small>
+            </div>
+            <div>
+              <button class="btn btn-sm btn-outline-primary me-1">
+                <i class="bi bi-pencil-fill"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-danger">
+                <i class="bi bi-trash-fill"></i>
+              </button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="crearNotificacionModal" tabindex="-1" aria-labelledby="crearNotificacionLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content shadow rounded-4">
+      <!-- Header -->
+      <div class="modal-header border-bottom-0 pb-0">
+        <h5 class="modal-title w-100 text-center" id="crearNotificacionLabel">Nueva notificación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <hr class="titulo-linea" style="border: none; height: 2px; background-color: #104c8c;" />
+
+      <!-- Nav Tabs -->
+      <ul class="nav nav-tabs px-3" id="notificacionTabs" role="tablist">
+        <li class="nav-item w-50 text-center" role="presentation">
+          <button class="nav-link active w-100" id="enviar-tab" data-bs-toggle="tab" data-bs-target="#enviar" type="button" role="tab">
+            Enviar notificación
+          </button>
+        </li>
+        <li class="nav-item w-50 text-center" role="presentation">
+          <button class="nav-link w-100" id="programar-tab" data-bs-toggle="tab" data-bs-target="#programar" type="button" role="tab">
+            Notificación programada
+          </button>
+        </li>
+      </ul>
+
+      <!-- Body -->
+      <div class="modal-body pt-3">
+        <div class="tab-content">
+          <!-- Tab 1: Enviar -->
+          <div class="tab-pane fade show active" id="enviar" role="tabpanel">
+            <form>
+              <!-- Destinatarios -->
+              <div class="mb-3">
+                <label class="form-label">Destinatario(s)</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+                  <input type="text" class="form-control" placeholder="Selecciona usuarios" readonly>
+                  <button type="button" class="btn btn-outline-primary" onclick="abrirSelectorUsuarios()">
+                    <i class="bi bi-plus"></i>
+                  </button>
+                </div>
+                <!-- Lista de seleccionados -->
+                <div id="usuariosSeleccionados" class="mt-2">
+                  <!-- Aquí se inyectan chips o badges con los usuarios -->
+                </div>
+              </div>
+
+              <!-- Asunto -->
+              <div class="mb-3">
+                <label class="form-label">Asunto</label>
+                <input type="text" class="form-control" placeholder="Asunto de la notificación">
+              </div>
+
+              <!-- Mensaje -->
+              <div class="mb-3">
+                <label class="form-label">Mensaje</label>
+                <textarea class="form-control" rows="3" placeholder="Escribe el mensaje..."></textarea>
+              </div>
+
+              <!-- Botones -->
+              <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Enviar</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Tab 2: Programar -->
+          <div class="tab-pane fade" id="programar" role="tabpanel">
+            <form>
+              <div class="mb-3">
+                <label class="form-label">Destinatario(s)</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+                  <input type="text" class="form-control" value="Dylan Valverde" readonly>
+                  <button class="btn btn-outline-secondary" type="button">Agregar +</button>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Mensaje</label>
+                <textarea class="form-control" rows="2">¡Feliz regreso de vacaciones amigo!</textarea>
+              </div>
+
+              <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                  <label class="form-label">Fecha</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
+                    <input type="date" class="form-control" value="2025-04-25">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Hora</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-clock"></i></span>
+                    <input type="time" class="form-control" value="09:05">
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+

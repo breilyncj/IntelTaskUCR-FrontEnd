@@ -3,30 +3,66 @@
   <div class="left-section">
     <div class="welcome-content">
       <img src="/poder-judicial-logo.png" alt="Logo OIJ" class="logo" />
-      <h1>¡Bienvenido!</h1>
+      <h1>¡Le damos la bienvenida!</h1>
       <p>
          <br />
-        <span class="slogan">Tecnología y compromiso por una gestión más eficiente.</span>
+        <span class="slogan">Gestione sus tareas y archivos de forma segura y eficiente</span>
       </p>
     </div>
   </div>
 
-  <div class="right-section">
-    <h2>Iniciar sesión</h2>
-    <p>Ingresa tus credenciales</p>
+  <div class="right-section px-5 py-4">
+    <img src="bandera.png" alt="bandera" class="bandera">
+    <h2 class="mb-3 fw-bold">Iniciar sesión</h2>
+    <p class="text-muted mb-4">Ingresa tus credenciales</p>
 
-    <form [formGroup]="form" (ngSubmit)="autenticar()">
-      <div class="input-group">
-        <i class="bi bi-envelope-fill"></i>
-        <input type="email" formControlName="correo" placeholder="Correo electrónico" required />
+    <form [formGroup]="form" (ngSubmit)="autenticar()" novalidate>
+      <div class="mb-3">
+        <label class="form-label text-start w-100">Correo electrónico</label>
+        <div class="input-group">
+        <span class="input-group-text bg-light">
+          <i class="bi bi-envelope-fill"></i>
+        </span>
+          <input
+            type="email"
+            class="form-control"
+            formControlName="correo"
+            placeholder="correo@dominio.com"
+            required
+          />
+        </div>
+        <div *ngIf="form.get('correo')?.invalid && form.get('correo')?.touched" class="text-danger small mt-1">
+          Ingrese un correo válido.
+        </div>
       </div>
 
-      <div class="input-group">
-        <i class="bi bi-lock-fill"></i>
-        <input type="password" formControlName="contrasenna" placeholder="Contraseña" required />
+      <div class="mb-4">
+        <label class="form-label text-start w-100">Contraseña</label>
+        <div class="input-group">
+        <span class="input-group-text bg-light">
+          <i class="bi bi-lock-fill"></i>
+        </span>
+          <input
+            type="password"
+            class="form-control"
+            formControlName="contrasenna"
+            placeholder="Contraseña"
+            required
+          />
+        </div>
+        <div *ngIf="form.get('contrasenna')?.invalid && form.get('contrasenna')?.touched" class="text-danger small mt-1">
+          La contraseña es requerida.
+        </div>
       </div>
 
-      <button type="submit" class="login-btn">Entrar</button>
+      <button
+        type="submit"
+        class="btn login-btn w-100"
+        [disabled]="form.invalid"
+      >
+        Entrar
+      </button>
     </form>
   </div>
+
 </div>

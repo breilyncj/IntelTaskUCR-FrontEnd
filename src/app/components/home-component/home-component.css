@@ -1,0 +1,20 @@
+.summary-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: all 0.2s ease;
+}
+
+.summary-card:hover {
+  background: #e9ecef;
+  transform: scale(1.01);
+}
+
+.summary-card .icon {
+  font-size: 1.8rem;
+  color: #0d6efd;
+}

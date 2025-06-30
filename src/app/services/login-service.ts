@@ -46,4 +46,10 @@ export class LoginService {
   autenticar(login: Login): Observable<any> {
     return this.http.post<any>(this.apiUrl, login);
   }
+
+  getUserCorreo(): string | null {
+    const user = this.getUser();
+    return user?.cT_Correo_usuario ?? null;
+  }
+
 }

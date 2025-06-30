@@ -7,6 +7,7 @@ import {TareaConRelacionesVista} from '../models/tarea-con-relaciones-vista.mode
 import {UsuarioAsignado} from '../models/usuario.model';
 import {TareaDetalle, UsuarioConDetalle} from '../models/usuario.model';
 import {prioridadTarea, complejidadTarea} from '../models/tarea.model';
+import {Notificacion} from '../models/notificacion.model';
 
 
 @Injectable({
@@ -80,8 +81,16 @@ export class UsuarioService {
     );
   }
 
+  getNotificacionesDeUsuario(idUsuario: number): Observable<Notificacion[]> {
+    return this.http.get<Notificacion[]>(`${this.apiUrl}/GetNotificacionesDeUsuario/${idUsuario}`);
+  }
 
+  getNotificacionesEnviadasPor(correo: string): Observable<Notificacion[]> {
+    return this.http.get<Notificacion[]>(`${this.apiUrl}/GetNotificacionesEnviadasPor/${correo}`);
+  }
 
-
+  getNotificacionesRecibidasPor(idUsuario: number): Observable<Notificacion[]> {
+    return this.http.get<Notificacion[]>(`${this.apiUrl}/GetNotificacionesRecibidasPor/${idUsuario}`);
+  }
 
 }

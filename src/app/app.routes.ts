@@ -11,7 +11,7 @@ import {roleGuard} from './guards/role-guard';
 import {UnauthorizedComponent} from './components/unauthorized-component/unauthorized-component';
 import {NuevaTareaComponent} from './components/nueva-tarea-component/nueva-tarea-component';
 import { EditarTareaComponent } from './components/editar-tarea-component/editar-tarea-component';
-
+import {NotificacionComponent} from './components/notificacion-component/notificacion-component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [roleGuard]},
@@ -24,6 +24,7 @@ export const routes: Routes = [
   { path: 'unauthorized', component: UnauthorizedComponent },
   { path: 'editarTarea/:id', component: EditarTareaComponent },
   {path: 'nuevaTarea/:id', component: NuevaTareaComponent},
+  {path: 'notificacion', component: NotificacionComponent},
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', redirectTo: 'home' },
 

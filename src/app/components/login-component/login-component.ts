@@ -5,7 +5,7 @@ import {Login} from '../../models/login.model';
 import {Usuario} from '../../models/usuario.model';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {CommonModule} from '@angular/common';
-
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login-component',
@@ -22,8 +22,8 @@ export class LoginComponent implements OnInit {
 
   constructor(  private fb: FormBuilder, private loginService: LoginService, private router: Router ){
     this.form = this.fb.group({
-      correo: ['', Validators.required], // requerido
-      contrasenna: [null, Validators.required], // requerido
+      correo: ['', [Validators.required, Validators.email]],
+      contrasenna: ['', Validators.required]
     });
   }
 
@@ -34,12 +34,16 @@ export class LoginComponent implements OnInit {
       next: (response) => {
         console.log('Response:', response);
         console.log('Usuario logeado:', response.usuario); // a futuro con jwt
-        alert('response message: ' + response.message + '')
         this.loginService.login(response.usuario); // Guarda el usuario logeado
         this.router.navigate(['/home']); // Redirige a la página deseada
       },
       error: (err) => {
         console.error('Error al iniciar sesión:', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Credenciales incorrectas',
+          text: 'El correo o la contraseña no son válidos. Revise e intente de nuevo.'
+        });
       }
     });
   }
