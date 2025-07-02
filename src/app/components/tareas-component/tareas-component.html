@@ -15,16 +15,41 @@
       Gestión de tareas
     </div>
     <div class="btn-group" role="group" aria-label="Filtros tareas">
-      <button
-        type="button"  class="btn btn-outline-primary" [ngClass]="{'active text-white': activeButton === 'todas', 'text-black': activeButton !== 'todas'}"
-        (click)="setActiveButton('todas'); ">Todas</button>
+      <!-- Botón de calendario -->
+      <button class="btn btn-outline-primary" title="Ver calendario" [routerLink]="['/miCalendario']">
+        <i class="bi bi-calendar4-week"></i>
+      </button>
 
-      <button type="button" class="btn btn-outline-primary" [ngClass]="{'active text-white': activeButton === 'asignadasPorMi', 'text-black': activeButton !== 'asignadasPorMi'}"
-              (click)="setActiveButton('asignadasPorMi'); getAllAsignadasPorMi();">Asignadas por mí</button>
+      <!-- Botones de filtro -->
+      <button type="button"
+              class="btn btn-outline-primary"
+              [ngClass]="{
+            'active text-white': activeButton === 'todas',
+            'text-black': activeButton !== 'todas'
+          }"
+              (click)="setActiveButton('todas')">
+        Todas
+      </button>
 
-      <button type="button" class="btn btn-outline-primary" [ngClass]="{'active text-white': activeButton === 'asignadasAMi', 'text-black': activeButton !== 'asignadasAMi'}"
-              (click)="setActiveButton('asignadasAMi'); getAllAsignadasAMi();">Asignadas a mí</button>
+      <button type="button"
+              class="btn btn-outline-primary"
+              [ngClass]="{
+            'active text-white': activeButton === 'asignadasPorMi',
+            'text-black': activeButton !== 'asignadasPorMi'
+          }"
+              (click)="setActiveButton('asignadasPorMi'); getAllAsignadasPorMi();">
+        Asignadas por mí
+      </button>
 
+      <button type="button"
+              class="btn btn-outline-primary"
+              [ngClass]="{
+            'active text-white': activeButton === 'asignadasAMi',
+            'text-black': activeButton !== 'asignadasAMi'
+          }"
+              (click)="setActiveButton('asignadasAMi'); getAllAsignadasAMi();">
+        Asignadas a mí
+      </button>
     </div>
   </div>
 

@@ -273,7 +273,7 @@ export class NuevaTareaComponent implements OnInit{
         const idUsuario = usuario?.id || usuario?.cN_Id_usuario || '';
 
 
-        Swal.fire('✅ Tarea creada', '', 'success');
+        Swal.fire('Tarea creada con éxito', '', 'success');
         this.resetFormulario();
       },
       error: (err) => {

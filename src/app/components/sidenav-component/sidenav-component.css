@@ -268,5 +268,37 @@ body{
   }
 }
 
+@media (max-width: 768px) {
+  .sidenav {
+    width: 72px !important;
+    z-index: 1050;
+    left: 0;
+    height: 100vh;
+    margin: 0;
+    top: 0;
+    border-radius: 0 16px 16px 0;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .sidenav.collapsed {
+    left: -100px; /* ocultar completamente si deseas */
+  }
+
+  body.sidebar-open .sidenav {
+    left: 0;
+  }
+
+  .sidenav-header .toggler {
+    top: 10px;
+    right: -15px;
+    background: #ffffff;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidenav.collapsed .sidenav-header .toggler {
+    transform: translate(0, 65px);
+  }
+}
 
 

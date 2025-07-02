@@ -40,11 +40,7 @@
 
 
 /**/
-.mwl-calendar-month-view .cal-day-cell {
-  aspect-ratio: 1 / 1; /* mantiene proporción cuadrada */
-  overflow: hidden;
-  padding: 0.25rem;
-}
+
 
 .ver-mas-btn {
   background-color: #0d6efd;
@@ -146,6 +142,25 @@
   pointer-events: none;
   user-select: none;
 }
+
+.modal-body .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.modal-body .badge {
+  font-size: 0.8rem;
+  padding: 4px 8px;
+}
+
+
+.mwl-calendar-month-view .cal-day-cell {
+  border: 1px solid #dee2e6;
+  border-radius: 6px; /* aquí directamente */
+  padding: 0.25rem;
+  overflow: hidden;
+}
+
 
 
 /* Responsive */

@@ -72,3 +72,35 @@ body {
     z-index: 100;
   }
 }
+
+/*Si falla más adelante esto es lo que hay que quitar*/
+@media (max-width: 768px) {
+  /* Sidebar se vuelve flotante encima del contenido */
+  app-sidenav-component {
+    position: fixed;
+    top: 64px; /* altura del navbar */
+    left: 0;
+    height: calc(100vh - 64px);
+    width: 200px;
+    z-index: 1050;
+    background: #d9e9f3;
+    transition: transform 0.3s ease;
+    transform: translateX(-100%);
+  }
+
+  /* Si el sidebar está activo, lo mostramos */
+  .app-content.sidebar-open app-sidenav-component {
+    transform: translateX(0);
+  }
+
+  /* El main ocupa todo el ancho en móviles */
+  .content-area {
+    flex-direction: column;
+  }
+
+  main {
+    margin-left: 0 !important;
+    width: 100%;
+    padding: 16px;
+  }
+}

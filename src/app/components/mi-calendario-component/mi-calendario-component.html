@@ -114,32 +114,37 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
       <div class="modal-body">
-        <div class="d-flex justify-content-between mb-2">
-          <small class="text-muted">Tarea</small>
-          <small class="text-muted">Prioridad</small>
+        <div class="row mb-2 text-center">
+          <div class="col-8">
+            <small class="text-muted">Tarea</small>
+          </div>
+          <div class="col-4">
+            <small class="text-muted">Prioridad</small>
+          </div>
         </div>
 
         <ul class="list-group">
-          <li *ngFor="let tarea of tareasDelDia"
-              class="list-group-item d-flex justify-content-between align-items-center">
-
-            <!-- Título con punto -->
-            <div class="d-flex align-items-center gap-2">
-              <span class="dot" [ngStyle]="{ 'background-color': tarea.color?.primary }"></span>
-              {{ tarea.title }}
+          <li *ngFor="let tarea of tareasDelDia" class="list-group-item p-2">
+            <div class="row align-items-center">
+              <!-- Columna de tarea -->
+              <div class="col-8 d-flex align-items-center gap-2">
+                <span class="dot" [ngStyle]="{ 'background-color': tarea.color?.primary }"></span>
+                {{ tarea.title }}
+              </div>
+              <!-- Columna de prioridad -->
+              <div class="col-4 text-center">
+        <span class="badge rounded-pill"
+              [ngStyle]="{
+                'background-color': tarea.color?.primary,
+                'color': '#fff'
+              }">
+          {{ obtenerNombrePrioridad(tarea.prioridad) }}
+        </span>
+              </div>
             </div>
-
-            <!-- Solo badge de prioridad -->
-            <span class="badge rounded-pill"
-                  [ngStyle]="{
-              'background-color': tarea.color?.primary,
-              'color': '#fff'
-            }">
-        {{ obtenerNombrePrioridad(tarea.prioridad) }}
-      </span>
-
           </li>
         </ul>
+
 
       </div>
     </div>
