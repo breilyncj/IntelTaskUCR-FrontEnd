@@ -11,7 +11,7 @@
       <button class="btn btn-outline-primary" (click)="irAlMesSiguiente()">
         <i class="bi bi-chevron-right"></i>
       </button>
-      <button class="btn btn-primary ms-2">Añadir Tarea</button>
+      <button class="btn btn-primary ms-2" [routerLink]="['/nuevaTarea']">Añadir Tarea</button>
     </div>
 
     <!-- Mes actual -->
@@ -105,7 +105,7 @@
 
 
 <div class="modal fade" id="modalVerMas" tabindex="-1" aria-labelledby="modalVerMasLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">

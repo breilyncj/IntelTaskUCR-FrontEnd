@@ -7,6 +7,7 @@ import { TareasService } from '../../services/tareas-service';
 import {FormBuilder, Validators} from '@angular/forms';
 import {Tarea} from '../../models/tarea.model';
 import { CalendarMonthViewDay } from 'angular-calendar';
+import {RouterModule, Router} from '@angular/router';
 
 declare var bootstrap: any;
 
@@ -17,7 +18,7 @@ export interface MiCalendarEvent extends CalendarEvent {
 @Component({
   selector: 'app-calendario',
   standalone: true,
-  imports: [CommonModule, CalendarModule],
+  imports: [CommonModule, CalendarModule, RouterModule],
   templateUrl: './mi-calendario-component.html',
   styleUrls: ['./mi-calendario-component.css']
 })
@@ -44,11 +45,11 @@ export class MiCalendarioComponent implements OnInit {
   ) {}
 
   prioridades = [
-    { id: 1, nombre: 'Muy alta', color: '#f06292' },
-    { id: 2, nombre: 'Alta', color: '#ff6b6b' },
-    { id: 3, nombre: 'Media', color: '#17a2b8' },
-    { id: 4, nombre: 'Baja', color: '#adb5bd' },
-    { id: 5, nombre: 'Muy baja', color: '#6f42c1' },
+    { id: 1, nombre: 'Muy alta', color: '#e5012f' },
+    { id: 2, nombre: 'Alta', color: '#e5c008' },
+    { id: 3, nombre: 'Media', color: '#3ecfec' },
+    { id: 4, nombre: 'Baja', color: '#cf92ff' },
+    { id: 5, nombre: 'Muy baja', color: '#7cb342' },
   ];
 
 
@@ -97,12 +98,12 @@ export class MiCalendarioComponent implements OnInit {
 
   obtenerColorPorPrioridadId(idPrioridad: number): string {
     switch (idPrioridad) {
-      case 1: return '#d32f2f'; // Muy Alta - rojo fuerte
-      case 2: return '#f57c00'; // Alta - naranja
-      case 3: return '#0288d1'; // Media - azul intenso
-      case 4: return '#7cb342'; // Baja - verde suave
-      case 5: return '#9e9e9e'; // Muy baja - gris medio
-      default: return '#1e88e5'; // azul base
+      case 1: return '#e5012f'; // Muy Alta - rojo fuerte
+      case 2: return '#e5c008'; // Alta - naranja
+      case 3: return '#3ecfec'; // Media - azul intenso
+      case 4: return '#cf92ff'; // Baja - verde suave
+      case 5: return '#7cb342'; // Muy baja - gris medio
+      default: return '#c2fff9'; // azul base
     }
   }
 
@@ -129,7 +130,6 @@ export class MiCalendarioComponent implements OnInit {
   esOtroMes(day: any): boolean {
     return day.date.getMonth() !== this.viewDate.getMonth();
   }
-
 
 
   ngOnInit(): void {
