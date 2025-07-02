@@ -1,0 +1,165 @@
+
+/*Los colores   */
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Estilo para el punto redondo */
+.dot-event {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 2px;
+}
+
+/*Estilo general mejorado*/
+.calendar-container {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  margin-top: 1.5rem; /* empuja un poco hacia abajo */
+}
+
+/* Botón "Colores" igual a "Añadir tarea" */
+.btn-light.border {
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+.btn-light.border:hover {
+  background-color: #0b5ed7;
+}
+
+
+/**/
+.mwl-calendar-month-view .cal-day-cell {
+  aspect-ratio: 1 / 1; /* mantiene proporción cuadrada */
+  overflow: hidden;
+  padding: 0.25rem;
+}
+
+.ver-mas-btn {
+  background-color: #0d6efd;
+  color: #fff;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 12px;
+  padding: 2px 6px;
+  margin-top: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.ver-mas-btn:hover {
+  background-color: #0b5ed7;
+}
+
+
+.dot-event {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+.cal-day-cell div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/*CSS del modal*/
+.modal-content {
+  border-radius: 10px;
+  border: none;
+  background: #f0f8ff;
+}
+
+.modal-header {
+  background: #e3f2fd;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.modal-title {
+  color: #0d6efd;
+  font-weight: 600;
+}
+
+.modal-body {
+  background: #f9fcff;
+}
+
+.list-group-item {
+  background-color: white;
+  border: none;
+  border-bottom: 1px solid #e9ecef;
+  font-size: 14px;
+  padding: 10px;
+}
+
+
+.custom-day-cell {
+  padding: 0.25rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+
+
+/* Opcional: para que botón "Ver más" también se vea acorde */
+.other-month .ver-mas-btn {
+  display: none;
+}
+
+
+
+/* Día actual */
+.custom-day-cell.today {
+  background-color: #cce5ff;
+  border: 2px solid #3399ff;
+  color: #003366;
+}
+
+.custom-day-cell.other-month {
+  background-color: #f8f9fa;
+  opacity: 0.4;
+  color: #999;
+  pointer-events: none;
+  user-select: none;
+}
+
+
+/* Responsive */
+@media (max-width: 576px) {
+  .calendar-container {
+    padding: 1rem;
+  }
+
+  .calendar-container h4 {
+    font-size: 1.2rem;
+  }
+
+  .calendar-container .btn {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.6rem;
+  }
+}

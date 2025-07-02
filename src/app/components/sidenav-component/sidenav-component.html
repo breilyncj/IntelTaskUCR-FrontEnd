@@ -26,23 +26,30 @@
       </li>
 
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a href="#" class="nav-link" [routerLink]="['/tareas']">
+        <a  class="nav-link" [routerLink]="['/tareas']">
           <i class="bi bi-clipboard2-data-fill"></i>
           <span class="nav-text">Gestión de tareas</span>
         </a>
       </li>
 
       <li class="nav-item">
-        <a href="#" class="nav-link">
+        <a  class="nav-link" [routerLink]="['/permisos']">
           <i class="bi bi-bookmark-check-fill"></i>
           <span class="nav-text">Permisos</span>
         </a>
       </li>
 
       <li class="nav-item">
-        <a href="#" class="nav-link"  [routerLink]="['/notificacion']">
+        <a  class="nav-link"  [routerLink]="['/notificacion']">
           <i class="bi bi-envelope"></i>
           <span class="nav-text">Notificaciones</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a  class="nav-link"  [routerLink]="['/miCalendario']">
+          <i class="bi bi-envelope"></i>
+          <span class="nav-text">Calendario</span>
         </a>
       </li>
     </ul>

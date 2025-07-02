@@ -8,6 +8,22 @@ export interface Tarea {
   prioridad: number;
   complejidad: number;
   fechaLimite: Date;
+  fechaAsignacion?: Date;
+  numeroGIS: string;
+  nombrePrioridad?: string;
+}
+
+export interface Tarea2 {
+  id: number;
+  titulo: string;
+  usuarioAsignado: number;
+  usuarioCreador: number;
+  usuarioCreadorId: number | null;
+  estado: string;
+  prioridad: number;
+  complejidad: number;
+  fechaLimite: Date;
+  fechaAsignacion: Date;
   numeroGIS: string;
 }
 

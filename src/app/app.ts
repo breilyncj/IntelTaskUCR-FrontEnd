@@ -9,6 +9,7 @@ import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [RouterOutlet ,SidenavComponent, NavbarComponent,CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.css'

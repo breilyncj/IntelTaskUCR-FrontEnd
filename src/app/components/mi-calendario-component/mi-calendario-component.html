@@ -1,0 +1,147 @@
+<div class="calendar-container p-4 shadow bg-white rounded">
+
+  <!-- Encabezado -->
+  <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-3 gap-2">
+    <!-- Navegación -->
+    <div class="d-flex align-items-center gap-2">
+      <button class="btn btn-outline-primary" (click)="irAlMesAnterior()">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      <button class="btn btn-outline-secondary" (click)="irHoy()">Hoy</button>
+      <button class="btn btn-outline-primary" (click)="irAlMesSiguiente()">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+      <button class="btn btn-primary ms-2">Añadir Tarea</button>
+    </div>
+
+    <!-- Mes actual -->
+    <h4 class="m-0 text-center text-capitalize flex-grow-1">
+      {{ viewDate | date: 'MMMM yyyy' }}
+    </h4>
+
+    <!-- Botón Leyenda -->
+    <button class="btn btn-light border" (click)="toggleLeyenda()">Colores</button>
+
+    <!-- Selector de vista -->
+    <div class="btn-group" role="group" aria-label="Selector de vista">
+      <button type="button" class="btn btn-outline-primary"
+              [class.active]="view === CalendarView.Month"
+              (click)="view = CalendarView.Month">Mes</button>
+      <button type="button" class="btn btn-outline-primary"
+              [class.active]="view === CalendarView.Week"
+              (click)="view = CalendarView.Week">Semana</button>
+      <button type="button" class="btn btn-outline-primary"
+              [class.active]="view === CalendarView.Day"
+              (click)="view = CalendarView.Day">Día</button>
+    </div>
+  </div>
+
+  <!-- Leyenda de colores -->
+  <div *ngIf="mostrarLeyenda" class="mb-3 d-flex flex-wrap gap-3 justify-content-center">
+    <div *ngFor="let prioridad of prioridades" class="d-flex align-items-center gap-2">
+      <span [ngStyle]="{'background-color': prioridad.color}" class="legend-dot"></span>
+      <span class="text-muted">{{ prioridad.nombre }}</span>
+    </div>
+  </div>
+
+  <!-- Vista dinámica -->
+  <ng-container [ngSwitch]="view">
+
+    <!-- Vista Mes con plantilla personalizada -->
+    <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month"
+                             [viewDate]="viewDate"
+                             [events]="events"
+                             [refresh]="refresh"
+                             [activeDayIsOpen]="false"
+                             [locale]="'es'"
+                             [cellTemplate]="customCellTemplate">
+    </mwl-calendar-month-view>
+
+    <!-- Vista Semana -->
+    <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week"
+                            [viewDate]="viewDate"
+                            [events]="events"
+                            [refresh]="refresh"
+                            [locale]="'es'">
+    </mwl-calendar-week-view>
+
+    <!-- Vista Día -->
+    <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day"
+                           [viewDate]="viewDate"
+                           [events]="events"
+                           [refresh]="refresh"
+                           [locale]="'es'">
+    </mwl-calendar-day-view>
+  </ng-container>
+
+
+
+  <!-- Plantilla de celda personalizada -->
+  <ng-template #customCellTemplate let-day="day">
+    <div class="custom-day-cell"
+         [ngClass]="{
+         'today': day.isToday,
+         'other-month': esOtroMes(day)
+       }">
+
+      <div class="cal-cell-top">
+        {{ day.date | date: 'd' }}
+      </div>
+
+      <div *ngFor="let event of day.events.slice(0, 3)">
+        <span class="dot-event" [ngStyle]="{ 'background-color': event.color?.primary }"></span>
+        {{ event.title }}
+      </div>
+
+      <button *ngIf="day.events.length > 3" class="ver-mas-btn" (click)="abrirModalVerMas(day)">
+        +{{ day.events.length - 3 }} más
+      </button>
+    </div>
+  </ng-template>
+
+
+
+</div>
+
+
+<div class="modal fade" id="modalVerMas" tabindex="-1" aria-labelledby="modalVerMasLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          Tareas del {{ diaSeleccionado | date:'fullDate' }}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex justify-content-between mb-2">
+          <small class="text-muted">Tarea</small>
+          <small class="text-muted">Prioridad</small>
+        </div>
+
+        <ul class="list-group">
+          <li *ngFor="let tarea of tareasDelDia"
+              class="list-group-item d-flex justify-content-between align-items-center">
+
+            <!-- Título con punto -->
+            <div class="d-flex align-items-center gap-2">
+              <span class="dot" [ngStyle]="{ 'background-color': tarea.color?.primary }"></span>
+              {{ tarea.title }}
+            </div>
+
+            <!-- Solo badge de prioridad -->
+            <span class="badge rounded-pill"
+                  [ngStyle]="{
+              'background-color': tarea.color?.primary,
+              'color': '#fff'
+            }">
+        {{ obtenerNombrePrioridad(tarea.prioridad) }}
+      </span>
+
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+</div>

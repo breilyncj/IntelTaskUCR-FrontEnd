@@ -7,12 +7,10 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormsModule  }
 import {RouterModule, Router} from '@angular/router';
 import {UsuarioService} from '../../services/usuario-service';
 import {LoginService} from '../../services/login-service';
-import {UsuarioAsignado} from '../../models/usuario.model';
 import {EstadoService} from '../../services/estado-service';
 import Swal from 'sweetalert2';
 import {TareaConRelacionesVista} from '../../models/tarea-con-relaciones-vista.model';
 
-declare var bootstrap: any;
 
 @Component({
   selector: 'app-tareas-component',
@@ -28,7 +26,6 @@ export class TareasComponent implements OnInit{
   sidenavExpandido: boolean = true;
   estados: any[] = [];
   tareasOriginal: Tarea[] = [];
-  tareaConRelacionesVista: TareaConRelacionesVista[] = [];
   tareasFiltradas: Tarea[] = [];
   usuarioActualId: number | null = null;
   tareaActual: TareasCreate | null = null;
@@ -43,15 +40,7 @@ export class TareasComponent implements OnInit{
   mostrarDescripcion = false;
 
   filtroEstado: string = '';
-  // filtroUsuario: string = '';
-  // filtroPrioridad: string = '';
-  // filtroComplejidad: string = '';
-  // filtroFechaLimite: string = '';
-  // filtroFechaFinalizacion: string = '';
-  // filtroTitulo: string = '';
-  // filtroDescripcion: string = '';
-  // filtroNumeroGIS: string = '';
-  // filtroUsuarioAsignado: string = '';
+
 
   constructor(
     private fb: FormBuilder,

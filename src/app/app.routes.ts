@@ -10,8 +10,10 @@ import {LoginComponent} from './components/login-component/login-component';
 import {roleGuard} from './guards/role-guard';
 import {UnauthorizedComponent} from './components/unauthorized-component/unauthorized-component';
 import {NuevaTareaComponent} from './components/nueva-tarea-component/nueva-tarea-component';
-import { EditarTareaComponent } from './components/editar-tarea-component/editar-tarea-component';
+import {EditarTareaComponent } from './components/editar-tarea-component/editar-tarea-component';
 import {NotificacionComponent} from './components/notificacion-component/notificacion-component';
+import {PermisosComponent} from './components/permisos-component/permisos-component';
+import {MiCalendarioComponent} from './components/mi-calendario-component/mi-calendario-component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [roleGuard]},
@@ -25,6 +27,8 @@ export const routes: Routes = [
   { path: 'editarTarea/:id', component: EditarTareaComponent },
   {path: 'nuevaTarea/:id', component: NuevaTareaComponent},
   {path: 'notificacion', component: NotificacionComponent},
+  {path: 'permisos', component: PermisosComponent},
+  {path: 'miCalendario', component: MiCalendarioComponent},
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', redirectTo: 'home' },
 

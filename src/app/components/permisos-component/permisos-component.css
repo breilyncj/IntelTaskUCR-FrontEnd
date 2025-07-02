@@ -1,0 +1,46 @@
+/* Para la línea horizontal personalizada */
+hr {
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Para la caja del mensaje */
+.alert-info {
+  background-color: #e7f1fc; /* azul clarito */
+  border-color: #b6d4fe;
+  color: #104c8c; /* color principal azul oscuro */
+}
+
+/* Para el botón deshabilitado */
+.btn-primary:disabled {
+  background-color: #7ba4d9;
+  border-color: #7ba4d9;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Opcional: un efecto hover suave para el botón (cuando esté habilitado) */
+.btn-primary:hover:not(:disabled) {
+  background-color: #0b3a75;
+  border-color: #0b3a75;
+  transition: background-color 0.3s ease;
+}
+
+/* Ajuste del contenedor para un poco de padding adicional */
+.container {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.alert-box {
+  background-color: #eaf2ff; /* celeste suave */
+  max-width: 800px;
+  border-left: 6px solid #0d6efd;
+}
+
+
+.container.mt-4 {
+  overflow: visible !important;
+  max-height: none !important;
+  height: auto !important;
+}
