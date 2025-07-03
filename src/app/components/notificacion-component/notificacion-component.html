@@ -37,7 +37,9 @@
               <small class="text-muted">{{ notificacion.cT_Texto_notificacion }}</small><br />
               <small class="text-muted">Enviado por: {{ notificacion.cT_Correo_origen }}</small>
             </div>
-            <small class="text-muted">{{ notificacion.cF_Fecha_notificacion | date:'medium' }}</small>
+            <small class="text-muted">
+              {{ notificacion.cF_Fecha_notificacion | date:'medium':'America/Costa_Rica' }}
+            </small>
           </li>
         </ul>
 

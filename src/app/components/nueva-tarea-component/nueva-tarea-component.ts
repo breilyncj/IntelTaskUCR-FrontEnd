@@ -8,10 +8,12 @@ import {LoginService} from '../../services/login-service';
 import {TareasCreate} from '../../models/tarea.model';
 import {TareaConRelacionesVista} from '../../models/tarea-con-relaciones-vista.model';
 import {AdjuntosService} from '../../services/adjuntos-service';
+import { NotificacionService } from '../../services/notificacion-service';
 
 import { AfterViewInit } from '@angular/core';
 import * as bootstrap from 'bootstrap';
 import Swal from 'sweetalert2';
+import {Notificacion} from '../../models/notificacion.model';
 
 
 @Component({
@@ -44,11 +46,12 @@ export class NuevaTareaComponent implements OnInit{
     private router: Router,
     private route: ActivatedRoute,
     private adjuntosService: AdjuntosService,
+    private notificacionService: NotificacionService,
   ) {
     this.form = this.fb.group({
       tareaOrigen: [null],
       tituloTarea: ['', [Validators.required, Validators.minLength(3)]],
-      descripcionTarea: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
+      descripcionTarea: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(250)]],
       descripcionEspera: [null],
       complejidad: [null, Validators.required],
       estado: [null],
@@ -197,6 +200,15 @@ export class NuevaTareaComponent implements OnInit{
     this.tareasService.crearTarea(subTarea).subscribe({
       next: (respuesta) => {
         console.log('Tarea hija creada correctamente', respuesta);
+
+        const usuarioDestino = this.usuarios.find(u => u.id_usuario === usuarioAsignado);
+
+        if (this.asignarDeInmediato && usuarioDestino) {
+          this.crearNotificacionAsignacionInmediata(usuarioDestino, formValue.tituloTarea);
+        } else {
+          console.warn('Usuario asignado no encontrado en lista de usuarios.');
+        }
+
         Swal.fire('Éxito', 'Subtarea creada correctamente', 'success');
         setTimeout(() => {
           this.router.navigate(['/tareas']);
@@ -263,15 +275,18 @@ export class NuevaTareaComponent implements OnInit{
     if (this.form.invalid) return;
 
     const formValue = this.form.value;
-
     const nuevaTarea: TareasCreate = this.armarTareaDesdeFormulario(formValue);
 
     this.tareasService.crearTarea(nuevaTarea).subscribe({
       next: (tareaCreada) => {
-        const idTarea = tareaCreada.cN_Id_tarea + "";
-        const usuario = this.loginService.getUser();
-        const idUsuario = usuario?.id || usuario?.cN_Id_usuario || '';
+        const usuarioAsignadoId = tareaCreada.cN_Usuario_asignado; // ES UN ID
+        const usuarioDestino = this.usuarios.find(u => u.id_usuario === usuarioAsignadoId);
 
+        if (this.asignarDeInmediato && usuarioDestino) {
+          this.crearNotificacionAsignacionInmediata(usuarioDestino, formValue.tituloTarea);
+        } else {
+          console.warn('Usuario asignado no encontrado o no está marcado para asignación inmediata.');
+        }
 
         Swal.fire('Tarea creada con éxito', '', 'success');
         this.resetFormulario();
@@ -311,6 +326,36 @@ export class NuevaTareaComponent implements OnInit{
       cN_Usuario_creador: usuarioCreadorId,
       cN_Usuario_asignado: usuarioAsignado
     };
+  }
+
+  private crearNotificacionAsignacionInmediata(usuarioDestino: any, tituloTarea: string) {
+    const usuarioOrigen = this.loginService.getUser();
+    const now = new Date();
+
+    const notificacion: Notificacion = {
+      cN_Tipo_notificacion: 1, // 1 = inmediata
+      cT_Titulo_notificacion: 'Nueva tarea asignada',
+      cT_Texto_notificacion: `Hola ${usuarioDestino.nombre_usuario}, el usuario ${usuarioOrigen?.cT_Nombre_usuario} te ha asignado la tarea "${tituloTarea}".`,
+      cT_Correo_origen: usuarioOrigen?.cT_Correo_usuario ?? '',
+      cF_Fecha_registro: now,
+      cF_Fecha_notificacion: now,
+      cN_Id_recordatorio: null,
+      notificacionesXUsuarios: [
+        {
+          cN_Id_usuario: usuarioDestino.id_usuario,
+          cT_Correo_destino: usuarioDestino.correo_usuario
+        }
+      ]
+    };
+
+    this.notificacionService.crearNotificacion(notificacion).subscribe({
+      next: () => {
+        console.log('Notificación de asignación enviada correctamente.');
+      },
+      error: (err) => {
+        console.error('Error enviando notificación de asignación:', err);
+      }
+    });
   }
 
 }

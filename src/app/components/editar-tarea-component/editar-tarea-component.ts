@@ -201,7 +201,7 @@ export class EditarTareaComponent implements OnInit{
       }
     });
   }
-   
+
 
 
   ngOnInit(): void {
