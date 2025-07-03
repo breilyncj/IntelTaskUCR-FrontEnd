@@ -116,7 +116,13 @@ export class TareasService {
         fechaFinalizacion: t.cF_Fecha_finalizacion,
         numeroGIS: t.cN_Numero_GIS ?? '',
         tareaOrigen: t.cN_Tarea_origen,
-        adjuntos: t.adjuntos?.map((a: Adjunto) => ({
+        tareasSeguimiento: t.tareasSeguimiento?.map((ts: any) => ({
+          idSeguimiento: ts.cN_Id_seguimiento,
+          idTarea: ts.cN_Id_tarea,
+          comentario: ts.cT_Comentario,
+          fechaSeguimiento: ts.cF_Fecha_seguimiento
+        })) ?? [],
+        adjuntos: t.adjuntos?.map((a: any) => ({
           cN_Id_adjuntos: a.cN_Id_adjuntos,
           cT_Archivo_ruta: a.cT_Archivo_ruta,
           cN_Usuario_accion: a.cN_Usuario_accion,
@@ -126,6 +132,7 @@ export class TareasService {
       }))
     );
   }
+
 
 
   updateEstadoTarea(id: number, nuevoEstado: string) {

@@ -7,6 +7,8 @@ import {TareasService} from '../../services/tareas-service';
 import {LoginService} from '../../services/login-service';
 import {TareasCreate} from '../../models/tarea.model';
 import {AdjuntosService} from '../../services/adjuntos-service';
+import {TareasSeguimientoService} from '../../services/tareas-seguimiento-service';
+import {TareasSeguimiento} from '../../models/tareas-seguimiento.model';
 import Swal from 'sweetalert2';
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -29,6 +31,7 @@ export class EditarTareaComponent implements OnInit{
   asignarDeInmediato: boolean = true;
   usuarioDetalle: any | null = null;
   tareaActual!: TareasCreate;
+  tareasSeguimiento: TareasSeguimiento[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -38,7 +41,8 @@ export class EditarTareaComponent implements OnInit{
     private route: ActivatedRoute,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private adjuntosService: AdjuntosService
+    private adjuntosService: AdjuntosService,
+    private tareasSeguimientoService: TareasSeguimientoService
   ) {
     this.form = this.fb.group({
       tareaOrigen: [null], // puede ser null
@@ -54,6 +58,7 @@ export class EditarTareaComponent implements OnInit{
       fechaFinalizacion: [null, Validators.required], // requerido
       usuarioCreador: [null], // requerido
       usuarioAsignado: [null], // puede ser null
+      comentario: [''],
     });
   }
 
@@ -202,6 +207,31 @@ export class EditarTareaComponent implements OnInit{
     });
   }
 
+  crearSeguimiento(): void {
+    if (this.form.get('comentario')?.invalid || !this.tareaActual) {
+      console.warn('Comentario inválido o tarea no cargada');
+      return;
+    }
+
+    const now = new Date();
+
+    const nuevoSeguimiento: TareasSeguimiento = {
+      cN_Id_tarea: this.tareaActual.cN_Id_tarea!,
+      cT_Comentario: this.form.get('comentario')?.value,
+      cF_Fecha_seguimiento: now,
+    };
+
+    this.tareasSeguimientoService.crearSeguimiento(nuevoSeguimiento).subscribe({
+      next: (res) => {
+        Swal.fire('Éxito', 'Comentario guardado correctamente', 'success');
+        this.form.get('comentario')?.reset();
+      },
+      error: (err) => {
+        console.error('Error creando seguimiento', err);
+        Swal.fire('Error', 'No se pudo guardar el comentario', 'error');
+      }
+    });
+  }
 
 
   ngOnInit(): void {

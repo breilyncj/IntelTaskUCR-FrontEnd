@@ -6,8 +6,6 @@ import {TareaConRelacionesVista} from '../../models/tarea-con-relaciones-vista.m
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {environment} from '../../../environments/environment';
-import{ SidenavService } from '../../services/sidenav-service';
-import{ EstadoService} from '../../services/estado-service';
 import Swal from 'sweetalert2';
 
 
@@ -24,9 +22,8 @@ export class DetalleTareaComponent implements OnInit {
   error = '';
   form: FormGroup;
   tareaPadre: TareaConRelacionesVista | null = null;
-  archivoSeleccionado: File | null = null;
-
   mostrarAdjuntos = false;
+  mostrarSeguimiento = false;
 
 
   constructor(
@@ -81,8 +78,6 @@ export class DetalleTareaComponent implements OnInit {
     if (!this.tareaConRelaciones) return;
 
     const tareaId = this.tareaConRelaciones.id;
-
-    // Verifica estado actual:
     const estadoActual = this.tareaConRelaciones.estado;
 
     let nuevoEstadoId: number;

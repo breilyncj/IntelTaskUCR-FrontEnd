@@ -64,3 +64,68 @@ p {
   display: flex;
   align-items: center;
 }
+
+
+/* Contenedor de comentarios */
+.seguimiento-container {
+  margin-bottom: 1rem; /* Espacio con tarea origen u otros bloques */
+}
+
+/* Botón de Mostrar/Ocultar Comentarios */
+.toggle-seguimiento {
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.toggle-seguimiento:hover {
+  text-decoration: underline;
+}
+
+/* Estilo para la lista de comentarios */
+.seguimiento-list {
+  max-height: 300px; /* Si hay muchos comentarios, scroll interno */
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  background: #fafafa;
+}
+
+/* Estilo para cada comentario */
+.seguimiento-item {
+  border: none;
+  background: #fff;
+  margin-bottom: 0.5rem;
+  border-radius: 0.375rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Hover en los comentarios */
+.seguimiento-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Último comentario sin margen inferior */
+.seguimiento-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Estilo para los elementos dentro del comentario */
+.seguimiento-item div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.seguimiento-item small {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+/* Estilo para el ícono del comentario */
+.bi-chat-left-text {
+  color: #007bff;
+  font-size: 1.2rem;
+}

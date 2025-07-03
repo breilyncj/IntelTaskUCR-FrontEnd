@@ -138,6 +138,28 @@
 
 
     @if(asignarDeInmediato){
+
+      <div class="comentar mb-3">
+        <label for="comentario" class="form-label fw-semibold">Comentario:</label>
+        <textarea
+          id="comentario"
+          rows="4"
+          class="form-control comentario-estilo"
+          placeholder="Escribe aquí..."
+          formControlName="comentario" >
+        ></textarea>
+        <div class="invalid-feedback d-block" *ngIf="form.get('comentario')?.touched && form.get('comentario')?.invalid">
+          <small>El comentario es obligatorio y debe tener al menos 3 caracteres.</small>
+        </div>
+      </div>
+      <div class="comentario-footer d-flex justify-content-end mt-2">
+        <button type="button" class="btn-comentario" (click)="crearSeguimiento()">
+          Agregar
+        </button>
+      </div>
+
+
+
       <!-- Tabla de usuarios (solo estructura, aún sin lógica condicional) -->
       <div class="col-md-12 mt-3 tablaTareas">
         <div class="table-responsive">

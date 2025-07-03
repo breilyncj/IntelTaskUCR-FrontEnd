@@ -6,6 +6,14 @@ export interface Adjunto {
   nombreArchivo: string;
 }
 
+export interface TareasSeguimiento {
+  idSeguimiento: number;
+  idTarea: number;
+  comentario: string;
+  fechaSeguimiento: Date;
+}
+
+
 export interface TareaConRelacionesVista {
   id: number;
   titulo: string;
@@ -21,6 +29,7 @@ export interface TareaConRelacionesVista {
   fechaFinalizacion: Date;
   numeroGIS: string;
   tareaOrigen: number | null;
+  tareasSeguimiento: TareasSeguimiento[];
   adjuntos: Adjunto[];
 }
 

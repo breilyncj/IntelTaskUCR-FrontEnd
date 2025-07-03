@@ -227,3 +227,49 @@ td.col-seleccion {
   text-overflow: initial;
   text-align: center;
 }
+
+
+
+
+/* Modal ancho completo en móviles */
+@media (max-width: 576px) {
+  .modal-dialog {
+    max-width: 95%;
+    margin: 1.75rem auto;
+  }
+}
+
+/* Mejorar tamaño y espaciado de botón en móviles */
+@media (max-width: 576px) {
+  button.btn-primary {
+    width: 100%;
+    padding: 0.75rem 1rem;
+  }
+}
+
+/* Ajustar altura mínima para textarea en móviles */
+textarea.form-control {
+  min-height: 100px;
+}
+
+/* Título del formulario: centrado en móviles, a la izquierda en desktop */
+@media (max-width: 576px) {
+  h4.fw-semibold {
+    text-align: center;
+  }
+}
+
+/* Ajustar alineación del header con botón en móviles */
+@media (max-width: 576px) {
+  .d-flex.flex-column.flex-sm-row {
+    flex-direction: column !important;
+    gap: 0.5rem;
+  }
+}
+
+/* Tabla: mantener scroll horizontal en móvil */
+@media (max-width: 767.98px) {
+  .table {
+    font-size: 0.875rem;
+  }
+}
