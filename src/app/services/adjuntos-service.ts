@@ -19,5 +19,6 @@ export class AdjuntosService {
       responseType: 'text'
     });
   }
+
 }
 

@@ -6,6 +6,7 @@ import {UsuarioService} from '../../services/usuario-service';
 import {TareasService} from '../../services/tareas-service';
 import {LoginService} from '../../services/login-service';
 import {TareasCreate} from '../../models/tarea.model';
+import {AdjuntosService} from '../../services/adjuntos-service';
 import Swal from 'sweetalert2';
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -36,7 +37,8 @@ export class EditarTareaComponent implements OnInit{
     private loginService: LoginService,
     private route: ActivatedRoute,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private adjuntosService: AdjuntosService
   ) {
     this.form = this.fb.group({
       tareaOrigen: [null], // puede ser null
@@ -146,14 +148,14 @@ export class EditarTareaComponent implements OnInit{
   }
 
 
-  guardarCambios(): void {
+  guardarCambios(input: HTMLInputElement): void {
     if (this.form.invalid || !this.tareaActual) {
       console.warn('Formulario inválido o tarea no cargada');
       return;
     }
 
     const tareaEditada: TareasCreate = {
-      ...this.tareaActual, // mantiene campos no editables
+      ...this.tareaActual, // campos fijos
       cT_Titulo_tarea: this.form.get('tituloTarea')?.value,
       cT_Descripcion_tarea: this.form.get('descripcionTarea')?.value,
       cN_Id_prioridad: this.form.get('prioridad')?.value,
@@ -163,13 +165,35 @@ export class EditarTareaComponent implements OnInit{
       cN_Usuario_asignado: this.form.get('usuarioAsignado')?.value
     };
 
+    const archivo = input.files?.[0];
+    const idUsuario = Number(this.loginService.getUser()?.cN_Id_usuario ?? null);
+
     this.tareasService.editarTarea(tareaEditada.cN_Id_tarea!, tareaEditada).subscribe({
       next: () => {
-        Swal.fire('Éxito', 'Tarea modificada correctamente', 'success');
-        setTimeout(() => {
-          this.router.navigate(['/tareas']);
-        }, 1500);
-        this.cdr.detectChanges();
+        console.log('Tarea modificada');
+        if (archivo) {
+          const formData = new FormData();
+          formData.append('archivo', archivo);
+          this.adjuntosService.subirAdjunto(formData, tareaEditada.cN_Id_tarea!, idUsuario).subscribe({
+            next: () => {
+              Swal.fire('Éxito', 'Tarea modificada y archivo subido', 'success');
+              setTimeout(() => {
+                this.router.navigate(['/tareas']);
+              }, 1500);
+              this.cdr.detectChanges();
+            },
+            error: (err) => {
+              console.error('Error al subir el archivo adjunto', err);
+              Swal.fire('Advertencia', 'Tarea modificada pero el archivo no se subió', 'warning');
+            }
+          });
+        } else {
+          Swal.fire('Éxito', 'Tarea modificada correctamente', 'success');
+          setTimeout(() => {
+            this.router.navigate(['/tareas']);
+          }, 1500);
+          this.cdr.detectChanges();
+        }
       },
       error: (err) => {
         console.error('Error al guardar cambios', err);
@@ -177,6 +201,8 @@ export class EditarTareaComponent implements OnInit{
       }
     });
   }
+   
+
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
