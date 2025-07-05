@@ -22,7 +22,7 @@
       <div class="summary-card">
         <i class="bi bi-check-circle icon me-2"></i> <!-- Agregado ms-2 -->
         <div>
-          <h5>3 tareas pendientes</h5>
+          <h5>{{ pendingTasksCount }} tareas pendientes</h5>
         </div>
       </div>
     </div>
@@ -30,7 +30,7 @@
       <div class="summary-card">
         <i class="bi bi-pencil-square icon me-2"></i> <!-- Agregado ms-2 -->
         <div>
-          <h5>4 tareas creadas</h5>
+          <h5>{{ createdTasksCount }} tareas creadas</h5>
         </div>
       </div>
     </div>
@@ -38,7 +38,7 @@
       <div class="summary-card d-flex align-items-center">
         <i class="bi bi-calendar-check icon me-2"></i>
         <div>
-          <h5>Permisos activos hoy</h5>
+          <h5>{{ activePermissionsCount }} tareas finalizadas</h5>
         </div>
       </div>
     </div>
@@ -46,7 +46,7 @@
       <div class="summary-card position-relative">
         <i class="bi bi-bell-fill icon me-2"></i> <!-- Agregado ms-2 -->
         <div>
-          <h5>5 notificaciones</h5>
+          <h5>{{ notificationsCount }} notificaciones</h5>
         </div>
         <span class="badge bg-danger position-absolute top-0 end-0 translate-middle rounded-pill">NEWS</span>
       </div>
