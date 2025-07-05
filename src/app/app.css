@@ -18,6 +18,18 @@ footer {
   flex-shrink: 0;
 }
 
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+
+  height: 40px; /* tu altura real */
+  background: linear-gradient(to top, white 60%, transparent 100%);
+}
+
+
+
 /* Área principal debajo del navbar y arriba del footer: fila */
 .content-area {
   display: flex;
@@ -104,3 +116,6 @@ body {
     padding: 16px;
   }
 }
+
+
+

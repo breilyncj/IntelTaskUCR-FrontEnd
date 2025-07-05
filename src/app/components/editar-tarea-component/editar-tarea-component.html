@@ -189,7 +189,7 @@
                   <td>{{item.correo_usuario }}</td>
                   <td>{{item.cantidadTareasAsignadas}}</td>
                   <td>
-                    <button
+                    <button type="button"
                       class="btn btn-sm btn-outline-primary"
                       (click)="abrirDetalleUsuario(item)"
                       data-bs-toggle="modal"
@@ -219,7 +219,7 @@
         <div class="mb-3">
           <p><strong>Nombre:</strong> {{ usuarioDetalle?.cT_Nombre_usuario }}</p>
           <p><strong>Correo:</strong> {{ usuarioDetalle?.cT_Correo_usuario }}</p>
-          <p><strong>Rol:</strong> {{ usuarioDetalle?.cN_Id_rol || 'No especificado' }}</p>
+          <p><strong>Rol:</strong> {{ getNombreRol(usuarioDetalle?.cN_Id_rol) }}</p>
         </div>
 
         <h6 class="fw-semibold text-primary mb-2">📋 Tareas asignadas</h6>
@@ -236,9 +236,9 @@
           <tbody>
           <tr *ngFor="let tarea of usuarioDetalle?.tareasUsuarioAsignado ?? []">
             <td>{{ tarea.cT_Titulo_tarea }}</td>
-            <td>{{ tarea.cN_Id_estado }}</td>
+            <td>{{ getNombreEstado(tarea.cN_Id_estado) }}</td>
             <td>{{ tarea.cF_Fecha_limite | date:'shortDate' }}</td>
-            <td>{{ tarea.cN_Id_prioridad }}</td>
+            <td>{{ getNombrePrioridad(tarea.cN_Id_prioridad) }}</td>
           </tr>
           </tbody>
         </table>

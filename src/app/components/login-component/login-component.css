@@ -22,6 +22,22 @@ html, body {
   z-index: 0;
 }
 
+/* Para pantallas pequeñas */
+@media screen and (max-width: 768px) {
+  .login-page {
+    flex-direction: column; /* Hace que las secciones se apilen */
+  }
+
+  .left-section {
+    display: none; /* Ocultar la sección izquierda en pantallas pequeñas */
+  }
+
+  .right-section {
+    padding: 1rem;
+  }
+}
+
+
 
 /* Contenedor general */
 .login-page {
@@ -69,15 +85,18 @@ html, body {
 }
 
 /* Sección derecha */
+
+
 .right-section {
+  padding: 2rem;
+  margin-top: -3rem; /* Puedes ajustar este valor según necesites */
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  padding: 0 2rem;
-  z-index: 3;
-
 }
+
 
 .right-section h2 {
   font-size: 2rem;
@@ -252,22 +271,63 @@ html, body {
 }
 
 
-
-/* Responsive */
+/* Estilo responsive */
 @media screen and (max-width: 900px) {
   .login-page {
-    grid-template-columns: 1fr;
+    flex-direction: column; /* Las secciones se apilan */
+    padding: 1rem; /* Menos espacio en pantallas pequeñas */
+  }
+
+  .left-section, .right-section {
+    width: 100%; /* Ambas secciones ocupan todo el ancho */
+    padding: 1rem; /* Ajuste en padding */
   }
 
   .left-section {
-    display: none;
-  }
-
-  .wave {
-    display: none;
+    display: none; /* Oculta la sección de la izquierda en pantallas pequeñas */
   }
 
   .right-section {
-    padding: 2rem;
+    padding: 1rem; /* Menos padding */
+    text-align: left; /* Alinea el contenido a la izquierda en lugar de centrado */
+  }
+
+  .logo {
+    width: 150px; /* Ajusta el tamaño del logo para móviles */
+  }
+
+  .bandera {
+    width: 50px; /* Ajusta el tamaño de la bandera */
   }
 }
+
+@media screen and (max-width: 600px) {
+  .login-page {
+    padding: 0; /* Ajuste de padding en pantallas más pequeñas */
+  }
+
+  .right-section h2 {
+    font-size: 1.5rem; /* Reduce el tamaño del título */
+  }
+
+  .right-section p {
+    font-size: 0.9rem; /* Reduce el tamaño del texto */
+  }
+
+  .input-group {
+    padding: 0.5rem; /* Reduce el padding de los campos de entrada */
+  }
+
+  .login-btn {
+    font-size: 1rem; /* Reduce el tamaño del botón */
+    padding: 0.6rem; /* Reduce el padding del botón */
+  }
+}
+
+/* Para pantallas pequeñas */
+@media screen and (max-width: 768px) {
+  .wave {
+    display: none; /* Oculta la onda */
+  }
+}
+

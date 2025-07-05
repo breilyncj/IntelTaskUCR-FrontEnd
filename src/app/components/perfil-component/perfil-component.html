@@ -1,37 +1,110 @@
 <section class="profile-container">
-  <section class="profile-card">
-    <div class="profile-main">
-      <!-- IZQUIERDA: foto, nombre, correo -->
-      <div class="left-panel">
-        <img class="avatar-large" src="perfil.png" alt="Foto de perfil" />
-        <h1 class="nombre-grande">{{ perfil?.cT_Nombre_usuario }}</h1>
-        <p class="correo">{{ perfil?.cT_Correo_usuario }}</p>
-      </div>
+  <div class="profile-header">
+    <div class="background-image"></div>
+    <div class="avatar-container">
+      <img class="avatar" src="perfil.png" alt="Foto de perfil" />
+    </div>
+    <h1 class="nombre-grande">{{ perfil?.cT_Nombre_usuario }}</h1>
+    <strong>{{ getRolNombre(perfil?.cN_Id_rol) }}</strong>
+  </div>
 
-      <!-- DERECHA: info detallada + extra -->
-      <div class="right-panel">
-        <p><strong>Rol:</strong> {{ perfil?.cN_Id_rol === 1 ? 'Administrador' : 'Usuario' }}</p>
-        <p><strong>Fecha de nacimiento:</strong> {{ perfil?.cF_Fecha_nacimiento | date:'longDate' }}</p>
-        <p><strong>Estado:</strong>
-          <span [ngClass]="perfil?.cB_Estado_usuario ? 'activo' : 'inactivo'">
+  <div class="profile-info">
+    <div class="info-card">
+      <h3>Información de la cuenta</h3>
+      <ul>
+        <li><strong>Correo:</strong> {{ perfil?.cT_Correo_usuario }}</li>
+        <li><strong>Fecha de nacimiento:</strong> {{ perfil?.cF_Fecha_nacimiento | date:'longDate' }}</li>
+        <li><strong>Estado:</strong>
+          <span class="status" [ngClass]="perfil?.cB_Estado_usuario ? 'activo' : 'inactivo'">
             {{ perfil?.cB_Estado_usuario ? 'Activo' : 'Inactivo' }}
           </span>
-        </p>
-        <p><strong>Fecha de creación:</strong> {{ perfil?.cF_Fecha_creacion_usuario | date:'short' }}</p>
-        <p><strong>Última modificación:</strong> {{ perfil?.cF_Fecha_modificacion_usuario | date:'short' }}</p>
+        </li>
+        <li><strong>Fecha de creación:</strong> {{ perfil?.cF_Fecha_creacion_usuario | date:'short' }}</li>
+        <li><strong>Última modificación:</strong> {{ perfil?.cF_Fecha_modificacion_usuario | date:'short' }}</li>
+      </ul>
+    </div>
 
-        <!-- Aquí puedes agregar más cosas estáticas o dinámicas -->
-        <div class="extra-info">
-          <h3>Sobre mí</h3>
-          <p>Profesional dedicado con experiencia en proyectos tecnológicos y gestión de equipos.</p>
-          <h3>Habilidades</h3>
-          <ul>
-            <li>Gestión de proyectos</li>
-            <li>Desarrollo Angular & TypeScript</li>
-            <li>Comunicación efectiva</li>
-          </ul>
-        </div>
+    <div class="social-card">
+      <h3>Redes Sociales</h3>
+      <ul class="list-inline">
+        <li class="list-inline-item">
+          <a href="https://www.linkedin.com/in/tu-linkedin" target="_blank">
+            <i class="bi bi-linkedin"></i> LinkedIn
+          </a>
+          <p class="social-description">Conéctate conmigo en LinkedIn, donde comparto mis logros profesionales y experiencias.</p>
+        </li>
+        <li class="list-inline-item">
+          <a href="https://github.com/tu-github" target="_blank">
+            <i class="bi bi-github"></i> GitHub
+          </a>
+          <p class="social-description">Mira mis proyectos y colaboraciones en GitHub, incluyendo código abierto.</p>
+        </li>
+        <li class="list-inline-item">
+          <a href="https://tu-portfolio.com" target="_blank">
+            <i class="bi bi-file-earmark-code"></i> Portafolio
+          </a>
+          <p class="social-description">Explora mis proyectos completos, diseños y desarrollo web en mi portafolio online.</p>
+        </li>
+      </ul>
+    </div>
+
+    <div class="projects-card">
+      <h3>Proyectos Exitosos</h3>
+      <div class="projects-list mt-2">
+        <ul class="list-group">
+          <!-- Proyecto 1 -->
+          <li class="list-group-item project-item">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <i class="bi bi-clipboard-check me-2"></i>
+                <strong>Sistema de Gestión de Tareas</strong>
+              </div>
+              <small class="text-muted">
+                📅 Marzo 2025
+              </small>
+            </div>
+          </li>
+
+          <!-- Proyecto 2 -->
+          <li class="list-group-item project-item">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <i class="bi bi-clipboard-check me-2"></i>
+                <strong>Portal de Comercio Electrónico</strong>
+              </div>
+              <small class="text-muted">
+                📅 Octubre 2024
+              </small>
+            </div>
+          </li>
+
+          <!-- Proyecto 3 -->
+          <li class="list-group-item project-item">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <i class="bi bi-clipboard-check me-2"></i>
+                <strong>Plataforma de Análisis de Datos en Tiempo Real</strong>
+              </div>
+              <small class="text-muted">
+                📅 Enero 2024
+              </small>
+            </div>
+          </li>
+
+          <!-- Proyecto 4 -->
+          <li class="list-group-item project-item">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <i class="bi bi-clipboard-check me-2"></i>
+                <strong>Aplicación Móvil de Gestión de Inventarios</strong>
+              </div>
+              <small class="text-muted">
+                📅 Julio 2023
+              </small>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
-  </section>
+  </div>
 </section>

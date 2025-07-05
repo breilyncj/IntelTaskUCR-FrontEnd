@@ -1,9 +1,26 @@
-<div class="container my-4">
-  <!-- Panel de resumen -->
+<div class="container my-4" style="background: white; border-radius: 8px; max-width: 1400px; margin-right: auto; margin-left: auto; overflow-x: hidden;">
+  <!-- Panel de bienvenida -->
+  <div class="row g-3 mb-4">
+    <div class="col-12">
+      <div class="welcome-card d-flex justify-content-between align-items-center p-4">
+        <!-- Texto de bienvenida a la izquierda -->
+        <div class="welcome-text">
+          <h2>¡Hola, {{ nombreUsuario }}!</h2>
+          <p>El equipo de IntelTask le da la bienvenida a su panel de control.</p>
+        </div>
+        <!-- Imagen a la derecha -->
+        <div class="welcome-image">
+          <img src="/ico.png" alt="Imagen de bienvenida" class="img-fluid">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel de resumen de tareas -->
   <div class="row g-3 mb-4">
     <div class="col-md-3">
       <div class="summary-card">
-        <i class="bi bi-clock-history icon"></i>
+        <i class="bi bi-check-circle icon me-2"></i> <!-- Agregado ms-2 -->
         <div>
           <h5>3 tareas pendientes</h5>
         </div>
@@ -11,33 +28,34 @@
     </div>
     <div class="col-md-3">
       <div class="summary-card">
-        <i class="bi bi-journal-plus icon"></i>
+        <i class="bi bi-pencil-square icon me-2"></i> <!-- Agregado ms-2 -->
         <div>
           <h5>4 tareas creadas</h5>
         </div>
       </div>
     </div>
     <div class="col-md-3">
-      <div class="summary-card">
-        <i class="bi bi-calendar-check icon"></i>
+      <div class="summary-card d-flex align-items-center">
+        <i class="bi bi-calendar-check icon me-2"></i>
         <div>
-          <h5>Permisos activos hoy 2</h5>
+          <h5>Permisos activos hoy</h5>
         </div>
       </div>
     </div>
     <div class="col-md-3">
       <div class="summary-card position-relative">
-        <i class="bi bi-bell-fill icon"></i>
+        <i class="bi bi-bell-fill icon me-2"></i> <!-- Agregado ms-2 -->
         <div>
-          <h5>5 permisos nuevos</h5>
+          <h5>5 notificaciones</h5>
         </div>
         <span class="badge bg-danger position-absolute top-0 end-0 translate-middle rounded-pill">NEWS</span>
       </div>
     </div>
   </div>
 
+
   <!-- Actividades recientes -->
-  <div class="card shadow-sm border-0 rounded-4">
+  <div class="card shadow-sm border-0 rounded-4 mb-4">
     <div class="card-header bg-light fw-bold fs-5 border-bottom-0">
       Actividades más recientes
     </div>
@@ -60,20 +78,6 @@
         <img src="https://randomuser.me/api/portraits/women/11.jpg" class="rounded-circle me-3" width="45" height="45" alt="Breilyn" />
         <div>
           <span><strong>Breilyn Contreras</strong> ha enviado una <a href="#">notificación</a></span>
-          <br><small class="text-muted">Hace 2 horas</small>
-        </div>
-      </li>
-      <li class="list-group-item d-flex align-items-start">
-        <img src="https://randomuser.me/api/portraits/women/10.jpg" class="rounded-circle me-3" width="45" height="45" alt="Breilyn" />
-        <div>
-          <span><strong>Breilyn Contreras</strong> ha cambiado el estado de la tarea <strong>tituloAquí</strong> a <strong class="text-primary">“En revisión”</strong></span>
-          <br><small class="text-muted">Hace 3 horas, 24 minutos</small>
-        </div>
-      </li>
-      <li class="list-group-item d-flex align-items-start">
-        <img src="https://randomuser.me/api/portraits/men/10.jpg" class="rounded-circle me-3" width="45" height="45" alt="Pepe" />
-        <div>
-          <span><strong>Pepe Aguilar</strong> ha enviado una <a href="#">notificación</a></span>
           <br><small class="text-muted">Hace 2 horas</small>
         </div>
       </li>

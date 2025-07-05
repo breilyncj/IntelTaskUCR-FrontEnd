@@ -1,107 +1,170 @@
+/* Estilos generales del perfil */
 .profile-container {
-  padding: 3rem;
-  background: white;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  height: 100vh;      /* que tome toda la pantalla vertical */
-  overflow: hidden;   /* evitar scroll interno */
-}
-
-html, body {
-  height: 100%;
-  margin: 0;
-  overflow: hidden;
-}
-
-
-.profile-container {
-  overflow: hidden;  /* Quita scroll de este contenedor */
-  height: 100vh;     /* Altura máxima igual a la pantalla */
-}
-
-
-.profile-card {
-  background: white;
-  border-radius: 16px;
-  padding: 2rem 3rem;
-  max-width: 900px;
-  width: 100%;
-  font-family: 'Segoe UI', sans-serif;
-  color: #2a3b47;
-}
-
-.profile-main {
-  display: flex;
-  gap: 3rem;
-}
-
-/* Panel izquierdo: foto, nombre, correo */
-.left-panel {
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-right: 2px solid #dbe4ec;
-  padding-right: 2rem;
+  padding: 20px;
+  background-color: white;
 }
 
-.avatar-large {
-  width: 130px;
-  height: 130px;
+.profile-header {
+  position: relative;
+  width: 100%;
+  background-image: url('/fondo.png'); /* Asegúrate de que la ruta sea correcta */
+  background-size: cover; /* Hace que la imagen cubra todo el fondo */
+  background-position: center center; /* Centra la imagen */
+  padding: 60px 0;
+  text-align: center;
+  border-radius: 10px;
+  color: white;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.avatar-container {
+  margin-top: -80px; /* Para que la foto se superponga sobre el fondo */
+}
+
+.avatar {
   border-radius: 50%;
+  width: 120px;
+  height: 120px;
   object-fit: cover;
-  border: 4px solid #90caff;
-  margin-bottom: 1rem;
+  border: 4px solid #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .nombre-grande {
-  font-size: 2.4rem;
-  color: #104c8c;
-  margin: 0.25rem 0;
-  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 10px 0;
 }
 
 .correo {
-  font-size: 1.1rem;
-  color: #5c7a99;
-  margin-bottom: 2rem;
-  text-align: center;
-  word-break: break-word;
-}
-
-/* Panel derecho: info y extra */
-.right-panel {
-  flex: 2;
   font-size: 1rem;
+  color: #e0e0e0;
+  margin-bottom: 20px;
 }
 
-.right-panel p {
+/* Estilo para las tarjetas (Información de la cuenta y Proyectos Exitosos) */
+.profile-info {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  margin-top: 15px;
+  width: 100%;
+}
+
+.info-card, .social-card, .projects-card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 48%;
+}
+
+.info-card h3, .social-card h3, .projects-card h3 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #276c9f;
   margin-bottom: 1rem;
 }
 
-.activo {
-  color: #0b7b32;
+.info-card ul li, .projects-card ul li {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.status {
   font-weight: bold;
+}
+
+.activo {
+  color: #28a745;
 }
 
 .inactivo {
-  color: #b02a2a;
-  font-weight: bold;
+  color: #dc3545;
 }
 
-.extra-info h3 {
-  margin-top: 2rem;
+.social-card a {
+  color: #276c9f;
+  text-decoration: none;
+}
+
+.social-card a:hover {
+  text-decoration: underline;
+}
+
+/* Estilos para iconos */
+.bi {
+  margin-right: 8px;
+  font-size: 1.2rem;
+}
+
+.social-description {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 5px;
+}
+/* Estilo para la lista de proyectos */
+.projects-list {
+  max-height: 300px; /* Si hay muchos proyectos, scroll interno */
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  background: #fafafa;
+}
+
+/* Estilo para cada proyecto */
+.project-item {
+  border: none;
+  background: #fff;
   margin-bottom: 0.5rem;
-  color: #104c8c;
+  border-radius: 0.375rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
 }
 
-.extra-info ul {
-  padding-left: 1.2rem;
-  margin-top: 0;
+/* Hover en los proyectos */
+.project-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
-.extra-info li {
-  margin-bottom: 0.4rem;
+/* Último proyecto sin margen inferior */
+.project-item:last-child {
+  margin-bottom: 0;
 }
 
+/* Estilo para los elementos dentro del proyecto */
+.project-item div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.project-item small {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+/* Estilo para el ícono del proyecto */
+.bi-clipboard-check {
+  color: #007bff;
+  font-size: 1.2rem;
+}
+
+
+/* Ajuste responsive */
+@media screen and (max-width: 768px) {
+  .profile-info {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .info-card, .social-card, .projects-card {
+    width: 100%;
+  }
+}

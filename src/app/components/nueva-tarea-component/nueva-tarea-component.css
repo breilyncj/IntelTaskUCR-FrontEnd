@@ -206,4 +206,149 @@
   color: #0d6efd; /* Azul Bootstrap */
 }
 
+/* Panel Scrollable para las tareas asignadas */
+.tasks-panel {
+  max-height: 300px; /* Si hay muchas tareas, scroll interno */
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  background: #fafafa;
+}
+
+/* Estilo para cada tarea (similar a los proyectos) */
+.project-item {
+  border: none;
+  background: #fff;
+  margin-bottom: 1rem;
+  border-radius: 0.375rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Hover en las tareas */
+.project-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Última tarea sin margen inferior */
+.project-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Estilo para los elementos dentro de la tarea */
+.project-item div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.project-item small {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+/* Estilo para el ícono de la tarea */
+.bi-file-earmark {
+  color: #007bff;
+  font-size: 1.2rem;
+}
+
+/* Estilo de texto para el estado y prioridad de las tareas */
+.project-item p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Estilo para los encabezados en el modal */
+.modal-header {
+  background-color: #007bff;
+  color: white;
+}
+
+
+.modal-body {
+  overflow: visible !important;
+  max-height: none !important;
+}
+
+
+
+/* Estilos para el modal */
+.modal-content {
+  border-radius: 15px;
+}
+
+/* Encabezado del modal */
+.modal-header {
+  background-color: #276c9f;
+  color: white;
+  font-size: 1.25rem;
+}
+
+/* Estilo para el panel de tareas con scroll */
+.tasks-panel {
+  max-height: 300px; /* Si hay muchas tareas, scroll interno */
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  background: #fafafa;
+  margin-top: 1rem;
+}
+
+/* Estilo para cada tarea */
+.project-item {
+  border: none;
+  background: #fff;
+  margin-bottom: 1rem;
+  border-radius: 0.375rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Hover en las tareas */
+.project-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para los elementos dentro de la tarea */
+.project-item div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Estilo de texto para el estado y prioridad de las tareas */
+.project-item p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Estilo para los íconos */
+.bi-file-earmark {
+  color: #007bff;
+  font-size: 1.2rem;
+}
+
+/* Modificación en la información del usuario */
+.modal-body .d-flex {
+  margin-bottom: 1rem;
+}
+
+.text-end p {
+  text-align: right;
+}
+
+/* Responsive: Ajuste del contenido en pantallas pequeñas */
+@media screen and (max-width: 768px) {
+  .tasks-panel {
+    max-height: 250px;
+  }
+}
 

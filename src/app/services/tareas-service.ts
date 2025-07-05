@@ -133,8 +133,6 @@ export class TareasService {
     );
   }
 
-
-
   updateEstadoTarea(id: number, nuevoEstado: string) {
     return this.http.put(`${this.baseUrl}/Tareas/${id}/estado`, nuevoEstado, {
       headers: { 'Content-Type': 'application/json' }

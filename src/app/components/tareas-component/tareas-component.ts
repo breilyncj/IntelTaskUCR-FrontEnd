@@ -9,8 +9,6 @@ import {UsuarioService} from '../../services/usuario-service';
 import {LoginService} from '../../services/login-service';
 import {EstadoService} from '../../services/estado-service';
 import Swal from 'sweetalert2';
-import {TareaConRelacionesVista} from '../../models/tarea-con-relaciones-vista.model';
-
 
 @Component({
   selector: 'app-tareas-component',

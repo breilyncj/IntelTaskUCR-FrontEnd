@@ -62,6 +62,61 @@ export class EditarTareaComponent implements OnInit{
     });
   }
 
+  roles = [
+    { id: 1, nombre: 'Director' },
+    { id: 2, nombre: 'Subdirector' },
+    { id: 3, nombre: 'Jefe' },
+    { id: 4, nombre: 'Coordinador' },
+    { id: 5, nombre: 'Profesional 3' },
+    { id: 6, nombre: 'Profesional 2' },
+    { id: 7, nombre: 'Profesional 1' },
+    { id: 8, nombre: 'Técnico' },
+    { id: 9, nombre: 'Administrador' },
+  ];
+
+  estados = [
+    { id: 1, nombre: 'Registrado' },
+    { id: 2, nombre: 'Asignado' },
+    { id: 3, nombre: 'En proceso' },
+    { id: 4, nombre: 'En espera' },
+    { id: 5, nombre: 'Terminado' },
+    { id: 6, nombre: 'Aprobado' },
+    { id: 7, nombre: 'Rechazado' },
+    { id: 8, nombre: 'Activo' },
+    { id: 9, nombre: 'Inactivo' },
+    { id: 10, nombre: 'Asignada' },
+    { id: 11, nombre: 'En proceso' },
+    { id: 12, nombre: 'Finalizada' },
+    { id: 13, nombre: 'En espera' },
+    { id: 14, nombre: 'Incumplida' },
+    { id: 15, nombre: 'Rechazada' },
+    { id: 17, nombre: 'En revisión' }
+  ];
+
+  prioridadesLista = [
+    { id: 1, nombre: 'Muy Alta' },
+    { id: 2, nombre: 'Alta' },
+    { id: 3, nombre: 'Media' },
+    { id: 4, nombre: 'Baja' },
+    { id: 5, nombre: 'Muy Baja' },
+  ];
+
+
+  getNombreRol(id: number | undefined): string {
+    const rol = this.roles.find(r => r.id === id);
+    return rol ? rol.nombre : 'No especificado';
+  }
+
+  getNombreEstado(id: number | undefined): string {
+    const estado = this.estados.find(e => e.id === id);
+    return estado ? estado.nombre : 'Desconocido';
+  }
+
+  getNombrePrioridad(id: number | undefined): string {
+    const prioridad = this.prioridadesLista.find(p => p.id === id);
+    return prioridad ? prioridad.nombre : 'Sin prioridad';
+  }
+
   public getUsuarios(): void {
     this.UsuarioService.getAll().subscribe({
       next: (data) => {

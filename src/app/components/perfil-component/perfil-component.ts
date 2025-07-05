@@ -22,6 +22,22 @@ export class PerfilComponent implements OnInit{
 
   constructor(private loginService: LoginService){}
 
+  roles = [
+    { id: 1, nombre: 'Director (a)' },
+    { id: 2, nombre: 'Subdirector (a)' },
+    { id: 3, nombre: 'Jefe (a)' },
+    { id: 4, nombre: 'Coordinador (a)' },
+    { id: 5, nombre: 'Profesional 3' },
+    { id: 6, nombre: 'Profesional 2' },
+    { id: 7, nombre: 'Profesional 1' },
+    { id: 8, nombre: 'Técnico' },
+    { id: 9, nombre: 'Administrador (a)' }
+  ];
+
+  getRolNombre(id: number | undefined): string {
+    const rol = this.roles.find(r => r.id === id);
+    return rol ? rol.nombre : 'Desconocido';
+  }
 
   // private getTareaConRelacionesPorId(id: number): void {
   //   this.perfilService.getUsuarioById(id).subscribe({
