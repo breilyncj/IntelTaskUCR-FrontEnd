@@ -45,21 +45,22 @@ export class EditarTareaComponent implements OnInit{
     private tareasSeguimientoService: TareasSeguimientoService
   ) {
     this.form = this.fb.group({
-      tareaOrigen: [null], // puede ser null
-      tituloTarea: ['', [Validators.required, Validators.minLength(3)]], // puede ser null
-      descripcionTarea: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]], // requerido
-      descripcionEspera: [null], // puede ser null
-      complejidad: [null, Validators.required], // requerido
-      estado: [null], // requerido
-      prioridad: [null, Validators.required], // requerido
-      numeroGIS: [null], // puede ser null
-      fechaAsignacion: [null], // requerido
-      fechaLimite: [null, Validators.required], // requerido
-      fechaFinalizacion: [null, Validators.required], // requerido
-      usuarioCreador: [null], // requerido
-      usuarioAsignado: [null], // puede ser null
-      comentario: [''],
+      tareaOrigen: [null], // Si es opcional, está bien con null
+      tituloTarea: ['',[Validators.required]], // inicializa con ''
+      descripcionTarea: ['', [Validators.required]], // inicializa con ''
+      descripcionEspera: ['', []], // inicializa con ''
+      complejidad: [null], // Si es requerido, inicializa con null o un valor por defecto
+      estado: [null], // inicializa con null o un valor por defecto
+      prioridad: [null], // inicializa con null o un valor por defecto
+      numeroGIS: ['', []], // inicializa con ''
+      fechaAsignacion: [null], // Si es obligatorio, inicializa con null o un valor por defecto
+      fechaLimite: [null], // inicializa con null
+      fechaFinalizacion: [null], // inicializa con null
+      usuarioCreador: [null], // Si es opcional, puedes dejar null
+      usuarioAsignado: [null], // Si es opcional, puedes dejar null
+      comentario: [''], // inicializa con ''
     });
+
   }
 
   roles = [
@@ -187,15 +188,17 @@ export class EditarTareaComponent implements OnInit{
       next: (tarea) => {
         this.tareaActual = tarea;
 
+        // Asegúrate de que los valores estén asignados correctamente
         this.form.patchValue({
-          tituloTarea: tarea.cT_Titulo_tarea,
-          descripcionTarea: tarea.cT_Descripcion_tarea,
-          prioridad: tarea.cN_Id_prioridad,
-          complejidad: tarea.cN_Id_complejidad,
-          numeroGIS: tarea.cN_Numero_GIS,
-          fechaLimite: this.formatearFecha(tarea.cF_Fecha_limite),
-          fechaFinalizacion: this.formatearFecha(tarea.cF_Fecha_finalizacion),
-          usuarioAsignado: tarea.cN_Usuario_asignado
+          tituloTarea: tarea.cT_Titulo_tarea || '', // Si es nulo o vacío, asigna una cadena vacía
+          descripcionTarea: tarea.cT_Descripcion_tarea || '', // Lo mismo para la descripción
+          prioridad: tarea.cN_Id_prioridad || '', // Asignar valor por defecto si no está presente
+          complejidad: tarea.cN_Id_complejidad || '', // Asignar valor por defecto si no está presente
+          numeroGIS: tarea.cN_Numero_GIS || '', // Asignar valor por defecto si no está presente
+          fechaLimite: tarea.cF_Fecha_limite ? this.formatearFecha(tarea.cF_Fecha_limite) : '', // Asignar valor adecuado
+          fechaFinalizacion: tarea.cF_Fecha_finalizacion ? this.formatearFecha(tarea.cF_Fecha_finalizacion) : '', // Asignar valor adecuado
+          estado: tarea.cN_Id_estado || '', // Asignar valor por defecto si no está presente
+          usuarioAsignado: tarea.cN_Usuario_asignado || null // Si no hay usuario asignado, dejar null
         });
 
         this.cdr.detectChanges();
@@ -206,6 +209,7 @@ export class EditarTareaComponent implements OnInit{
       }
     });
   }
+
 
 
   guardarCambios(input: HTMLInputElement): void {
@@ -287,6 +291,7 @@ export class EditarTareaComponent implements OnInit{
       }
     });
   }
+
 
 
   ngOnInit(): void {
